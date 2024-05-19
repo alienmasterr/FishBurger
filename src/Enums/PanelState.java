@@ -4,7 +4,8 @@ public enum PanelState {
     MAIN_MENU(0),
     ORDER_STATION(1),
     GRILL_STATION(2),
-    BUILD_STATION(3);
+    BUILD_STATION(3),
+    GAME_MENU(4);
     private int state;
     PanelState(int state) {
         this.state = state;
