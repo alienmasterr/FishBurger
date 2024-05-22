@@ -1,6 +1,7 @@
 package Menu;
 
 import BuildStation.BuildStation;
+import Elements.Mouse;
 import Enums.OrderState;
 import Enums.PanelState;
 import GrillStation.GrillStation;
@@ -10,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 
 import static Enums.PanelState.*;
 
@@ -28,6 +30,7 @@ public class MainPanel extends JPanel{
     }
 
     private class GamePanel extends JPanel implements Runnable{
+        public Mouse mouse = new Mouse();
         private OrderStation orderStation = new OrderStation();
         private BuildStation buildStation = new BuildStation();
         private GrillStation grillStation = new GrillStation();
@@ -38,6 +41,8 @@ public class MainPanel extends JPanel{
             super();
             setPreferredSize(new Dimension(Game.WIDTH, (int) (Game.HEIGHT*0.9)));
             setBackground(Color.WHITE);
+            addMouseMotionListener(mouse);
+            addMouseListener(mouse);
             this.panelState = state;
             Thread gameThread = new Thread(this);
             gameThread.start();
