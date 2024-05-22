@@ -8,8 +8,26 @@ import java.awt.event.MouseListener;
 
 import Menu.Game;
 
-public class GrillStation extends JPanel  {
+public class GrillStation extends JPanel  implements MouseListener{
+    @Override
+    public void mousePressed(MouseEvent e) {
 
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
 //    public GrillStation() {
 //        JFrame frame = new JFrame("Grill Station");
 //        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,7 +82,7 @@ public class GrillStation extends JPanel  {
         g2d.fillRect(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 4, Game.WIDTH / 2, Game.HEIGHT / 2);
 
 
-        //rawMeat(g2d);
+        rawMeat(g2d);
 
         Cutlet cutlet = new Cutlet(100, 100, 0, 0);
         cutlet.paintComponent(g2d);
@@ -81,26 +99,26 @@ public class GrillStation extends JPanel  {
     }
 
     //працює як кнопка. натискаєш сюди і на пательні з'являється котлета
-//    public void rawMeat(Graphics2D g2d) {
-//        g2d.fillRect(Game.WIDTH / 10, Game.HEIGHT - Game.HEIGHT / 3, 100, 50);
-//    }
+    public void rawMeat(Graphics2D g2d) {
+        g2d.fillRect(Game.WIDTH / 10, Game.HEIGHT - Game.HEIGHT / 3, 100, 50);
+    }
 
-//    public void mouseClicked(MouseEvent e) {
-//        int mouseX = e.getX();
-//        int mouseY = e.getY();
-//
-//        // Check if within the button bounds
-//        int buttonX = Game.WIDTH / 10;
-//        int buttonY = Game.HEIGHT - Game.HEIGHT / 3;
-//        int buttonWidth = 100;
-//        int buttonHeight = 50;
-//
-//        if (mouseX >= buttonX && mouseX <= buttonX + buttonWidth &&
-//                mouseY >= buttonY && mouseY <= buttonY + buttonHeight) {
-//
-//            System.out.println("clicked");
-//        }
-//    }
+    public void mouseClicked(MouseEvent e) {
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+
+        // Check if within the button bounds
+        int buttonX = Game.WIDTH / 10;
+        int buttonY = Game.HEIGHT - Game.HEIGHT / 3;
+        int buttonWidth = 100;
+        int buttonHeight = 50;
+
+        if (mouseX >= buttonX && mouseX <= buttonX + buttonWidth &&
+                mouseY >= buttonY && mouseY <= buttonY + buttonHeight) {
+
+            System.out.println("clicked");
+        }
+    }
 
 
 }
