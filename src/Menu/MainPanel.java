@@ -15,6 +15,8 @@ import static Enums.PanelState.*;
 
 public class MainPanel extends JPanel{
     private GamePanel gamePanel = new GamePanel(ORDER_STATION);
+
+
     public MainPanel(){
         super();
         setPreferredSize(new Dimension(Game.WIDTH, Game.HEIGHT));
@@ -83,6 +85,7 @@ public class MainPanel extends JPanel{
                     break;
                 case GRILL_STATION:
                     //...
+                    //new GrillStation();
                     grillStation.draw(g2d);
                     break;
             }
