@@ -13,6 +13,7 @@ public class Game extends JFrame {
     public Game(){
         super("Fish Burger!");
         setSize(new Dimension(WIDTH, HEIGHT));
+        setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         MainPanel mainPanel = new MainPanel();
         add(mainPanel);

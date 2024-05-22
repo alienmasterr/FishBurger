@@ -21,7 +21,7 @@ public class MainPanel extends JPanel{
 
     public MainPanel(){
         super();
-        setPreferredSize(new Dimension(Game.WIDTH, Game.HEIGHT));
+        setMaximumSize(new Dimension(Game.WIDTH, Game.HEIGHT));
         setBackground(Color.GRAY);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         MenuPanel menuPanel = new MenuPanel();
@@ -39,7 +39,7 @@ public class MainPanel extends JPanel{
         private OrderState orderState = OrderState.WAITING_CUSTOMER;
         public GamePanel(PanelState state){
             super();
-            setPreferredSize(new Dimension(Game.WIDTH, (int) (Game.HEIGHT*0.9)));
+            setMaximumSize(new Dimension(Game.WIDTH, (int) (Game.HEIGHT*0.9)));
             setBackground(Color.WHITE);
             addMouseMotionListener(mouse);
             addMouseListener(mouse);
@@ -104,7 +104,7 @@ public class MainPanel extends JPanel{
         private PanelButton menu = new PanelButton("Exit", GAME_MENU);
         public MenuPanel(){
             super();
-            setPreferredSize(new Dimension(Game.WIDTH, (int) (Game.HEIGHT*0.1)));
+            setMaximumSize(new Dimension(Game.WIDTH, (int) (Game.HEIGHT*0.1)));
             setBackground(Color.darkGray);
             setBorder(BorderFactory.createLineBorder(Color.darkGray, 15));
             setLayout(new BorderLayout(80, 50));
