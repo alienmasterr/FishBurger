@@ -21,26 +21,31 @@ public class MainPanel extends JPanel{
 
     public MainPanel(){
         super();
-        setMaximumSize(new Dimension(Game.WIDTH, Game.HEIGHT));
-        setBackground(Color.GRAY);
+        setStaticSize();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBackground(Color.black);
         MenuPanel menuPanel = new MenuPanel();
         add(gamePanel);
         add(menuPanel);
     }
+    private void setStaticSize(){
+        setPreferredSize(new Dimension(Game.WIDTH, Game.HEIGHT));
+        setMaximumSize(new Dimension(Game.WIDTH, Game.HEIGHT));
+        setMaximumSize(new Dimension(Game.WIDTH, Game.HEIGHT));
+    }
 
     private class GamePanel extends JPanel implements Runnable{
         public Mouse mouse = new Mouse();
-        private OrderStation orderStation = new OrderStation();
+        private OrderState orderState = OrderState.WAITING_CUSTOMER;
+        private OrderStation orderStation = new OrderStation(orderState);
         private BuildStation buildStation = new BuildStation();
         private GrillStation grillStation = new GrillStation();
         public static boolean isRunning = true;
         private PanelState panelState;
-        private OrderState orderState = OrderState.WAITING_CUSTOMER;
         public GamePanel(PanelState state){
             super();
             setMaximumSize(new Dimension(Game.WIDTH, (int) (Game.HEIGHT*0.9)));
-            setBackground(Color.WHITE);
+            setBackground(Color.darkGray);
             addMouseMotionListener(mouse);
             addMouseListener(mouse);
             this.panelState = state;
@@ -168,5 +173,4 @@ public class MainPanel extends JPanel{
             }
         }
     }
-
 }

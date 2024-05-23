@@ -13,10 +13,18 @@ public class Game extends JFrame {
     public Game(){
         super("Fish Burger!");
         setSize(new Dimension(WIDTH, HEIGHT));
-        setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        getContentPane().setBackground(Color.black);
         MainPanel mainPanel = new MainPanel();
-        add(mainPanel);
+        setBox(mainPanel);
         setVisible(true);
+    }
+
+    private void setBox(JPanel panel){
+        Box box = new Box(BoxLayout.Y_AXIS);
+        box.add(Box.createVerticalGlue());
+        box.add(panel);
+        box.add(Box.createVerticalGlue());
+        add(box);
     }
 }
