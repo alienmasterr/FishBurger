@@ -34,4 +34,12 @@ public class Node {
     public void draw(Graphics2D g2d) {
         g2d.drawImage(image, x, y, width, height, null);
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }
