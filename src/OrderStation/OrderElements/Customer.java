@@ -18,6 +18,6 @@ public class Customer extends Node {
     }
 
     public boolean gotToTable(){
-        return x <= 550;
+        return x <= 480;
     }
 }

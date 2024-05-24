@@ -5,19 +5,18 @@ import Elements.Mouse;
 import Enums.OrderState;
 import Enums.PanelState;
 import GrillStation.GrillStation;
+import Menu.MenuElements.TicketPin;
 import OrderStation.OrderStation;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 
 import static Enums.PanelState.*;
 
 public class MainPanel extends JPanel{
     private GamePanel gamePanel = new GamePanel(ORDER_STATION);
-
 
     public MainPanel(){
         super();
@@ -34,23 +33,28 @@ public class MainPanel extends JPanel{
         setMaximumSize(new Dimension(Game.WIDTH, Game.HEIGHT));
     }
 
-    private class GamePanel extends JPanel implements Runnable{
+    public class GamePanel extends JPanel implements Runnable{
         public Mouse mouse = new Mouse();
-        private OrderState orderState = OrderState.WAITING_CUSTOMER;
-        private OrderStation orderStation = new OrderStation(orderState);
+        public OrderState orderState = OrderState.WAITING_CUSTOMER;
+        public TicketPin pin = new TicketPin(680, 0, 340, 140);
+        private OrderStation orderStation = new OrderStation(this);
         private BuildStation buildStation = new BuildStation();
         private GrillStation grillStation = new GrillStation();
         public static boolean isRunning = true;
         private PanelState panelState;
         public GamePanel(PanelState state){
             super();
+            this.panelState = state;
+            setup();
+            Thread gameThread = new Thread(this);
+            gameThread.start();
+        }
+
+        private void setup(){
             setMaximumSize(new Dimension(Game.WIDTH, (int) (Game.HEIGHT*0.9)));
             setBackground(Color.darkGray);
             addMouseMotionListener(mouse);
             addMouseListener(mouse);
-            this.panelState = state;
-            Thread gameThread = new Thread(this);
-            gameThread.start();
         }
 
         //оновлення та перемальовування панелі
@@ -99,6 +103,7 @@ public class MainPanel extends JPanel{
                     grillStation.draw(g2d);
                     break;
             }
+            pin.draw(g2d);
         }
     }
 
