@@ -29,4 +29,8 @@ public class Mouse extends MouseAdapter {
         x = e.getX();
         y = e.getY();
     }
+
+    /**/
+
+
 }

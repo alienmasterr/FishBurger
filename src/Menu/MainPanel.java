@@ -39,7 +39,7 @@ public class MainPanel extends JPanel{
         public TicketPin pin = new TicketPin(680, 0, 340, 140);
         private OrderStation orderStation = new OrderStation(this);
         private BuildStation buildStation = new BuildStation();
-        private GrillStation grillStation = new GrillStation();
+        private GrillStation grillStation = new GrillStation(this);
         public static boolean isRunning = true;
         private PanelState panelState;
         public GamePanel(PanelState state){
