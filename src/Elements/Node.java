@@ -24,6 +24,8 @@ public class Node {
         this.height = height;
     }
 
+    public Node(){}
+
     public BufferedImage getImage(String fileName) {
         try{
             image = ImageIO.read(getClass().getResourceAsStream(fileName));
