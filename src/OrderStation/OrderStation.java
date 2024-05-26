@@ -28,6 +28,8 @@ public class OrderStation {
             case CUSTOMER_ORDERING:
                 addEmptyTicket();
                 moveCharacter();
+                if(!parent.pin.getTicket().isFilled())
+                    parent.pin.getTicket().fillTicket();
                 break;
         }
     }

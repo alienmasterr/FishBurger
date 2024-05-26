@@ -21,6 +21,14 @@ public class Ticket extends Node {
         receipt.add(new UpperBun(2, 2, 2, 2));
     }
 
+    public ArrayList<Product> getReceipt() {
+        return receipt;
+    }
+
+    public boolean isFilled(){
+        return !receipt.isEmpty();
+    }
+
     private Product getRandomProduct(){
         int generatedNum = getRandomNumber(1, 7);
         return switch (generatedNum) {
