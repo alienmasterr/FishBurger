@@ -5,7 +5,11 @@ import Menu.*;
 import Menu.MenuElements.Ticket;
 import OrderStation.OrderElements.*;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 public class OrderStation {
     private MainPanel.GamePanel parent;
@@ -13,7 +17,7 @@ public class OrderStation {
     private OrderTable orderTable = new OrderTable(0, 500, Game.WIDTH, 200);
     private OrderBackground background = new OrderBackground(0, 0, Game.WIDTH, 500);
     private Customer customer = new Customer(Game.WIDTH, 180, 260, 420);
-
+    private Timer timer;
     public OrderStation(MainPanel.GamePanel parent) {
         this.parent = parent;
     }
@@ -28,9 +32,25 @@ public class OrderStation {
             case CUSTOMER_ORDERING:
                 addEmptyTicket();
                 moveCharacter();
-                if(!parent.pin.getTicket().isFilled())
-                    parent.pin.getTicket().fillTicket();
+                moveCustomer();
+                customer.getEmptyBubble().draw(g2d);
                 break;
+            case MAKING_ORDER:
+                moveCharacter();
+                moveCustomer();
+                break;
+        }
+    }
+
+    private void showBubble(Graphics2D g2d){
+        int size = parent.pin.getTicket().getReceipt().size();
+        if(size < 7){
+            parent.pin.getTicket().fillTicket(7);
+            BufferedImage image = parent.pin.getTicket().getReceipt().get(size).getSprite();
+            customer.getEmptyBubble().getShownProduct().setSprite(image);
+        } else {
+            timer.stop();
+            parent.orderState = OrderState.MAKING_ORDER;
         }
     }
 
@@ -44,18 +64,31 @@ public class OrderStation {
     private void moveCustomer(Graphics2D g2d) {
         if (customer.gotToTable()) {
             customer.getOrderBubble().draw(g2d);
-            checkOrderBubble();
+            checkOrderBubble(g2d);
         } else
             customer.goToTable();
     }
     //я цей крінж зміню згодом
-    private void checkOrderBubble() {
-        if (parent.mouse.pressed && parent.mouse.x >= customer.getOrderBubble().getX() && parent.mouse.x <= customer.getOrderBubble().getX() + 200 && parent.mouse.y <= customer.getOrderBubble().getY() + 200  && parent.mouse.y >= customer.getOrderBubble().getY())
+    private void checkOrderBubble(Graphics2D g2d) {
+        if (parent.mouse.pressed && parent.mouse.x >= customer.getOrderBubble().getX() && parent.mouse.x <= customer.getOrderBubble().getX() + 200 && parent.mouse.y <= customer.getOrderBubble().getY() + 200  && parent.mouse.y >= customer.getOrderBubble().getY()) {
             parent.orderState = OrderState.CUSTOMER_ORDERING;
+            timer = new Timer(1000, null);
+            timer.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    showBubble(g2d);
+                }
+            });
+            timer.start();
+        }
     }
 
     private void moveCharacter() {
         orderFish.waitForCustomer();
+    }
+
+    private void moveCustomer(){
+        customer.waitForOrder();
     }
 
     private void addEmptyTicket() {

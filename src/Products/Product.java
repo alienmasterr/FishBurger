@@ -2,11 +2,21 @@ package Products;
 
 import Elements.Node;
 
+import java.awt.image.BufferedImage;
+import java.nio.Buffer;
+
 public class Product extends Node {
     public Product(int x, int y, int width, int height) {
         super(x, y, width, height);
     }
     public Product(){};
+    public BufferedImage getSprite(){
+        return image;
+    }
+
+    public void setSprite(BufferedImage image){
+        this.image = image;
+    }
     public void setImage(String src){
         image = getImage(src);
     }

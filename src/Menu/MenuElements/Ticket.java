@@ -12,13 +12,19 @@ public class Ticket extends Node {
         image = getImage("/ticket.png");
     }
 
-    public void fillTicket(){
-        receipt.clear();
-        receipt.add(new LowerBun(2, 2, 2, 2));
-        for(int i = 0; i < 5; i++){
+    public void fillTicket(int maxIndex){
+//        receipt.clear();
+//        receipt.add(new LowerBun(2, 2, 2, 2));
+//        for(int i = 0; i < 5; i++){
+//            receipt.add(getRandomProduct());
+//        }
+//        receipt.add(new UpperBun(2, 2, 2, 2));
+        if(receipt.isEmpty())
+            receipt.add(new LowerBun());
+        else if (receipt.size() == maxIndex-1)
+            receipt.add(new UpperBun());
+        else
             receipt.add(getRandomProduct());
-        }
-        receipt.add(new UpperBun(2, 2, 2, 2));
     }
 
     public ArrayList<Product> getReceipt() {
@@ -30,7 +36,7 @@ public class Ticket extends Node {
     }
 
     private Product getRandomProduct(){
-        int generatedNum = getRandomNumber(1, 7);
+        int generatedNum = getRandomNumber(0, 6);
         return switch (generatedNum) {
             case 0 -> new Cheese();
             case 1 -> new Cucumber();
