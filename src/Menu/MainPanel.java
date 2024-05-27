@@ -2,12 +2,12 @@ package Menu;
 
 import BuildStation.BuildStation;
 import Elements.Mouse;
+import Enums.CookingState;
 import Enums.OrderState;
 import Enums.PanelState;
 import GrillStation.GrillStation;
 import Menu.MenuElements.TicketPin;
 import OrderStation.OrderStation;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -36,6 +36,11 @@ public class MainPanel extends JPanel{
     public class GamePanel extends JPanel implements Runnable{
         public Mouse mouse = new Mouse();
         public OrderState orderState = OrderState.WAITING_CUSTOMER;
+
+        /****/
+        public CookingState cookingState = CookingState.MEAT_NOT_READY;
+        /****/
+
         public TicketPin pin = new TicketPin(680, 0, 340, 140);
         private OrderStation orderStation = new OrderStation(this);
         private BuildStation buildStation = new BuildStation();

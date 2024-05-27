@@ -1,18 +1,21 @@
 package GrillStation;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.event.*;
 
+import Enums.CookingState;
 import GrillStation.GrillStationElements.GrillBoard;
 import Menu.*;
 import GrillStation.GrillStationElements.Meat;
 import Menu.Game;
 
+import javax.swing.*;
+
 public class GrillStation {
 
     private MainPanel.GamePanel parent;
+    private Timer timer;
+
     private Meat meat = new Meat(0, 240, 100, 100);
 //    private Meat meat2 = new Meat(0, 200, 100, 100);
     private GrillBoard grillBoard = new GrillBoard(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 4, Game.WIDTH / 2, Game.HEIGHT / 2);
@@ -32,12 +35,9 @@ public class GrillStation {
             public void mousePressed(MouseEvent e) {
                 if (e.getX() >= meat.getX() && e.getX() <= meat.getX() + 200 && e.getY() >= meat.getY() && e.getY() <= meat.getY() + 200) {
                     initialClick = e.getPoint();
-//                    System.out.println("Taking Meat");
                 }
             }
         });
-
-
         parent.addMouseMotionListener(new MouseMotionAdapter() {
 
             @Override
@@ -45,34 +45,22 @@ public class GrillStation {
                 if (!meatTaken && initialClick != null) {
                     int thisX = meat.getX();
                     int thisY = meat.getY();
-
 //                    System.out.println("thisX: " + thisX + " thisY: " + thisY);
                     if (thisX >= grillBoard.getX() && thisX <= grillBoard.getX() + grillBoard.getWidth() && thisY >= grillBoard.getY() && thisY <= grillBoard.getY() + grillBoard.getHeight()) {
-                        System.out.println("INSIDE");
-                        for (int i = 1; i <= 4; i++) {
-                            if(!areaOccupied(grillBoard.getX() + 10 * i, grillBoard.getY() + 10 * i, meat)){
-                                meat.setPosition(grillBoard.getX() + 10 * i, grillBoard.getY() + 10 * i);
-                                meatTaken = true;
-//                                break;
-                            }
-                        }
-
-
+//                        System.out.println("INSIDE");
+                        parent.cookingState = CookingState.MEAT_GRILLING;
                     }
-
-
                     int xMoved = e.getX() - initialClick.x;
                     int yMoved = e.getY() - initialClick.y;
-
                     int X = thisX + xMoved;
                     int Y = thisY + yMoved;
-
                     meat.setPosition(X, Y);
                     initialClick = e.getPoint();
                 }
             }
         });
     }
+
 
     public boolean areaOccupied(int x, int y, Meat meat) {
         return meat.getX() == x && meat.getY() == y;
@@ -96,20 +84,46 @@ public class GrillStation {
 
     //метод що відмальовує панель
     public void draw(Graphics2D g2d) {
+        drawBase(g2d);
+        switch(parent.cookingState){
+            case MEAT_GRILLING -> grillingMeat();
+            case MEAT_READY -> meat.beReady();
+        }
+    }
 
+
+    int counter =0;
+    public void setupTimer() {
+        this.timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                meat.grilling();
+                counter++;
+                if (counter == 7) {
+                    System.out.println("sec");
+                    timer.stop();
+                    parent.cookingState = CookingState.MEAT_READY;
+                }
+            }
+        });
+    }
+
+    public void startGrilling() {
+        if (timer == null) {
+            setupTimer();
+        }
+        timer.start();
+    }
+
+    public void grillingMeat(){
+        startGrilling();
+    }
+
+    private void drawBase(Graphics2D g2d) {
         g2d.setColor(Color.lightGray);
         g2d.fillRect(0, Game.HEIGHT / 5, Game.WIDTH, Game.HEIGHT - Game.HEIGHT / 5);
-
-//        g2d.setColor(Color.decode("#f2ecd0"));
-//        g2d.fillRect(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 4, Game.WIDTH / 2, Game.HEIGHT / 2);
-
-
         grillBoard.draw(g2d);
         meat.draw(g2d);
-//        meat2.draw(g2d);
-//        takeMeat();
-
-
     }
 
     public void drawTrash(Graphics2D g2d) {
