@@ -5,6 +5,8 @@ import java.awt.event.*;
 
 import Enums.CookingState;
 import GrillStation.GrillStationElements.GrillBoard;
+import GrillStation.GrillStationElements.Plate;
+import GrillStation.GrillStationElements.Trash;
 import Menu.*;
 import GrillStation.GrillStationElements.Meat;
 import Menu.Game;
@@ -16,9 +18,11 @@ public class GrillStation {
     private MainPanel.GamePanel parent;
     private Timer timer;
 
-    private Meat meat = new Meat(0, 240, 100, 100);
+    private Meat meat = new Meat(0, 300, 100, 100);
+    private Trash trash = new Trash(Game.WIDTH / 12, Game.HEIGHT / 2 - Game.HEIGHT / 4, 100, 100);
+    private Plate plate = new Plate(Game.WIDTH / 2 + Game.WIDTH / 3, Game.HEIGHT / 2 + Game.HEIGHT / 6, 100, 100);
 //    private Meat meat2 = new Meat(0, 200, 100, 100);
-    private GrillBoard grillBoard = new GrillBoard(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 4, Game.WIDTH / 2, Game.HEIGHT / 2);
+    private GrillBoard grillBoard = new GrillBoard(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 6, Game.WIDTH / 2, Game.HEIGHT / 2);
 
     private Point initialClick;
 
@@ -91,7 +95,6 @@ public class GrillStation {
         }
     }
 
-
     int counter =0;
     public void setupTimer() {
         this.timer = new Timer(1000, new ActionListener() {
@@ -99,7 +102,7 @@ public class GrillStation {
             public void actionPerformed(ActionEvent e) {
                 meat.grilling();
                 counter++;
-                if (counter == 7) {
+                if (counter == 10) {
                     System.out.println("sec");
                     timer.stop();
                     parent.cookingState = CookingState.MEAT_READY;
@@ -124,16 +127,14 @@ public class GrillStation {
         g2d.fillRect(0, Game.HEIGHT / 5, Game.WIDTH, Game.HEIGHT - Game.HEIGHT / 5);
         grillBoard.draw(g2d);
         meat.draw(g2d);
+        plate.draw(g2d);
+        trash.draw(g2d);
     }
 
-    public void drawTrash(Graphics2D g2d) {
-
-    }
-
-    //працює як кнопка. натискаєш сюди і на пательні з'являється котлета
-    public void rawMeat(Graphics2D g2d) {
-        g2d.fillRect(Game.WIDTH / 10, Game.HEIGHT - Game.HEIGHT / 3, 100, 50);
-    }
+//    //працює як кнопка. натискаєш сюди і на пательні з'являється котлета
+//    public void rawMeat(Graphics2D g2d) {
+//        g2d.fillRect(Game.WIDTH / 10, Game.HEIGHT - Game.HEIGHT / 3, 100, 50);
+//    }
 
 
 }

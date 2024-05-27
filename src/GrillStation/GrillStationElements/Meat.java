@@ -13,14 +13,6 @@ import java.util.TimerTask;
 public class Meat extends Node {
 
 
-
-//    private double timeTillReady;
-//    //номер замовлення до якого належить котлета
-//    private double orderNumber;
-//    private int xCoordinate;
-//    private int yCoordinate;
-
-
     public Meat(int x, int y, int width, int height) {
         super(x, y, width, height);
         image = getImage("/meat.png");
