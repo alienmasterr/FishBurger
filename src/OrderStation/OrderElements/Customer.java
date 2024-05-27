@@ -14,7 +14,12 @@ public class Customer extends Node {
 
     public Customer(int x, int y, int width, int height) {
         super(x, y, width, height);
-        image = getImage("/customer1.png");
+        setRandomImage();
+    }
+
+    private void setRandomImage(){
+        int num = 1 + (int)(Math.random() * (3));
+        image = getImage("/customer" + num +".png");
     }
 
     public void goToTable(){
@@ -43,4 +48,6 @@ public class Customer extends Node {
         y+=yVelocity;
         yVelocity*=2;
     }
+
+
 }
