@@ -4,7 +4,6 @@ import Enums.OrderState;
 import Menu.*;
 import Menu.MenuElements.Ticket;
 import OrderStation.OrderElements.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
