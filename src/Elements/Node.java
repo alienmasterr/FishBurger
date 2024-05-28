@@ -48,4 +48,12 @@ public class Node {
     public int getY() {
         return y;
     }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
 }

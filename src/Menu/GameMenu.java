@@ -37,7 +37,7 @@ public class GameMenu extends JPanel{
         public OrderState orderState = OrderState.WAITING_CUSTOMER;
 
         /****/
-        public CookingState cookingState = CookingState.MEAT_NOT_READY;
+        public CookingState cookingState = CookingState.NO_MEAT;
         /****/
 
         public TicketPin pin = new TicketPin(680, 0, 340, 140);
