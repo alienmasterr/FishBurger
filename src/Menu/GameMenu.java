@@ -2,6 +2,7 @@ package Menu;
 
 import BuildStation.BuildStation;
 import Enums.CookingState;
+import Enums.FrameState;
 import Enums.OrderState;
 import Enums.PanelState;
 import GrillStation.GrillStation;
@@ -17,9 +18,10 @@ import static Menu.Game.mouse;
 
 public class GameMenu extends JPanel{
     private GamePanel gamePanel = new GamePanel(ORDER_STATION);
-
-    public GameMenu(){
+    private Game parent;
+    public GameMenu(Game parent){
         super();
+        this.parent = parent;
         setStaticSize();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(Color.black);
@@ -103,6 +105,8 @@ public class GameMenu extends JPanel{
                     //new GrillStation();
                     grillStation.draw(g2d);
                     break;
+                case GAME_MENU:
+                    parent.setVisiblePanel(FrameState.MAIN_MENU);
             }
             pin.draw(g2d);
         }
