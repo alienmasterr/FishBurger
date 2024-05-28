@@ -2,11 +2,9 @@ package Menu;
 
 import Elements.Node;
 import Enums.FrameState;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class MainMenu extends JPanel {
     private Game parent;
@@ -43,7 +41,7 @@ public class MainMenu extends JPanel {
     //туторіал
     //вийти
     private void setPlayButton(){
-        EmptyButton playButton = new EmptyButton(FrameState.GAME);
+        EmptyButton playButton = new EmptyButton(FrameState.CHOOSE_LEVEL);
         playButton.setBounds(377, 471, 235, 75);
         add(playButton);
     }
@@ -55,7 +53,7 @@ public class MainMenu extends JPanel {
     }
 
     private void setExitButton() {
-        EmptyButton exitButton = new EmptyButton(FrameState.CHOOSE_LEVEL);
+        EmptyButton exitButton = new EmptyButton(FrameState.EXIT);
         exitButton.setBounds(377, 471+92*2, 235, 75);
         add(exitButton);
     }
