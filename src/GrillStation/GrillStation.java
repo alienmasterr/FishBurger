@@ -4,11 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 
 import Enums.CookingState;
-import GrillStation.GrillStationElements.GrillBoard;
-import GrillStation.GrillStationElements.Plate;
-import GrillStation.GrillStationElements.Trash;
+import GrillStation.GrillStationElements.*;
 import Menu.*;
-import GrillStation.GrillStationElements.Meat;
 import Menu.Game;
 
 import javax.swing.*;
@@ -90,8 +87,10 @@ public class GrillStation {
     public void draw(Graphics2D g2d) {
         drawBase(g2d);
         switch(parent.cookingState){
-            case MEAT_GRILLING -> grillingMeat();
-            case MEAT_READY -> meat.beReady();
+            case MEAT_NOT_READY -> drawNewMeat(g2d);
+            case MEAT_GRILLING -> grillingMeat(g2d);
+            case MEAT_READY -> readyMeat(g2d);
+            case MEAT_BURNING -> meatBurnt(g2d);
         }
     }
 
@@ -103,12 +102,25 @@ public class GrillStation {
                 meat.grilling();
                 counter++;
                 if (counter == 10) {
-                    System.out.println("sec");
-                    timer.stop();
+                    System.out.println("10 sec");
                     parent.cookingState = CookingState.MEAT_READY;
+                }else if(counter == 30){
+                    timer.stop();
+                    parent.cookingState = CookingState.MEAT_BURNING;
                 }
             }
         });
+    }
+
+    private void readyMeat(Graphics2D g2d) {
+        drawNewMeat(g2d);
+        meat.beReady();
+    }
+
+    private void meatBurnt(Graphics2D g2d) {
+        drawNewMeat(g2d);
+        BurningSign burningSign = new BurningSign(meat.getX(), meat.getY(), 50, 50);
+        burningSign.draw(g2d);
     }
 
     public void startGrilling() {
@@ -118,17 +130,22 @@ public class GrillStation {
         timer.start();
     }
 
-    public void grillingMeat(){
+    public void grillingMeat(Graphics2D g2d){
+        drawNewMeat(g2d);
         startGrilling();
+    }
+
+    private void drawNewMeat(Graphics2D g2d) {
+        grillBoard.draw(g2d);
+        plate.draw(g2d);
+        trash.draw(g2d);
+        meat.draw(g2d);
     }
 
     private void drawBase(Graphics2D g2d) {
         g2d.setColor(Color.lightGray);
         g2d.fillRect(0, Game.HEIGHT / 5, Game.WIDTH, Game.HEIGHT - Game.HEIGHT / 5);
-        grillBoard.draw(g2d);
-        meat.draw(g2d);
-        plate.draw(g2d);
-        trash.draw(g2d);
+
     }
 
 //    //працює як кнопка. натискаєш сюди і на пательні з'являється котлета
