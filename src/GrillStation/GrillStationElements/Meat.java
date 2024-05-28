@@ -27,6 +27,8 @@ public class Meat extends Node {
 
     public void beReady(){
     }
+    public void beShrownAway(){
+    }
 
     public void grilling() {
         y += yVelocity;
