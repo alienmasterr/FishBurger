@@ -15,7 +15,7 @@ import javax.swing.*;
 
 public class GrillStation {
 
-    private MainPanel.GamePanel parent;
+    private GameMenu.GamePanel parent;
     private Timer timer;
 
     private Meat meat = new Meat(0, 300, 100, 100);
@@ -27,7 +27,7 @@ public class GrillStation {
     private Point initialClick;
 
 
-    public GrillStation(MainPanel.GamePanel parent) {
+    public GrillStation(GameMenu.GamePanel parent) {
         this.parent = parent;
         addMouseListeners();
     }

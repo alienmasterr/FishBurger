@@ -1,7 +1,6 @@
 package Menu;
 
 import BuildStation.BuildStation;
-import Elements.Mouse;
 import Enums.CookingState;
 import Enums.OrderState;
 import Enums.PanelState;
@@ -14,11 +13,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import static Enums.PanelState.*;
+import static Menu.Game.mouse;
 
-public class MainPanel extends JPanel{
+public class GameMenu extends JPanel{
     private GamePanel gamePanel = new GamePanel(ORDER_STATION);
 
-    public MainPanel(){
+    public GameMenu(){
         super();
         setStaticSize();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -34,7 +34,6 @@ public class MainPanel extends JPanel{
     }
 
     public class GamePanel extends JPanel implements Runnable{
-        public Mouse mouse = new Mouse();
         public OrderState orderState = OrderState.WAITING_CUSTOMER;
 
         /****/
@@ -92,9 +91,6 @@ public class MainPanel extends JPanel{
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g;
             switch (panelState){
-                case MAIN_MENU:
-                    //...
-                    break;
                 case ORDER_STATION:
                     orderStation.draw(g2d);
                     break;

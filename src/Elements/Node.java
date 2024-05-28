@@ -33,6 +33,10 @@ public class Node {
         return image;
     }
 
+    public BufferedImage getSprite(){
+        return image;
+    }
+
     public void draw(Graphics2D g2d) {
         g2d.drawImage(image, x, y, width, height, null);
     }

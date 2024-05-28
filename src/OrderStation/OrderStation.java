@@ -11,13 +11,13 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 public class OrderStation {
-    private MainPanel.GamePanel parent;
+    private GameMenu.GamePanel parent;
     private OrderFish orderFish = new OrderFish(0, 240, 500, 500);
     private OrderTable orderTable = new OrderTable(0, 500, Game.WIDTH, 200);
     private OrderBackground background = new OrderBackground(0, 0, Game.WIDTH, 500);
     private Customer customer = new Customer(Game.WIDTH, 180, 260, 420);
     private Timer timer;
-    public OrderStation(MainPanel.GamePanel parent) {
+    public OrderStation(GameMenu.GamePanel parent) {
         this.parent = parent;
     }
 
@@ -67,9 +67,9 @@ public class OrderStation {
         } else
             customer.goToTable();
     }
-    //я цей крінж зміню згодом
+
     private void checkOrderBubble(Graphics2D g2d) {
-        if (parent.mouse.pressed && parent.mouse.x >= customer.getOrderBubble().getX() && parent.mouse.x <= customer.getOrderBubble().getX() + 200 && parent.mouse.y <= customer.getOrderBubble().getY() + 200  && parent.mouse.y >= customer.getOrderBubble().getY()) {
+        if (Game.mouse.pressed && Game.mouse.x >= customer.getOrderBubble().getX() && Game.mouse.x <= customer.getOrderBubble().getX() + 200 && Game.mouse.y <= customer.getOrderBubble().getY() + 200  && Game.mouse.y >= customer.getOrderBubble().getY()) {
             parent.orderState = OrderState.CUSTOMER_ORDERING;
             timer = new Timer(1000, null);
             timer.addActionListener(new ActionListener() {
