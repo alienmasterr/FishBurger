@@ -1,4 +1,4 @@
-package OrderStation;
+package OrderStation.OrderElements;
 
 import Elements.Node;
 import Products.Product;

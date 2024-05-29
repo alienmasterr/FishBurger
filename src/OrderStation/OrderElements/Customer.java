@@ -1,10 +1,6 @@
 package OrderStation.OrderElements;
 
 import Elements.Node;
-import OrderStation.EmptyBubble;
-import OrderStation.OrderStation;
-
-import java.awt.image.BufferedImage;
 
 public class Customer extends Node {
     //дописати рандомайзер вибору картинок для кастомерів
