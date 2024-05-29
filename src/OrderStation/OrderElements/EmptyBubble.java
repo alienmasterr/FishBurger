@@ -10,7 +10,7 @@ public class EmptyBubble extends Node {
     private Product shownProduct = new Product(297, 135, 100, 100);
     public EmptyBubble(int x, int y, int width, int height) {
         super(x, y, width, height);
-        image = getImage("/emptybubble.png");
+        image = getImage("/customers/customer_elements/emptybubble.png");
     }
 
     @Override

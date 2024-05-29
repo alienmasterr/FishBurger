@@ -10,7 +10,7 @@ public class TicketPin extends Node {
     private Ticket ticket;
     public TicketPin(int x, int y, int width, int height) {
         super(x, y, width, height);
-        image = getImage("/ticketpin.png");
+        image = getImage("/orderstation/ticketpin.png");
     }
 
     public Ticket getTicket() {

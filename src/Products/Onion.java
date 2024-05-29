@@ -1,12 +1,10 @@
 package Products;
 
-import Elements.Node;
-
 public class Onion extends Product {
     public Onion(int x, int y, int width, int height) {
         super(x, y, width, height);
-        setImage("/onion.png");
+        setImage("/products/onion.png");
     }
 
-    public Onion(){setImage("/onion.png");}
+    public Onion(){setImage("/products/onion.png");}
 }

@@ -2,20 +2,12 @@ package GrillStation.GrillStationElements;
 
 import Elements.Node;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
-import java.util.TimerTask;
-
 public class Meat extends Node {
 
 
     public Meat(int x, int y, int width, int height) {
         super(x, y, width, height);
-        image = getImage("/meat.png");
+        image = getImage("/meat/meat.png");
     }
 
     public void setPosition(int x, int y) {

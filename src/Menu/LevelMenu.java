@@ -1,7 +1,6 @@
 package Menu;
 
 import Elements.Node;
-import Enums.FrameState;
 import Enums.LevelState;
 
 import javax.swing.*;
@@ -23,7 +22,7 @@ public class LevelMenu extends JPanel {
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D)g;
         Node mainMenu = new Node(0, 0, Game.WIDTH, Game.HEIGHT);
-        mainMenu.getImage("/levelmenu.png");
+        mainMenu.getImage("/mainmenu/levelmenu.png");
         mainMenu.draw(g2d);
     }
 

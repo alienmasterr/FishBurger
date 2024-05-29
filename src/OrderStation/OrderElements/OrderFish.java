@@ -6,7 +6,7 @@ public class OrderFish extends Node {
     private int yVelocity = -1;
     public OrderFish(int x, int y, int width, int height) {
         super(x, y, width, height);
-        image = getImage("/order_fish.png");
+        image = getImage("/orderstation/order_fish.png");
     }
 
     public void waitForCustomer(){

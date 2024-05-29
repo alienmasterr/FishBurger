@@ -9,7 +9,7 @@ public class Ticket extends Node {
     private ArrayList<Product> receipt = new ArrayList<>();
     public Ticket(int x, int y, int width, int height) {
         super(x, y, width, height);
-        image = getImage("/ticket.png");
+        image = getImage("/orderstation/ticket.png");
     }
 
     public void fillTicket(int maxIndex){

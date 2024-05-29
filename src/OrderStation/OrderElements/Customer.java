@@ -15,7 +15,7 @@ public class Customer extends Node {
 
     private void setRandomImage(){
         int num = 1 + (int)(Math.random() * (3));
-        image = getImage("/customer" + num +".png");
+        image = getImage("/customers/customer" + num +".png");
     }
 
     public void goToTable(){

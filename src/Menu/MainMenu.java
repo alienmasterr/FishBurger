@@ -20,7 +20,7 @@ public class MainMenu extends JPanel {
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D)g;
         Node mainMenu = new Node(0, 0, Game.WIDTH, Game.HEIGHT);
-        mainMenu.getImage("/mainmenu.png");
+        mainMenu.getImage("/mainmenu/mainmenu.png");
         mainMenu.draw(g2d);
     }
 
