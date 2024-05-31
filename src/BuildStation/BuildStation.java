@@ -4,15 +4,22 @@ import BuildStation.BuildElements.BuildBackground;
 import Elements.Node;
 import Menu.Game;
 import Products.Product;
+
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
 public class BuildStation {
     private Product activeProduct;
+    private Product lastActiveProduct;
     private ArrayList<Product> burgerProducts = new ArrayList<>();
     private ProductTray[] productTrays = new ProductTray[7];
     private BuildBackground background = new BuildBackground(0, 0, Game.WIDTH, Game.HEIGHT - 100);
+    private int diffX = -1;
+    private int diffY = -1;
 
     public BuildStation() {
         fillTrays();
@@ -38,14 +45,17 @@ public class BuildStation {
             productTrays[i].draw(g2d);
         for (Product product : burgerProducts)
             product.draw(g2d);
+        if (lastActiveProduct != null)
+            lastActiveProduct.draw(g2d);
         update();
     }
 
-    //треба додати перевірку на коліжон при триманні продукта
     private void update() {
+        updateLastActiveProduct();
+        updateLastProduct();
         updateActiveProduct();
         updateNonactiveProducts();
-        updateLastProduct();
+
     }
 
     private void updateLastProduct() {
@@ -67,7 +77,7 @@ public class BuildStation {
         for (Product fallenProduct : burgerProducts) {
             if (fallenProduct == product)
                 continue;
-            if (fallenProduct.getY() - 30 <= product.getY())
+            if (fallenProduct.getY() - 30 <= product.getY() && fallenProduct.getX() - 150 <= product.getX() && fallenProduct.getX() + 150 >= product.getX())
                 return true;
         }
         return false;
@@ -78,13 +88,62 @@ public class BuildStation {
     }
 
     private void updateActiveProduct() {
-        updateActiveProductMovement();
         updateActiveProductState();
+        updateActiveProductMovement();
+        updateActiveProductCollision();
     }
 
     private void updateActiveProductState() {
-        if (!Game.mouse.pressed)
-            activeProduct = null;
+        if (Game.mouse.pressed || activeProduct == null)
+            return;
+        checkFallingLocation();
+        activeProduct = null;
+    }
+
+    private void updateLastActiveProduct() {
+        if (lastActiveProduct == null)
+            return;
+        returnToTray();
+    }
+
+    private void returnToTray() {
+        Product trayProduct = getTrayProduct(lastActiveProduct);
+        if (diffX == -1 && diffY == -1) {
+            int distX = trayProduct.getX()-lastActiveProduct.getX();
+            int distY = trayProduct.getY()-lastActiveProduct.getY();
+            double gDist = Math.sqrt(distX*distX + distY*distY);
+            int steps = (int)((gDist-1)/30);
+            diffY = distY/steps;
+            diffX = distX/steps;
+        }
+        if (trayProduct != null)
+            moveToTray(trayProduct, lastActiveProduct);
+    }
+
+    private void moveToTray(Product trayProduct, Product product) {
+        if (trayProduct.getX() - 30 <= product.getX() && trayProduct.getX() + 30 >= product.getX() && trayProduct.getY() - 30 < product.getY() && trayProduct.getY() + 30 > product.getY()) {
+            diffX = -1;
+            diffY = -1;
+            lastActiveProduct = null;
+            return;
+        }
+        lastActiveProduct.setX(lastActiveProduct.getX()+diffX);
+        lastActiveProduct.setY(lastActiveProduct.getY()+diffY);
+    }
+
+    private void checkFallingLocation() {
+        if ((activeProduct.getY() >= 560 || activeProduct.getX() < 200 || activeProduct.getX() > 700)) {
+            lastActiveProduct = activeProduct;
+            burgerProducts.remove(activeProduct);
+        }
+    }
+
+    private Product getTrayProduct(Product original) {
+        for (ProductTray tray : productTrays) {
+            if (tray.product.getSprite() == original.getSprite())
+                return tray.product;
+        }
+        return null;
     }
 
     private void updateActiveProductMovement() {
@@ -92,6 +151,17 @@ public class BuildStation {
             return;
         activeProduct.setX(Game.mouse.x - 75);
         activeProduct.setY(Game.mouse.y - 50);
+    }
+
+    private void updateActiveProductCollision() {
+        if (activeProduct == null)
+            return;
+        for (Product fallenPr : burgerProducts) {
+            if (fallenPr == activeProduct)
+                continue;
+            if (fallenPr.getY() - 30 <= activeProduct.getY() && fallenPr.getY() + 100 >= activeProduct.getY() && fallenPr.getX() - 100 < activeProduct.getX() && fallenPr.getX() + 120 > activeProduct.getX())
+                activeProduct.setY(fallenPr.getY() - 29);
+        }
     }
 
     private class ProductTray extends Node {
