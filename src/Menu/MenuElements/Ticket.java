@@ -7,35 +7,47 @@ import java.util.ArrayList;
 
 public class Ticket extends Node {
     private ArrayList<Product> receipt = new ArrayList<>();
+
     public Ticket(int x, int y, int width, int height) {
         super(x, y, width, height);
         image = getImage("/orderstation/ticket.png");
     }
 
-    public void fillTicket(int maxIndex){
-//        receipt.clear();
-//        receipt.add(new LowerBun(2, 2, 2, 2));
-//        for(int i = 0; i < 5; i++){
-//            receipt.add(getRandomProduct());
-//        }
-//        receipt.add(new UpperBun(2, 2, 2, 2));
-        if(receipt.isEmpty())
+    public void fillTicket(int maxIndex) {
+        if (receipt.isEmpty())
             receipt.add(new LowerBun());
-        else if (receipt.size() == maxIndex-1)
+        else if (receipt.size() == maxIndex - 1)
             receipt.add(new UpperBun());
         else
             receipt.add(getRandomProduct());
+        setReceiptPositions();
+    }
+
+    private void setReceiptPositions() {
+        for (int i = 0; i < receipt.size(); i++) {
+            receipt.get(i).setX(835);
+            receipt.get(i).setY(407 - (i * 37));
+            receipt.get(i).setWidth(40);
+            receipt.get(i).setHeight(25);
+        }
+    }
+
+    public void updateReceiptPosition() {
+        for (int i = receipt.size()-1; i >-1; i--) {
+            receipt.get(i).setX(this.getX() + 95);
+            receipt.get(i).setY(this.getY() + 383 - (i * 37));
+        }
     }
 
     public ArrayList<Product> getReceipt() {
         return receipt;
     }
 
-    public boolean isFilled(){
+    public boolean isFilled() {
         return !receipt.isEmpty();
     }
 
-    private Product getRandomProduct(){
+    private Product getRandomProduct() {
         int generatedNum = getRandomNumber(0, 6);
         return switch (generatedNum) {
             case 0 -> new Cheese();
@@ -47,7 +59,7 @@ public class Ticket extends Node {
         };
     }
 
-    private int getRandomNumber(int min, int max){
-        return min + (int)(Math.random() * ((max - min) + 1));
+    private int getRandomNumber(int min, int max) {
+        return min + (int) (Math.random() * ((max - min) + 1));
     }
 }

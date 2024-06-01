@@ -34,10 +34,10 @@ public class TicketPin extends Node {
         if(ticket.isFilled()){
             ArrayList<Product> temp = ticket.getReceipt();
             for(int i = 0; i < temp.size(); i++){
-                temp.get(i).setX(835);
-                temp.get(i).setY(407-(i*37));
-                temp.get(i).setWidth(40);
-                temp.get(i).setHeight(25);
+//                temp.get(i).setX(835);
+//                temp.get(i).setY(407-(i*37));
+//                temp.get(i).setWidth(40);
+//                temp.get(i).setHeight(25);
                 temp.get(i).draw(g2d);
             }
         }

@@ -1,27 +1,30 @@
 package BuildStation;
 
-import BuildStation.BuildElements.BuildBackground;
+import BuildStation.BuildElements.*;
 import Elements.Node;
-import Menu.Game;
+import Enums.BuildState;
+import Menu.*;
+import Menu.MenuElements.Ticket;
 import Products.Product;
-
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayList;
+import java.util.*;
 
 public class BuildStation {
+    private GameMenu.GamePanel parent;
     private Product activeProduct;
     private Product lastActiveProduct;
     private ArrayList<Product> burgerProducts = new ArrayList<>();
     private ProductTray[] productTrays = new ProductTray[7];
     private BuildBackground background = new BuildBackground(0, 0, Game.WIDTH, Game.HEIGHT - 100);
+    private TicketBackground ticketBackground = new TicketBackground(0, 0, Game.WIDTH, Game.HEIGHT - 100);
+    private TicketHolder ticketHolder = new TicketHolder(260, 470, 170, 230);
+    public BuildState buildState = BuildState.BUILDING;
     private int diffX = -1;
     private int diffY = -1;
 
-    public BuildStation() {
+    public BuildStation(GameMenu.GamePanel parent) {
+        this.parent = parent;
         fillTrays();
     }
 
@@ -36,7 +39,10 @@ public class BuildStation {
     }
 
     public void draw(Graphics2D g2d) {
-        drawBase(g2d);
+        switch (buildState) {
+            case BUILDING -> drawBase(g2d);
+            case PUTTING_TICKET -> drawTicketBase(g2d);
+        }
     }
 
     private void drawBase(Graphics2D g2d) {
@@ -50,12 +56,30 @@ public class BuildStation {
         update();
     }
 
+    private void drawTicketBase(Graphics2D g2d) {
+        ticketBackground.draw(g2d);
+        ticketHolder.draw(g2d);
+        for (Product product : burgerProducts)
+            product.draw(g2d);
+        updateTicket();
+    }
+
+    private void updateTicket(){
+        Ticket ticket = parent.pin.getTicket();
+        if(ticket == null)
+            return;
+        if(Game.mouse.pressed && ticket.getX() <= Game.mouse.x && ticket.getX()+230 >= Game.mouse.x && ticket.getY() <= Game.mouse.y && ticket.getY()+420 >= Game.mouse.y){
+            ticket.setX(Game.mouse.x-115);
+            ticket.setY(Game.mouse.y-210);
+        }
+        ticket.updateReceiptPosition();
+    }
+
     private void update() {
         updateLastActiveProduct();
         updateLastProduct();
         updateActiveProduct();
         updateNonactiveProducts();
-
     }
 
     private void updateLastProduct() {
@@ -71,13 +95,27 @@ public class BuildStation {
         for (Product product : burgerProducts)
             if (isFalling(product) && !isColliding(product))
                 product.setY(product.getY() + 15);
+        if (burgerProducts.isEmpty())
+            return;
+        if (isUpperBun(burgerProducts.getLast()) && (!isFalling(burgerProducts.getLast()) || isColliding(burgerProducts.getLast())))
+            startTicketState();
+    }
+
+    private boolean isUpperBun(Product product) {
+        if(product.getSrc() == null)
+            return false;
+        return product.getSrc().equals("/products/upperbun.png");
+    }
+
+    private void startTicketState() {
+        buildState = BuildState.PUTTING_TICKET;
     }
 
     private boolean isColliding(Product product) {
         for (Product fallenProduct : burgerProducts) {
             if (fallenProduct == product)
                 continue;
-            if (fallenProduct.getY() - 30 <= product.getY() && fallenProduct.getX() - 150 <= product.getX() && fallenProduct.getX() + 150 >= product.getX())
+            if (fallenProduct.getY() - 27 <= product.getY() && fallenProduct.getX() - 150 <= product.getX() && fallenProduct.getX() + 150 >= product.getX())
                 return true;
         }
         return false;
@@ -100,6 +138,14 @@ public class BuildStation {
         activeProduct = null;
     }
 
+    private void checkFallingLocation() {
+        if ((activeProduct.getY() >= 560 || activeProduct.getX() < 300 || activeProduct.getX() > 600)) {
+            lastActiveProduct = activeProduct;
+            burgerProducts.remove(activeProduct);
+            activeProduct = null;
+        }
+    }
+
     private void updateLastActiveProduct() {
         if (lastActiveProduct == null)
             return;
@@ -108,15 +154,16 @@ public class BuildStation {
 
     private void returnToTray() {
         Product trayProduct = getTrayProduct(lastActiveProduct);
+        if(trayProduct == null)
+            return;
         if (diffX == -1 && diffY == -1) {
-            int distX = trayProduct.getX()-lastActiveProduct.getX();
-            int distY = trayProduct.getY()-lastActiveProduct.getY();
-            double gDist = Math.sqrt(distX*distX + distY*distY);
-            int steps = (int)((gDist-1)/30);
-            diffY = distY/steps;
-            diffX = distX/steps;
+            int distX = trayProduct.getX() - lastActiveProduct.getX();
+            int distY = trayProduct.getY() - lastActiveProduct.getY();
+            double gDist = Math.sqrt(distX * distX + distY * distY);
+            int steps = (int) ((gDist - 1) / 30);
+            diffY = distY / steps;
+            diffX = distX / steps;
         }
-        if (trayProduct != null)
             moveToTray(trayProduct, lastActiveProduct);
     }
 
@@ -127,20 +174,13 @@ public class BuildStation {
             lastActiveProduct = null;
             return;
         }
-        lastActiveProduct.setX(lastActiveProduct.getX()+diffX);
-        lastActiveProduct.setY(lastActiveProduct.getY()+diffY);
-    }
-
-    private void checkFallingLocation() {
-        if ((activeProduct.getY() >= 560 || activeProduct.getX() < 200 || activeProduct.getX() > 700)) {
-            lastActiveProduct = activeProduct;
-            burgerProducts.remove(activeProduct);
-        }
+        lastActiveProduct.setX(lastActiveProduct.getX() + diffX);
+        lastActiveProduct.setY(lastActiveProduct.getY() + diffY);
     }
 
     private Product getTrayProduct(Product original) {
         for (ProductTray tray : productTrays) {
-            if (tray.product.getSprite() == original.getSprite())
+            if (Objects.equals(tray.product.getSrc(), original.getSrc()))
                 return tray.product;
         }
         return null;
@@ -151,6 +191,8 @@ public class BuildStation {
             return;
         activeProduct.setX(Game.mouse.x - 75);
         activeProduct.setY(Game.mouse.y - 50);
+        if (activeProduct.getY() > 560)
+            activeProduct.setY(560);
     }
 
     private void updateActiveProductCollision() {
@@ -160,7 +202,7 @@ public class BuildStation {
             if (fallenPr == activeProduct)
                 continue;
             if (fallenPr.getY() - 30 <= activeProduct.getY() && fallenPr.getY() + 100 >= activeProduct.getY() && fallenPr.getX() - 100 < activeProduct.getX() && fallenPr.getX() + 120 > activeProduct.getX())
-                activeProduct.setY(fallenPr.getY() - 29);
+                activeProduct.setY(fallenPr.getY() - 27);
         }
     }
 
@@ -195,7 +237,7 @@ public class BuildStation {
 
         private Product createProduct(Product original) {
             Product copy = new Product(original.getX(), original.getY(), original.getWidth(), original.getHeight());
-            copy.setSprite(original.getSprite());
+            copy.getImage(original.getSrc());
             return copy;
         }
 
