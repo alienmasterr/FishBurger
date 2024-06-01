@@ -32,11 +32,47 @@ public class Ticket extends Node {
         }
     }
 
+    public void decreaseSize() {
+        if (width > 67)
+            width -= 15;
+        if (height > 140)
+            height -= 20;
+    }
+
+    public void increaseSize() {
+        if (width < 230)
+            width += 15;
+        if (height < 420)
+            height += 20;
+    }
+
     public void updateReceiptPosition() {
-        for (int i = receipt.size()-1; i >-1; i--) {
-            receipt.get(i).setX(this.getX() + 95);
-            receipt.get(i).setY(this.getY() + 383 - (i * 37));
+        for (int i = receipt.size() - 1; i > -1; i--) {
+            receipt.get(i).setX((int) (this.getX() + getScaledXDiff()));
+            receipt.get(i).setY((int) (this.getY() + getScaledBase() - (i * getScaledRecDiff())));
+            receipt.get(i).setWidth((int) (getScaledWidth()));
+            receipt.get(i).setHeight((int) (getScaledHeight()));
         }
+    }
+
+    private double getScaledWidth() {
+        return ((double) (this.getWidth() * 40) / 230);
+    }
+
+    private double getScaledHeight() {
+        return (double) (this.getHeight() * 25) / 420;
+    }
+
+    private double getScaledXDiff(){
+        return 95*getScaledWidth()/40;
+    }
+
+    private double getScaledRecDiff(){
+        return 37*getScaledHeight()/25;
+    }
+
+    private double getScaledBase(){
+        return 383*getScaledHeight()/25;
     }
 
     public ArrayList<Product> getReceipt() {

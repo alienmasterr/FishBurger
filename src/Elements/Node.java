@@ -18,24 +18,27 @@ public class Node {
     protected int width, height;
     protected BufferedImage image;
     protected String src;
-    public Node(int x, int y, int width, int height){
+
+    public Node(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
-        this.width =width;
+        this.width = width;
         this.height = height;
     }
 
-    public Node(){}
+    public Node() {
+    }
 
     public BufferedImage getImage(String fileName) {
         this.src = fileName;
-        try{
+        try {
             image = ImageIO.read(getClass().getResourceAsStream(fileName));
-        } catch(IOException ignore){}
+        } catch (IOException ignore) {
+        }
         return image;
     }
 
-    public BufferedImage getSprite(){
+    public BufferedImage getSprite() {
         return image;
     }
 
@@ -69,5 +72,13 @@ public class Node {
 
     public void setX(int x) {
         this.x = x;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
     }
 }

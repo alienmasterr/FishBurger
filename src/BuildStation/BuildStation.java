@@ -6,6 +6,7 @@ import Enums.BuildState;
 import Menu.*;
 import Menu.MenuElements.Ticket;
 import Products.Product;
+
 import java.awt.*;
 import java.io.File;
 import java.util.*;
@@ -14,6 +15,8 @@ public class BuildStation {
     private GameMenu.GamePanel parent;
     private Product activeProduct;
     private Product lastActiveProduct;
+    private Ticket activeTicket;
+    private Ticket lastTicket;
     private ArrayList<Product> burgerProducts = new ArrayList<>();
     private ProductTray[] productTrays = new ProductTray[7];
     private BuildBackground background = new BuildBackground(0, 0, Game.WIDTH, Game.HEIGHT - 100);
@@ -64,15 +67,65 @@ public class BuildStation {
         updateTicket();
     }
 
-    private void updateTicket(){
+    private void updateTicket() {
         Ticket ticket = parent.pin.getTicket();
-        if(ticket == null)
+        if (ticket == null)
             return;
-        if(Game.mouse.pressed && ticket.getX() <= Game.mouse.x && ticket.getX()+230 >= Game.mouse.x && ticket.getY() <= Game.mouse.y && ticket.getY()+420 >= Game.mouse.y){
-            ticket.setX(Game.mouse.x-115);
-            ticket.setY(Game.mouse.y-210);
+        if (Game.mouse.pressed && ticket.getX() <= Game.mouse.x && ticket.getX() + ticket.getWidth() >= Game.mouse.x && ticket.getY() <= Game.mouse.y && ticket.getY() + ticket.getHeight() >= Game.mouse.y)
+            activeTicket = ticket;
+        else if (!Game.mouse.pressed && activeTicket != null) {
+            lastTicket = activeTicket;
+            activeTicket = null;
         }
+        if (lastTicket != null) {
+            returnToHolder();
+            ticket.increaseSize();
+            return;
+        }
+        updateTicketMovement();
         ticket.updateReceiptPosition();
+    }
+
+    private void returnToHolder() {
+        Ticket ticket = parent.pin.getTicket();
+        if (ticket == null)
+            return;
+        if (diffX == -1 && diffY == -1) {
+            int distX = parent.pin.getX() - ticket.getX();
+            int distY = parent.pin.getY() - ticket.getY();
+            double gDist = Math.sqrt(distX * distX + distY * distY);
+            int steps = (int) ((gDist - 1) / 30);
+            diffY = distY / steps;
+            diffX = distX / steps;
+        }
+        moveToHolder();
+        ticket.updateReceiptPosition();
+    }
+
+    private void moveToHolder() {
+        Ticket ticket = parent.pin.getTicket();
+        if (ticket == null)
+            return;
+        if (ticket.getX() >= parent.pin.getX() - 30 && ticket.getX() <= ticket.getX() + parent.pin.getWidth() + 30 && ticket.getY() >= parent.pin.getY() - 30 && ticket.getY() <= parent.pin.getY() + parent.pin.getHeight() + 30) {
+            diffX = -1;
+            diffY = -1;
+            ticket.setY(20);
+            ticket.setX(740);
+            ticket.setWidth(230);
+            ticket.setHeight(420);
+            lastTicket = null;
+            return;
+        }
+        ticket.setX(ticket.getX() + diffX);
+        ticket.setY(ticket.getY() + diffY);
+    }
+
+    private void updateTicketMovement() {
+        if (activeTicket == null)
+            return;
+        activeTicket.setX(Game.mouse.x - activeTicket.getWidth() / 2);
+        activeTicket.setY(Game.mouse.y - activeTicket.getHeight() / 2);
+        activeTicket.decreaseSize();
     }
 
     private void update() {
@@ -102,7 +155,7 @@ public class BuildStation {
     }
 
     private boolean isUpperBun(Product product) {
-        if(product.getSrc() == null)
+        if (product.getSrc() == null)
             return false;
         return product.getSrc().equals("/products/upperbun.png");
     }
@@ -154,7 +207,7 @@ public class BuildStation {
 
     private void returnToTray() {
         Product trayProduct = getTrayProduct(lastActiveProduct);
-        if(trayProduct == null)
+        if (trayProduct == null)
             return;
         if (diffX == -1 && diffY == -1) {
             int distX = trayProduct.getX() - lastActiveProduct.getX();
@@ -164,7 +217,7 @@ public class BuildStation {
             diffY = distY / steps;
             diffX = distX / steps;
         }
-            moveToTray(trayProduct, lastActiveProduct);
+        moveToTray(trayProduct, lastActiveProduct);
     }
 
     private void moveToTray(Product trayProduct, Product product) {
