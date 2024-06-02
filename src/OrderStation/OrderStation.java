@@ -17,6 +17,8 @@ public class OrderStation {
     private OrderBackground background = new OrderBackground(0, 0, Game.WIDTH, 500);
     public Customer customer = new Customer(Game.WIDTH, 180, 260, 420);
     private Timer timer;
+    private int seconds = 0;
+    private int miliSec = 0;
     public OrderStation(GameMenu.GamePanel parent) {
         this.parent = parent;
     }
@@ -39,6 +41,18 @@ public class OrderStation {
                 moveCustomer();
                 break;
         }
+    }
+
+    public void updateTime(){
+        miliSec++;
+        if(miliSec==60) {
+            seconds++;
+            miliSec=0;
+        }
+    }
+
+    public int getSeconds() {
+        return seconds;
     }
 
     private void showBubble(Graphics2D g2d){

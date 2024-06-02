@@ -87,7 +87,8 @@ public class GameMenu extends JPanel{
 
         //тут оновлюються дані панелей
         private void update() {
-
+            if(orderState == OrderState.MAKING_ORDER)
+                orderStation.updateTime();
         }
 
         //відмальовування предметів за зміненими даними
