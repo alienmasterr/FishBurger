@@ -4,9 +4,8 @@ public enum OrderState {
     WAITING_CUSTOMER(0),
     CUSTOMER_ORDERING(1),
     MAKING_ORDER(2),
-    GIVING_ORDER(3),
-    RATING_ORDER(4),
-    GETTING_MONEY(5);
+    RATING_ORDER(3),
+    GETTING_MONEY(4);
 
     private int state;
     OrderState(int state) {

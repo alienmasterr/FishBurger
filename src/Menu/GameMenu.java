@@ -47,7 +47,7 @@ public class GameMenu extends JPanel{
         private BuildStation buildStation = new BuildStation(this);
         private GrillStation grillStation = new GrillStation(this);
         public static boolean isRunning = true;
-        private PanelState panelState;
+        public PanelState panelState;
         public GamePanel(PanelState state){
             super();
             this.panelState = state;

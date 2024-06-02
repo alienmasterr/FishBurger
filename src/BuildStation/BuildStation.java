@@ -3,6 +3,8 @@ package BuildStation;
 import BuildStation.BuildElements.*;
 import Elements.Node;
 import Enums.BuildState;
+import Enums.OrderState;
+import Enums.PanelState;
 import Menu.*;
 import Menu.MenuElements.Ticket;
 import Products.Product;
@@ -74,6 +76,13 @@ public class BuildStation {
         if (Game.mouse.pressed && ticket.getX() <= Game.mouse.x && ticket.getX() + ticket.getWidth() >= Game.mouse.x && ticket.getY() <= Game.mouse.y && ticket.getY() + ticket.getHeight() >= Game.mouse.y)
             activeTicket = ticket;
         else if (!Game.mouse.pressed && activeTicket != null) {
+            if(checkTicketLocation()){
+                activeTicket.setX(308);
+                activeTicket.setY(517);
+                parent.orderState = OrderState.RATING_ORDER;
+                parent.panelState = PanelState.RATING_STATION;
+                return;
+            }
             lastTicket = activeTicket;
             activeTicket = null;
         }
@@ -84,6 +93,14 @@ public class BuildStation {
         }
         updateTicketMovement();
         ticket.updateReceiptPosition();
+    }
+
+    private boolean checkTicketLocation(){
+        if(activeTicket == null)
+            return false;
+        if(activeTicket.getX() > 260 && activeTicket.getX() < 260+170 && activeTicket.getY() >= 470 && activeTicket.getX() <= 470+230)
+            return true;
+        return false;
     }
 
     private void returnToHolder() {
