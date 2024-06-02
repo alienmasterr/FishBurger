@@ -13,9 +13,9 @@ import java.awt.image.BufferedImage;
 public class OrderStation {
     private GameMenu.GamePanel parent;
     private OrderFish orderFish = new OrderFish(0, 240, 500, 500);
-    private OrderTable orderTable = new OrderTable(0, 500, Game.WIDTH, 200);
+    private OrderTable orderTable = new OrderTable(0, 500, Game.WIDTH, 250);
     private OrderBackground background = new OrderBackground(0, 0, Game.WIDTH, 500);
-    private Customer customer = new Customer(Game.WIDTH, 180, 260, 420);
+    public Customer customer = new Customer(Game.WIDTH, 180, 260, 420);
     private Timer timer;
     public OrderStation(GameMenu.GamePanel parent) {
         this.parent = parent;

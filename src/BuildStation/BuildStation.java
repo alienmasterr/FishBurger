@@ -81,6 +81,10 @@ public class BuildStation {
                 activeTicket.setY(517);
                 parent.orderState = OrderState.RATING_ORDER;
                 parent.panelState = PanelState.RATING_STATION;
+                parent.ratingStation.setBurgerResult(burgerProducts);
+                parent.ratingStation.setCustomer(parent.orderStation.customer);
+                parent.ratingStation.setReceipt(ticket.getReceipt());
+                parent.ratingStation.setTicketHolder(ticketHolder);
                 return;
             }
             lastTicket = activeTicket;

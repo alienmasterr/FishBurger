@@ -8,6 +8,8 @@ import Enums.PanelState;
 import GrillStation.GrillStation;
 import Menu.MenuElements.TicketPin;
 import OrderStation.OrderStation;
+import RatingStation.RatingStation;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -43,9 +45,10 @@ public class GameMenu extends JPanel{
         /****/
 
         public TicketPin pin = new TicketPin(680, 0, 340, 140);
-        private OrderStation orderStation = new OrderStation(this);
+        public OrderStation orderStation = new OrderStation(this);
         private BuildStation buildStation = new BuildStation(this);
         private GrillStation grillStation = new GrillStation(this);
+        public RatingStation ratingStation = new RatingStation(this);
         public static boolean isRunning = true;
         public PanelState panelState;
         public GamePanel(PanelState state){
@@ -97,13 +100,13 @@ public class GameMenu extends JPanel{
                     orderStation.draw(g2d);
                     break;
                 case BUILD_STATION:
-                    //...
                     buildStation.draw(g2d);
                     break;
                 case GRILL_STATION:
-                    //...
-                    //new GrillStation();
                     grillStation.draw(g2d);
+                    break;
+                case RATING_STATION:
+                    ratingStation.draw(g2d);
                     break;
                 case GAME_MENU:
                     parent.setVisiblePanel(FrameState.MAIN_MENU);
