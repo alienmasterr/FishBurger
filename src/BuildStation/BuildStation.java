@@ -85,6 +85,7 @@ public class BuildStation {
                 parent.ratingStation.setCustomer(parent.orderStation.customer);
                 parent.ratingStation.setReceipt(ticket.getReceipt());
                 parent.ratingStation.setTicketHolder(ticketHolder);
+                parent.ratingStation.startRating();
                 return;
             }
             lastTicket = activeTicket;
@@ -235,6 +236,8 @@ public class BuildStation {
             int distY = trayProduct.getY() - lastActiveProduct.getY();
             double gDist = Math.sqrt(distX * distX + distY * distY);
             int steps = (int) ((gDist - 1) / 30);
+            if(steps == 0)
+                steps = 1;
             diffY = distY / steps;
             diffX = distX / steps;
         }

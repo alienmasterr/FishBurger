@@ -5,12 +5,21 @@ import Elements.Node;
 public class Customer extends Node {
     //дописати рандомайзер вибору картинок для кастомерів
     private int yVelocity = -2;
+    private String message = "";
     private OrderBubble bubble = new OrderBubble(200, 40, 300, 300);
     private EmptyBubble emptyBubble = new EmptyBubble(200, 40, 300, 300);
 
     public Customer(int x, int y, int width, int height) {
         super(x, y, width, height);
         setRandomImage();
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     private void setRandomImage(){
