@@ -18,32 +18,30 @@ import java.awt.event.ActionListener;
 import static Enums.PanelState.*;
 import static Menu.Game.mouse;
 
-public class GameMenu extends JPanel{
+public class GameMenu extends JPanel {
     private GamePanel gamePanel = new GamePanel(ORDER_STATION);
+    private MenuPanel menuPanel = new MenuPanel();
     private Game parent;
-    public GameMenu(Game parent){
+
+    public GameMenu(Game parent) {
         super();
         this.parent = parent;
         setStaticSize();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(Color.black);
-        MenuPanel menuPanel = new MenuPanel();
         add(gamePanel);
         add(menuPanel);
     }
-    private void setStaticSize(){
+
+    private void setStaticSize() {
         setPreferredSize(new Dimension(Game.WIDTH, Game.HEIGHT));
         setMaximumSize(new Dimension(Game.WIDTH, Game.HEIGHT));
         setMaximumSize(new Dimension(Game.WIDTH, Game.HEIGHT));
     }
 
-    public class GamePanel extends JPanel implements Runnable{
+    public class GamePanel extends JPanel implements Runnable {
         public OrderState orderState = OrderState.WAITING_CUSTOMER;
-
-        /****/
         public CookingState cookingState = CookingState.NO_MEAT;
-        /****/
-
         public TicketPin pin = new TicketPin(680, 0, 340, 140);
         public OrderStation orderStation = new OrderStation(this);
         private BuildStation buildStation = new BuildStation(this);
@@ -51,7 +49,8 @@ public class GameMenu extends JPanel{
         public RatingStation ratingStation = new RatingStation(this);
         public static boolean isRunning = true;
         public PanelState panelState;
-        public GamePanel(PanelState state){
+
+        public GamePanel(PanelState state) {
             super();
             this.panelState = state;
             setup();
@@ -59,8 +58,14 @@ public class GameMenu extends JPanel{
             gameThread.start();
         }
 
-        private void setup(){
-            setMaximumSize(new Dimension(Game.WIDTH, (int) (Game.HEIGHT*0.9)));
+       public void toggleButtons(){
+            menuPanel.buildStation.toggle();
+            menuPanel.grillStation.toggle();
+            menuPanel.orderStation.toggle();
+       }
+
+        private void setup() {
+            setMaximumSize(new Dimension(Game.WIDTH, (int) (Game.HEIGHT * 0.9)));
             setBackground(Color.darkGray);
             addMouseMotionListener(mouse);
             addMouseListener(mouse);
@@ -73,11 +78,11 @@ public class GameMenu extends JPanel{
             double delta = 0;
             long lastTime = System.nanoTime();
             long currentTime;
-            while(isRunning){
+            while (isRunning) {
                 currentTime = System.nanoTime();
-                delta += (currentTime - lastTime)/drawInterval;
+                delta += (currentTime - lastTime) / drawInterval;
                 lastTime = currentTime;
-                if(delta >= 1) {
+                if (delta >= 1) {
                     update();
                     repaint();
                     delta--;
@@ -87,7 +92,7 @@ public class GameMenu extends JPanel{
 
         //тут оновлюються дані панелей
         private void update() {
-            if(orderState == OrderState.MAKING_ORDER)
+            if (orderState == OrderState.MAKING_ORDER)
                 orderStation.updateTime();
         }
 
@@ -96,7 +101,7 @@ public class GameMenu extends JPanel{
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g;
-            switch (panelState){
+            switch (panelState) {
                 case ORDER_STATION:
                     orderStation.draw(g2d);
                     break;
@@ -116,27 +121,28 @@ public class GameMenu extends JPanel{
         }
     }
 
-    private class MenuPanel extends JPanel{
+    private class MenuPanel extends JPanel {
         private PanelButton buildStation = new PanelButton("Build Station", BUILD_STATION);
         private PanelButton orderStation = new PanelButton("Order Station", ORDER_STATION);
         private PanelButton grillStation = new PanelButton("Grill Station", GRILL_STATION);
         private PanelButton menu = new PanelButton("Exit", GAME_MENU);
-        public MenuPanel(){
+
+        public MenuPanel() {
             super();
-            setMaximumSize(new Dimension(Game.WIDTH, (int) (Game.HEIGHT*0.1)));
+            setMaximumSize(new Dimension(Game.WIDTH, (int) (Game.HEIGHT * 0.1)));
             setBackground(Color.darkGray);
             setBorder(BorderFactory.createLineBorder(Color.darkGray, 15));
             setLayout(new BorderLayout(80, 50));
             setMenuButtons();
         }
 
-        private void setMenuButtons(){
+        private void setMenuButtons() {
             setSoundButton();
             setStationButtons();
             setMenuButton();
         }
 
-        private void setStationButtons(){
+        private void setStationButtons() {
             JPanel stationPanel = new JPanel();
             stationPanel.setBackground(Color.darkGray);
             stationPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -146,9 +152,9 @@ public class GameMenu extends JPanel{
             add(stationPanel, BorderLayout.CENTER);
         }
 
-        private void setSoundButton(){
+        private void setSoundButton() {
             JButton pause = new JButton("Vol");
-            pause.setPreferredSize(new Dimension((int) (Game.WIDTH*0.07), (int) (Game.WIDTH*0.05)));
+            pause.setPreferredSize(new Dimension((int) (Game.WIDTH * 0.07), (int) (Game.WIDTH * 0.05)));
             pause.setBackground(Color.black);
             pause.setForeground(Color.white);
             pause.addActionListener(new ActionListener() {
@@ -160,28 +166,36 @@ public class GameMenu extends JPanel{
             add(pause, BorderLayout.EAST);
         }
 
-        private void setMenuButton(){
-            menu.setPreferredSize(new Dimension((int) (Game.WIDTH*0.07), (int) (Game.WIDTH*0.05)));
+        private void setMenuButton() {
+            menu.setPreferredSize(new Dimension((int) (Game.WIDTH * 0.07), (int) (Game.WIDTH * 0.05)));
             add(menu, BorderLayout.WEST);
         }
 
-        private class PanelButton extends JButton{
+        private class PanelButton extends JButton {
+            private boolean active = true;
             private PanelState panelState;
-            public PanelButton(String text, PanelState panelState){
+
+            public PanelButton(String text, PanelState panelState) {
                 super(text);
                 this.panelState = panelState;
                 setup();
                 addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        if (!active)
+                            return;
                         gamePanel.panelState = panelState;
                     }
                 });
             }
 
-            private void setup(){
+            public void toggle() {
+                this.active = !active;
+            }
+
+            private void setup() {
                 setFocusPainted(false);
-                setPreferredSize(new Dimension((int) (Game.WIDTH*0.15), (int) (Game.HEIGHT*0.05)));
+                setPreferredSize(new Dimension((int) (Game.WIDTH * 0.15), (int) (Game.HEIGHT * 0.05)));
                 setForeground(Color.white);
                 setBackground(Color.black);
             }

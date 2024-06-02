@@ -60,6 +60,7 @@ public class MainMenu extends JPanel {
 
     private class EmptyButton extends JButton{
         private FrameState state;
+        private boolean active = true;
         public EmptyButton(FrameState state){
             super();
             this.state = state;
@@ -67,9 +68,15 @@ public class MainMenu extends JPanel {
             addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    if(!active)
+                        return;
                     parent.setVisiblePanel(state);
                 }
             });
+        }
+
+        public void toggle(){
+            this.active = !active;
         }
 
         private void hideVisibility(){
