@@ -27,6 +27,8 @@ public class RatingStation {
     private RatingBackground background = new RatingBackground(0, 0, Game.WIDTH, 500);
     private RatingTable ratingTable = new RatingTable(-200, 500, Game.WIDTH + 500, 270);
     private EmptyBubble emptyBubble = new EmptyBubble(200, 40, 300, 300);
+    private BackJar backJar = new BackJar(720, 390, 200, 250);
+    private FrontJar frontJar = new FrontJar(720, 390, 200, 250);
     private Timer timer;
 
     public RatingStation(GameMenu.GamePanel parent) {
@@ -70,6 +72,7 @@ public class RatingStation {
         switch (state) {
             case RATING -> drawRating(g2d);
             case SHOWING_RESULT -> drawResults(g2d);
+            case GETTING_MONEY -> drawGettingMoney(g2d);
         }
     }
 
@@ -83,21 +86,24 @@ public class RatingStation {
             pr.draw(g2d);
     }
 
+    private void drawGettingMoney(Graphics2D g2d){
+        frontJar.draw(g2d);
+        backJar.draw(g2d);
+        update();
+    }
+
     private void drawRating(Graphics2D g2d) {
+        frontJar.draw(g2d);
+        backJar.draw(g2d);
         drawThinkingBubble(g2d);
         drawDots(g2d);
         update();
     }
 
     private void drawResults(Graphics2D g2d) {
-        drawThinkingBubble(g2d);
-        if (getAverageRating() < 50) {
-            NegativeReaction negativeReaction = new NegativeReaction(297, 135, 100, 100);
-            negativeReaction.draw(g2d);
-        } else {
-            PositiveReaction positiveReaction = new PositiveReaction(297, 135, 100, 100);
-            positiveReaction.draw(g2d);
-        }
+        frontJar.draw(g2d);
+        backJar.draw(g2d);
+        drawEmotion(g2d);
         for (Node rb : ratingBalloons)
             rb.draw(g2d);
         for(int i = 0; i < 3; i++){
@@ -109,13 +115,24 @@ public class RatingStation {
         update();
     }
 
+    private void drawEmotion(Graphics2D g2d){
+        drawThinkingBubble(g2d);
+        if (getAverageRating() < 50) {
+            NegativeReaction negativeReaction = new NegativeReaction(297, 135, 100, 100);
+            negativeReaction.draw(g2d);
+        } else {
+            PositiveReaction positiveReaction = new PositiveReaction(297, 135, 100, 100);
+            positiveReaction.draw(g2d);
+        }
+    }
+
     private void moveRatingBalloons() {
         if (ratingBalloons.getFirst().getY() <= 620) {
             startGetMoneyState();
             return;
         }
         for (Node rb : ratingBalloons)
-            rb.setY(rb.getY() - 1);
+            rb.setY(rb.getY() - 2);
     }
 
     private void startGetMoneyState() {
