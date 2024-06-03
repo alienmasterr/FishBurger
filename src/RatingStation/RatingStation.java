@@ -29,6 +29,7 @@ public class RatingStation {
     private EmptyBubble emptyBubble = new EmptyBubble(200, 40, 300, 300);
     private BackJar backJar = new BackJar(720, 390, 200, 250);
     private FrontJar frontJar = new FrontJar(720, 390, 200, 250);
+    private Coin coin = new Coin(790,-100, 50, 50);
     private Timer timer;
 
     public RatingStation(GameMenu.GamePanel parent) {
@@ -73,6 +74,8 @@ public class RatingStation {
             case RATING -> drawRating(g2d);
             case SHOWING_RESULT -> drawResults(g2d);
             case GETTING_MONEY -> drawGettingMoney(g2d);
+            case WALKING_AWAY -> drawWalkingAway(g2d);
+            case RESTARTING -> restartGame();
         }
     }
 
@@ -86,10 +89,49 @@ public class RatingStation {
             pr.draw(g2d);
     }
 
-    private void drawGettingMoney(Graphics2D g2d){
-        frontJar.draw(g2d);
+    private void restartGame(){
+//        clearValues();
+        parent.restartGame();
+    }
+
+    private void clearValues(){
+        ratingValues.clear();
+        ratingBalloons.clear();
+    }
+
+    private void drawWalkingAway(Graphics2D g2d){
+        fish.waitForRating();
         backJar.draw(g2d);
+        coin.draw(g2d);
+        frontJar.draw(g2d);
+        moveCustomerToExit();
+    }
+
+    private void moveCustomerToExit(){
+        if(customer.getX() < -300)
+            state = RatingState.RESTARTING;
+        customer.goToTable();
+    }
+
+    private void drawGettingMoney(Graphics2D g2d){
+        backJar.draw(g2d);
+        coin.draw(g2d);
+        frontJar.draw(g2d);
+        drawRatingBalloons(g2d);
+        moveCoin();
+        withdrawRatingBalloons();
         update();
+    }
+
+    private void withdrawRatingBalloons(){
+        for (Node rb : ratingBalloons)
+            rb.setY(rb.getY() + 2);
+    }
+
+    private void moveCoin(){
+        if(coin.getY()+50 >= 390+200)
+            state = RatingState.WALKING_AWAY;
+        coin.setY(coin.getY()+8);
     }
 
     private void drawRating(Graphics2D g2d) {
@@ -104,6 +146,12 @@ public class RatingStation {
         frontJar.draw(g2d);
         backJar.draw(g2d);
         drawEmotion(g2d);
+        drawRatingBalloons(g2d);
+        moveRatingBalloons();
+        update();
+    }
+
+    private void drawRatingBalloons(Graphics2D g2d){
         for (Node rb : ratingBalloons)
             rb.draw(g2d);
         for(int i = 0; i < 3; i++){
@@ -111,8 +159,6 @@ public class RatingStation {
             g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 20));
             g2d.drawString(ratingValues.get(i), ratingBalloons.get(i).getX()+40, ratingBalloons.get(i).getY()+50);
         }
-        moveRatingBalloons();
-        update();
     }
 
     private void drawEmotion(Graphics2D g2d){
@@ -138,7 +184,7 @@ public class RatingStation {
     private void startGetMoneyState() {
         if (timer != null)
             return;
-        timer = new Timer(5000, new ActionListener() {
+        timer = new Timer(3000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 state = RatingState.GETTING_MONEY;

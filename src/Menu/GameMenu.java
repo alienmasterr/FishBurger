@@ -1,10 +1,7 @@
 package Menu;
 
 import BuildStation.BuildStation;
-import Enums.CookingState;
-import Enums.FrameState;
-import Enums.OrderState;
-import Enums.PanelState;
+import Enums.*;
 import GrillStation.GrillStation;
 import Menu.MenuElements.TicketPin;
 import OrderStation.OrderStation;
@@ -56,6 +53,10 @@ public class GameMenu extends JPanel {
             setup();
             Thread gameThread = new Thread(this);
             gameThread.start();
+        }
+
+        public void restartGame(){
+            parent.startGame(LevelState.LEVEL1);
         }
 
        public void toggleButtons(){

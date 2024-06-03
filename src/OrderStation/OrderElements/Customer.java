@@ -53,6 +53,4 @@ public class Customer extends Node {
         y+=yVelocity;
         yVelocity*=2;
     }
-
-
 }

@@ -4,7 +4,8 @@ public enum RatingState {
     RATING(1),
     SHOWING_RESULT(2),
     GETTING_MONEY(3),
-    WALKING_AWAY(4);
+    WALKING_AWAY(4),
+    RESTARTING(5);
     private int state;
     RatingState(int state) {
         this.state = state;
