@@ -18,7 +18,7 @@ public class GrillStation {
     private GameMenu.GamePanel parent;
     private Timer timer;
 
-    private Meat meat;
+//    private Meat meat;
     private ArrayList<Meat> meatArrayList = new ArrayList<>();
 
     Mince mince = new Mince(Game.WIDTH / 10, Game.HEIGHT - Game.HEIGHT / 3, 50, 50);
@@ -86,22 +86,6 @@ private void addMouseListeners() {
         return meat.getX() == x && meat.getY() == y;
     }
 
-////    private void takeMeat() {
-////        if (parent.mouse.pressed && parent.mouse.x >= getMeat().getX() && parent.mouse.x <= getMeat().getX() + 200 && parent.mouse.y <= getMeat().getY() + 200  && parent.mouse.y >= getMeat().getY()){
-////            System.out.println("Taking Meat");
-////        }
-//////            parent.orderState = OrderState.CUSTOMER_ORDERING;
-////    }
-//
-//    public Meat getMeat(){
-//        return meat;
-//    }
-
-
-//
-//    //свої дані
-//
-
     //метод що відмальовує панель
     public void draw(Graphics2D g2d) {
         drawBase(g2d);
@@ -122,12 +106,12 @@ private void addMouseListeners() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //meat.grilling();
-                for (Meat meat : meatArrayList) {
-                    meat.grilling();
-                }
+               // for (Meat meat : meatArrayList) {
+                    selectedMeat.grilling();
+               // }
                 counter++;
                 if (counter == 10) {
-//                    System.out.println("10 sec");
+                    System.out.println("10 sec");
                     System.out.println("перейшли в режим м'ясо готове");
                     parent.cookingState = CookingState.MEAT_READY;
                 } else if (counter == 30) {
@@ -174,10 +158,10 @@ private void addMouseListeners() {
         drawNewMeat(g2d);
 //        BurningSign burningSign = new BurningSign(meat.getX(), meat.getY(), 50, 50);
 //        burningSign.draw(g2d);
-        for (Meat meat : meatArrayList) {
-            BurningSign burningSign = new BurningSign(meat.getX(), meat.getY(), 50, 50);
+       // for (Meat meat : meatArrayList) {
+            BurningSign burningSign = new BurningSign(selectedMeat.getX(), selectedMeat.getY(), 50, 50);
             burningSign.draw(g2d);
-        }
+        //}
     }
 
     private void noMeat(Graphics2D g2d) {
