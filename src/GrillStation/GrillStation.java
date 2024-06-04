@@ -65,9 +65,9 @@ private void addMouseListeners() {
                 if (thisX >= trash.getX() && thisX <= trash.getX() + trash.getWidth() && thisY >= trash.getY() && thisY <= trash.getY() + trash.getHeight()) {
                     System.out.println("перейшли в режим м'со викинуто");
                     parent.cookingState = CookingState.MEAT_SHROWN_AWAY;
-                    meatArrayList.remove(selectedMeat); // Видаляємо об'єкт м'яса зі списку
-                    selectedMeat = null; // Скидаємо обраний об'єкт м'яса
-                    return; // Виходимо з методу, щоб уникнути подальшого виконання
+                    meatArrayList.remove(selectedMeat);
+                    selectedMeat = null;
+                    return;
                 }
 
                 int xMoved = e.getX() - initialClick.x;
