@@ -33,13 +33,18 @@ public class GrillStation {
 
     public static boolean sentMeat = false;
 
+//    public static boolean rawMeat = false;
+//    public static boolean rawMeat1 = false;
+//    public static boolean burntMeat = false;
+//    public static boolean overCookedMeat = false;
+//    public static boolean meat = false;
+
     public GrillStation(GameMenu.GamePanel parent) {
         this.parent = parent;
         addMouseListeners();
     }
 
     private boolean meatTaken = false;
-
 
     private void addMouseListeners() {
         parent.addMouseListener(new MouseAdapter() {
@@ -139,8 +144,8 @@ public class GrillStation {
             @Override
             public void actionPerformed(ActionEvent e) {
                 grillingMeatArrayList.add(selectedMeat);
-                //todo проблеми з видаленням
-                //todo не можу взятися за будь яке м'яс лише останнє
+                // проблеми з видаленням
+                // не можу взятися за будь яке м'яс лише останнє
                meatArrayList.remove(selectedMeat);
                 //коли я звідси прибираю м'ясо, мені далі треба весь код підлаштувати щоб воно хендлило
                 //арей смаженого м'яса
@@ -151,11 +156,39 @@ public class GrillStation {
                     }
                 }
                 counter++;
-                if (counter == 10) {
+                if(counter==5){
+//                    rawMeat=false;
+//                    rawMeat1=true;
+//                    overCookedMeat=false;
+//                    burntMeat=false;
+//                    meat=false;
+                }
+               else if (counter == 10) {
                     System.out.println("10 sec");
-                    // System.out.println("перейшли в режим м'ясо готове");
+
+//                    rawMeat = false;
+//                    rawMeat1 = false;
+//                    overCookedMeat = false;
+//                    burntMeat = false;
+//                    meat = true;
+
                     parent.cookingState = CookingState.MEAT_READY;
+                }else if (counter == 20) {
+
+//                    rawMeat = false;
+//                    rawMeat1 = false;
+//                    overCookedMeat = true;
+//                    burntMeat = false;
+//                    meat = false;
+
                 } else if (counter == 30) {
+
+//                    rawMeat = false;
+//                    rawMeat1 = false;
+//                    overCookedMeat = false;
+//                    burntMeat = true;
+//                    meat = false;
+
                     timer.stop();
                     parent.cookingState = CookingState.MEAT_BURNING;
                 }
@@ -174,6 +207,13 @@ public class GrillStation {
 
     private void activateMinceButton() {
         if (Game.mouse.pressed && Game.mouse.x >= mince.getX() && Game.mouse.x <= mince.getX() + 200 && Game.mouse.y <= mince.getY() + 200 && Game.mouse.y >= mince.getY()) {
+
+//            rawMeat=true;
+//            rawMeat1=false;
+//            overCookedMeat=false;
+//            burntMeat=false;
+//            meat=false;
+
             meatArrayList.add(new Meat(0, 300, 100, 100));
             parent.cookingState = CookingState.MEAT_NOT_READY;
         }
