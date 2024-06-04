@@ -36,50 +36,7 @@ public class GrillStation {
 
     private boolean meatTaken = false;
 
-//    private void addMouseListeners() {
-////        parent.addMouseListener(new MouseAdapter() {
-////            @Override
-////            public void mousePressed(MouseEvent e) {
-////                if(meat!=null){
-////                    if (e.getX() >= meat.getX() && e.getX() <= meat.getX() + 200 && e.getY() >= meat.getY() && e.getY() <= meat.getY() + 200) {
-////                        initialClick = e.getPoint();
-////
-////
-////                    }
-////                }
-////
-////            }
-////        });
-//
-//        //
-//        parent.addMouseMotionListener(new MouseMotionAdapter() {
-//
-//            @Override
-//            public void mouseDragged(MouseEvent e) {
-//                if (!meatTaken && initialClick != null) {
-//                    int thisX = meat.getX();
-//                    int thisY = meat.getY();
-////                    System.out.println("thisX: " + thisX + " thisY: " + thisY);
-//                    if (thisX >= grillBoard.getX() && thisX <= grillBoard.getX() + grillBoard.getWidth() && thisY >= grillBoard.getY() && thisY <= grillBoard.getY() + grillBoard.getHeight()) {
-//
-//                        parent.cookingState = CookingState.MEAT_GRILLING;
-//                        System.out.println("перейшли в режим смаження");
-//                    }
-//
-//                    if (thisX >= trash.getX() && thisX <= trash.getX() + trash.getWidth() && thisY >= trash.getY() && thisY <= trash.getY() + trash.getHeight()) {
-//                        System.out.println("перейшли в режим м'со викинуто");
-//                        parent.cookingState = CookingState.MEAT_SHROWN_AWAY;
-//                    }
-//                    int xMoved = e.getX() - initialClick.x;
-//                    int yMoved = e.getY() - initialClick.y;
-//                    int X = thisX + xMoved;
-//                    int Y = thisY + yMoved;
-//                    meat.setPosition(X, Y);
-//                    initialClick = e.getPoint();
-//                }
-//            }
-//        });
-//    }
+
 private void addMouseListeners() {
     parent.addMouseListener(new MouseAdapter() {
         @Override
@@ -87,7 +44,7 @@ private void addMouseListeners() {
             for (Meat meat : meatArrayList) {
                 if (e.getX() >= meat.getX() && e.getX() <= meat.getX() + 200 && e.getY() >= meat.getY() && e.getY() <= meat.getY() + 200) {
                     initialClick = e.getPoint();
-                    selectedMeat = meat; // Зберігаємо обраний об'єкт м'яса
+                    selectedMeat = meat;
                     break;
                 }
             }
