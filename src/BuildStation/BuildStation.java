@@ -5,6 +5,8 @@ import Elements.Node;
 import Enums.BuildState;
 import Enums.OrderState;
 import Enums.PanelState;
+import GrillStation.GrillStation;
+import GrillStation.GrillStationElements.Meat;
 import Menu.*;
 import Menu.MenuElements.Ticket;
 import Products.Product;
@@ -28,6 +30,9 @@ public class BuildStation {
     private int diffX = -1;
     private int diffY = -1;
 
+//    private Meat[] meatArray = new Meat[GrillStation.numOfMeat];
+private ArrayList<Meat> meatArrayList = new ArrayList<>();
+
     public BuildStation(GameMenu.GamePanel parent) {
         this.parent = parent;
         fillTrays();
@@ -48,6 +53,21 @@ public class BuildStation {
         switch (buildState) {
             case BUILDING -> drawBase(g2d);
             case PUTTING_TICKET -> drawTicketBase(g2d);
+        }
+        drawMeat(g2d);
+    }
+
+/*
+додаю м'ясо
+ */
+    public void drawMeat(Graphics2D g2d){
+        if(GrillStation.sentMeat){
+            meatArrayList.add(new Meat(500, 300, 100, 100));
+        }
+        if(!meatArrayList.isEmpty()){
+            for (Meat meat : meatArrayList) {
+                meat.draw(g2d);
+            }
         }
     }
 

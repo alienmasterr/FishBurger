@@ -42,6 +42,10 @@ public class Node {
         return image;
     }
 
+    public void setImage(String fileName) {
+        this.src = fileName;
+    }
+
     public void draw(Graphics2D g2d) {
         g2d.drawImage(image, x, y, width, height, null);
     }

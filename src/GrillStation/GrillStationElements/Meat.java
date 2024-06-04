@@ -1,14 +1,29 @@
 package GrillStation.GrillStationElements;
 
 import Elements.Node;
+import Menu.GameMenu;
+
+import java.awt.image.BufferedImage;
 
 public class Meat extends Node {
-
-
+    private String path;
     public Meat(int x, int y, int width, int height) {
         super(x, y, width, height);
-        image = getImage("/meat/meat.png");
+        String path = "/meat/meat.png";
+        image = getImage(path);
     }
+
+    public Meat(int x, int y, int width, int height, String path) {
+        super(x, y, width, height);
+        image = getImage(path);
+    }
+
+     public String getPath(){
+        return path;
+     }
+     public void setPath(String path){
+        this.path = path;
+     }
 
     public void setPosition(int x, int y) {
         this.x = x;
@@ -26,56 +41,5 @@ public class Meat extends Node {
         y += yVelocity;
         yVelocity *= -1;
     }
-
-
-//    public void reduceTime() {
-//        Timer timer = new Timer();
-//        timer.schedule(new TimerTask() {
-//            int secondsPassed = 0;
-//
-//            @Override
-//            public void run() {
-//                secondsPassed++;
-//                //System.out.println("Seconds passed: " + secondsPassed);
-//                if (secondsPassed >= 60) {
-//                    timer.cancel();
-//                }
-//            }
-//        }, 0, 1000);
-//
-//    }
-
-
-//    public double getOrderNumber() {
-//        return orderNumber;
-//    }
-//
-//    public void setOrderNumber(double orderNumber) {
-//        this.orderNumber = orderNumber;
-//    }
-//
-//    public double getTimeTillReady() {
-//        return timeTillReady;
-//    }
-//
-//    public void setTimeTillReady(double timeTillReady) {
-//        this.timeTillReady = timeTillReady;
-//    }
-//
-//    public int getxCoordinate() {
-//        return xCoordinate;
-//    }
-//
-//    public void setxCoordinate(int xCoordinate) {
-//        this.xCoordinate = xCoordinate;
-//    }
-//
-//    public int getyCoordinate() {
-//        return yCoordinate;
-//    }
-//
-//    public void setyCoordinate(int yCoordinate) {
-//        this.yCoordinate = yCoordinate;
-//    }
 }
 

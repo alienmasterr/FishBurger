@@ -6,6 +6,7 @@ public enum CookingState {
     MEAT_NOT_READY(2),
     MEAT_READY(3),
     NO_MEAT(4),
+    MEAT_SENT_TO_BD(6),
     MEAT_SHROWN_AWAY(5);
 
     private int state;

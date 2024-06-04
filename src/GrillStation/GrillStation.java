@@ -20,14 +20,17 @@ public class GrillStation {
 
 //    private Meat meat;
     private ArrayList<Meat> meatArrayList = new ArrayList<>();
+    private ArrayList<Meat> grillingMeatArrayList = new ArrayList<>();
 
-    Mince mince = new Mince(Game.WIDTH / 10, Game.HEIGHT - Game.HEIGHT / 3, 50, 50);
+    Mince mince = new Mince(Game.WIDTH / 10, Game.HEIGHT - Game.HEIGHT / 2+Game.HEIGHT/10, 100, 100);
     private final Trash trash = new Trash(Game.WIDTH / 12, Game.HEIGHT / 2 - Game.HEIGHT / 4, 100, 100);
     private final Plate plate = new Plate(Game.WIDTH / 2 + Game.WIDTH / 3, Game.HEIGHT / 2 + Game.HEIGHT / 6, 100, 100);
-    private final GrillBoard grillBoard = new GrillBoard(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 6, Game.WIDTH / 2, Game.HEIGHT / 2);
+    private final GrillBoard grillBoard = new GrillBoard(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 6, Game.WIDTH / 2, Game.HEIGHT / 3);
 
     private Point initialClick;
     private Meat selectedMeat = null;
+
+    public static boolean sentMeat=false;
 
     public GrillStation(GameMenu.GamePanel parent) {
         this.parent = parent;
@@ -42,7 +45,7 @@ private void addMouseListeners() {
         @Override
         public void mousePressed(MouseEvent e) {
             for (Meat meat : meatArrayList) {
-                if (e.getX() >= meat.getX() && e.getX() <= meat.getX() + 200 && e.getY() >= meat.getY() && e.getY() <= meat.getY() + 200) {
+                if (e.getX() >= meat.getX() && e.getX() <= meat.getX()+200  && e.getY() >= meat.getY() && e.getY() <= meat.getY() +200) {
                     initialClick = e.getPoint();
                     selectedMeat = meat;
                     break;
@@ -59,13 +62,23 @@ private void addMouseListeners() {
                 int thisY = selectedMeat.getY();
                 if (thisX >= grillBoard.getX() && thisX <= grillBoard.getX() + grillBoard.getWidth() && thisY >= grillBoard.getY() && thisY <= grillBoard.getY() + grillBoard.getHeight()) {
                     parent.cookingState = CookingState.MEAT_GRILLING;
-                    System.out.println("перейшли в режим смаження");
+                   // System.out.println("перейшли в режим смаження");
                 }
 
                 if (thisX >= trash.getX() && thisX <= trash.getX() + trash.getWidth() && thisY >= trash.getY() && thisY <= trash.getY() + trash.getHeight()) {
-                    System.out.println("перейшли в режим м'со викинуто");
+                    //System.out.println("перейшли в режим м'со викинуто");
                     parent.cookingState = CookingState.MEAT_SHROWN_AWAY;
                     meatArrayList.remove(selectedMeat);
+                    selectedMeat = null;
+                    return;
+                }
+
+                if(thisX >= plate.getX() && thisX <= plate.getX() + plate.getWidth() && thisY >= plate.getY() && thisY <= plate.getY() + plate.getHeight()){
+                    parent.cookingState = CookingState.MEAT_SENT_TO_BD;
+                    System.out.println("sent");
+                    meatArrayList.remove(selectedMeat);
+                    //numOfMeat++;
+                    sentMeat = true;
                     selectedMeat = null;
                     return;
                 }
@@ -81,7 +94,6 @@ private void addMouseListeners() {
     });
 }
 
-
     public boolean areaOccupied(int x, int y, Meat meat) {
         return meat.getX() == x && meat.getY() == y;
     }
@@ -89,30 +101,34 @@ private void addMouseListeners() {
     //метод що відмальовує панель
     public void draw(Graphics2D g2d) {
         drawBase(g2d);
+
         switch (parent.cookingState) {
             case NO_MEAT -> createMeat(g2d);
             case MEAT_NOT_READY -> drawNewMeat(g2d);
             case MEAT_GRILLING -> grillingMeat(g2d);
             case MEAT_READY -> readyMeat(g2d);
-            case MEAT_BURNING -> meatBurnt(g2d);
+            case MEAT_BURNING -> meatBurnt(g2d) ;
             case MEAT_SHROWN_AWAY -> noMeat(g2d);
+            case MEAT_SENT_TO_BD -> readyMeat(g2d);
         }
     }
 
     int counter = 0;
-
     public void setupTimer() {
         this.timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //meat.grilling();
-               // for (Meat meat : meatArrayList) {
-                    selectedMeat.grilling();
-               // }
+                    grillingMeatArrayList.add(selectedMeat);
+                    System.out.println("додали");
+                    for(Meat meat : grillingMeatArrayList) {
+                        if(meat!=null){
+                            meat.grilling();
+                        }
+                    }
                 counter++;
                 if (counter == 10) {
                     System.out.println("10 sec");
-                    System.out.println("перейшли в режим м'ясо готове");
+                   // System.out.println("перейшли в режим м'ясо готове");
                     parent.cookingState = CookingState.MEAT_READY;
                 } else if (counter == 30) {
                     timer.stop();
@@ -123,9 +139,9 @@ private void addMouseListeners() {
     }
 
 
+
     private void createMeat(Graphics2D g2d) {
         grillBoard.draw(g2d);
-//        System.out.println("перемалювали");
         plate.draw(g2d);
         trash.draw(g2d);
         mince.draw(g2d);
@@ -134,13 +150,8 @@ private void addMouseListeners() {
 
         private void activateMinceButton(){
             if (Game.mouse.pressed && Game.mouse.x >= mince.getX() && Game.mouse.x <= mince.getX() + 200 && Game.mouse.y <= mince.getY() + 200 && Game.mouse.y >= mince.getY()) {
-                System.out.println("тапається");
-                //meat = new Meat(0, 300, 100, 100);
                 meatArrayList.add(new Meat(0, 300, 100, 100));
-
-//
                 parent.cookingState = CookingState.MEAT_NOT_READY;
-                System.out.println("перейшли в режим м'ясо не готове");
             }
         }
 
@@ -156,12 +167,8 @@ private void addMouseListeners() {
 
     private void meatBurnt(Graphics2D g2d) {
         drawNewMeat(g2d);
-//        BurningSign burningSign = new BurningSign(meat.getX(), meat.getY(), 50, 50);
-//        burningSign.draw(g2d);
-       // for (Meat meat : meatArrayList) {
             BurningSign burningSign = new BurningSign(selectedMeat.getX(), selectedMeat.getY(), 50, 50);
             burningSign.draw(g2d);
-        //}
     }
 
     private void noMeat(Graphics2D g2d) {
@@ -194,8 +201,6 @@ private void addMouseListeners() {
         plate.draw(g2d);
         trash.draw(g2d);
 
-
-
         for (Meat meat : meatArrayList) {
             meat.draw(g2d);
         }
@@ -206,7 +211,6 @@ private void addMouseListeners() {
     private void drawBase(Graphics2D g2d) {
         g2d.setColor(Color.lightGray);
         g2d.fillRect(0, Game.HEIGHT / 5, Game.WIDTH, Game.HEIGHT - Game.HEIGHT / 5);
-
     }
 
 
