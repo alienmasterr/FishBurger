@@ -10,6 +10,7 @@ import Menu.Game;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.*;
 
 public class GrillStation {
@@ -18,14 +19,15 @@ public class GrillStation {
     private Timer timer;
 
     private Meat meat;
-    //    private Meat meat = new Meat(0, 300, 100, 100);
+    private ArrayList<Meat> meatArrayList = new ArrayList<>();
+
     Mince mince = new Mince(Game.WIDTH / 10, Game.HEIGHT - Game.HEIGHT / 3, 50, 50);
     private final Trash trash = new Trash(Game.WIDTH / 12, Game.HEIGHT / 2 - Game.HEIGHT / 4, 100, 100);
     private final Plate plate = new Plate(Game.WIDTH / 2 + Game.WIDTH / 3, Game.HEIGHT / 2 + Game.HEIGHT / 6, 100, 100);
     private final GrillBoard grillBoard = new GrillBoard(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 6, Game.WIDTH / 2, Game.HEIGHT / 2);
 
     private Point initialClick;
-
+    private Meat selectedMeat = null;
 
     public GrillStation(GameMenu.GamePanel parent) {
         this.parent = parent;
@@ -34,46 +36,93 @@ public class GrillStation {
 
     private boolean meatTaken = false;
 
-    private void addMouseListeners() {
-        parent.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if(meat!=null){
-                    if (e.getX() >= meat.getX() && e.getX() <= meat.getX() + 200 && e.getY() >= meat.getY() && e.getY() <= meat.getY() + 200) {
-                        initialClick = e.getPoint();
-                    }
-                }
-
-            }
-        });
-        parent.addMouseMotionListener(new MouseMotionAdapter() {
-
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                if (!meatTaken && initialClick != null) {
-                    int thisX = meat.getX();
-                    int thisY = meat.getY();
-//                    System.out.println("thisX: " + thisX + " thisY: " + thisY);
-                    if (thisX >= grillBoard.getX() && thisX <= grillBoard.getX() + grillBoard.getWidth() && thisY >= grillBoard.getY() && thisY <= grillBoard.getY() + grillBoard.getHeight()) {
-
-                        parent.cookingState = CookingState.MEAT_GRILLING;
-                        System.out.println("перейшли в режим смаження");
-                    }
-
-                    if (thisX >= trash.getX() && thisX <= trash.getX() + trash.getWidth() && thisY >= trash.getY() && thisY <= trash.getY() + trash.getHeight()) {
-                        System.out.println("перейшли в режим м'со викинуто");
-                        parent.cookingState = CookingState.MEAT_SHROWN_AWAY;
-                    }
-                    int xMoved = e.getX() - initialClick.x;
-                    int yMoved = e.getY() - initialClick.y;
-                    int X = thisX + xMoved;
-                    int Y = thisY + yMoved;
-                    meat.setPosition(X, Y);
+//    private void addMouseListeners() {
+////        parent.addMouseListener(new MouseAdapter() {
+////            @Override
+////            public void mousePressed(MouseEvent e) {
+////                if(meat!=null){
+////                    if (e.getX() >= meat.getX() && e.getX() <= meat.getX() + 200 && e.getY() >= meat.getY() && e.getY() <= meat.getY() + 200) {
+////                        initialClick = e.getPoint();
+////
+////
+////                    }
+////                }
+////
+////            }
+////        });
+//
+//        //
+//        parent.addMouseMotionListener(new MouseMotionAdapter() {
+//
+//            @Override
+//            public void mouseDragged(MouseEvent e) {
+//                if (!meatTaken && initialClick != null) {
+//                    int thisX = meat.getX();
+//                    int thisY = meat.getY();
+////                    System.out.println("thisX: " + thisX + " thisY: " + thisY);
+//                    if (thisX >= grillBoard.getX() && thisX <= grillBoard.getX() + grillBoard.getWidth() && thisY >= grillBoard.getY() && thisY <= grillBoard.getY() + grillBoard.getHeight()) {
+//
+//                        parent.cookingState = CookingState.MEAT_GRILLING;
+//                        System.out.println("перейшли в режим смаження");
+//                    }
+//
+//                    if (thisX >= trash.getX() && thisX <= trash.getX() + trash.getWidth() && thisY >= trash.getY() && thisY <= trash.getY() + trash.getHeight()) {
+//                        System.out.println("перейшли в режим м'со викинуто");
+//                        parent.cookingState = CookingState.MEAT_SHROWN_AWAY;
+//                    }
+//                    int xMoved = e.getX() - initialClick.x;
+//                    int yMoved = e.getY() - initialClick.y;
+//                    int X = thisX + xMoved;
+//                    int Y = thisY + yMoved;
+//                    meat.setPosition(X, Y);
+//                    initialClick = e.getPoint();
+//                }
+//            }
+//        });
+//    }
+private void addMouseListeners() {
+    parent.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mousePressed(MouseEvent e) {
+            for (Meat meat : meatArrayList) {
+                if (e.getX() >= meat.getX() && e.getX() <= meat.getX() + 200 && e.getY() >= meat.getY() && e.getY() <= meat.getY() + 200) {
                     initialClick = e.getPoint();
+                    selectedMeat = meat; // Зберігаємо обраний об'єкт м'яса
+                    break;
                 }
             }
-        });
-    }
+        }
+    });
+
+    parent.addMouseMotionListener(new MouseMotionAdapter() {
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            if (!meatTaken && initialClick != null && selectedMeat != null) {
+                int thisX = selectedMeat.getX();
+                int thisY = selectedMeat.getY();
+                if (thisX >= grillBoard.getX() && thisX <= grillBoard.getX() + grillBoard.getWidth() && thisY >= grillBoard.getY() && thisY <= grillBoard.getY() + grillBoard.getHeight()) {
+                    parent.cookingState = CookingState.MEAT_GRILLING;
+                    System.out.println("перейшли в режим смаження");
+                }
+
+                if (thisX >= trash.getX() && thisX <= trash.getX() + trash.getWidth() && thisY >= trash.getY() && thisY <= trash.getY() + trash.getHeight()) {
+                    System.out.println("перейшли в режим м'со викинуто");
+                    parent.cookingState = CookingState.MEAT_SHROWN_AWAY;
+                    meatArrayList.remove(selectedMeat); // Видаляємо об'єкт м'яса зі списку
+                    selectedMeat = null; // Скидаємо обраний об'єкт м'яса
+                    return; // Виходимо з методу, щоб уникнути подальшого виконання
+                }
+
+                int xMoved = e.getX() - initialClick.x;
+                int yMoved = e.getY() - initialClick.y;
+                int X = thisX + xMoved;
+                int Y = thisY + yMoved;
+                selectedMeat.setPosition(X, Y);
+                initialClick = e.getPoint();
+            }
+        }
+    });
+}
 
 
     public boolean areaOccupied(int x, int y, Meat meat) {
@@ -115,7 +164,10 @@ public class GrillStation {
         this.timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                meat.grilling();
+                //meat.grilling();
+                for (Meat meat : meatArrayList) {
+                    meat.grilling();
+                }
                 counter++;
                 if (counter == 10) {
 //                    System.out.println("10 sec");
@@ -142,7 +194,9 @@ public class GrillStation {
         private void activateMinceButton(){
             if (Game.mouse.pressed && Game.mouse.x >= mince.getX() && Game.mouse.x <= mince.getX() + 200 && Game.mouse.y <= mince.getY() + 200 && Game.mouse.y >= mince.getY()) {
                 System.out.println("тапається");
-                meat = new Meat(0, 300, 100, 100);
+                //meat = new Meat(0, 300, 100, 100);
+                meatArrayList.add(new Meat(0, 300, 100, 100));
+
 //
                 parent.cookingState = CookingState.MEAT_NOT_READY;
                 System.out.println("перейшли в режим м'ясо не готове");
@@ -153,13 +207,20 @@ public class GrillStation {
 
     private void readyMeat(Graphics2D g2d) {
         drawNewMeat(g2d);
-        meat.beReady();
+        //meat.beReady();
+        for (Meat meat : meatArrayList) {
+            meat.beReady();
+        }
     }
 
     private void meatBurnt(Graphics2D g2d) {
         drawNewMeat(g2d);
-        BurningSign burningSign = new BurningSign(meat.getX(), meat.getY(), 50, 50);
-        burningSign.draw(g2d);
+//        BurningSign burningSign = new BurningSign(meat.getX(), meat.getY(), 50, 50);
+//        burningSign.draw(g2d);
+        for (Meat meat : meatArrayList) {
+            BurningSign burningSign = new BurningSign(meat.getX(), meat.getY(), 50, 50);
+            burningSign.draw(g2d);
+        }
     }
 
     private void noMeat(Graphics2D g2d) {
@@ -193,7 +254,12 @@ public class GrillStation {
         trash.draw(g2d);
 
 
-        meat.draw(g2d);
+
+        for (Meat meat : meatArrayList) {
+            meat.draw(g2d);
+        }
+
+//        meat.draw(g2d);
     }
 
     private void drawBase(Graphics2D g2d) {

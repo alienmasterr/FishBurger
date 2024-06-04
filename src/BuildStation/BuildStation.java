@@ -44,6 +44,7 @@ public class BuildStation {
     }
 
     public void draw(Graphics2D g2d) {
+
         switch (buildState) {
             case BUILDING -> drawBase(g2d);
             case PUTTING_TICKET -> drawTicketBase(g2d);
