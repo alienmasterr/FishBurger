@@ -3,6 +3,7 @@ package Menu;
 import BuildStation.BuildStation;
 import Enums.*;
 import GrillStation.GrillStation;
+import GrillStation.GrillStationElements.Meat;
 import Menu.MenuElements.TicketPin;
 import OrderStation.OrderStation;
 import RatingStation.RatingStation;
@@ -76,6 +77,10 @@ public class GameMenu extends JPanel {
             menuPanel.buildStation.toggle();
             menuPanel.grillStation.toggle();
             menuPanel.orderStation.toggle();
+       }
+
+       public void transferMeatToBuild(Meat meat){
+            buildStation.getMeatFromGrill(meat);
        }
 
         private void setup() {

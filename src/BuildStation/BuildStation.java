@@ -29,12 +29,16 @@ public class BuildStation {
     public BuildState buildState = BuildState.BUILDING;
     private int diffX = -1;
     private int diffY = -1;
-
-    public static final ArrayList<Meat> meatArrayList = new ArrayList<>();
+    private ArrayList<Product> allMeat = new ArrayList<>();
 
     public BuildStation(GameMenu.GamePanel parent) {
         this.parent = parent;
         fillTrays();
+    }
+
+    public void getMeatFromGrill(Meat meat){
+        meat.setPosition(250, 580);
+        allMeat.add(meat);
     }
 
     private void fillTrays() {
@@ -48,27 +52,15 @@ public class BuildStation {
     }
 
     public void draw(Graphics2D g2d) {
-
         switch (buildState) {
             case BUILDING -> drawBase(g2d);
             case PUTTING_TICKET -> drawTicketBase(g2d);
-        }
-        drawMeat(g2d);
-    }
-
-    /*
-    додаю м'ясо
-     */
-    public void drawMeat(Graphics2D g2d) {
-        if (!meatArrayList.isEmpty()) {
-            for (Meat meat : meatArrayList) {
-                meat.draw(g2d);
-            }
         }
     }
 
     private void drawBase(Graphics2D g2d) {
         background.draw(g2d);
+        drawMeat(g2d);
         for (int i = 0; i < 7; i++)
             productTrays[i].draw(g2d);
         for (Product product : burgerProducts)
@@ -76,6 +68,11 @@ public class BuildStation {
         if (lastActiveProduct != null)
             lastActiveProduct.draw(g2d);
         update();
+    }
+
+    private void drawMeat(Graphics2D g2d){
+        for(Product meat: allMeat)
+            meat.draw(g2d);
     }
 
     private void drawTicketBase(Graphics2D g2d) {
@@ -96,13 +93,8 @@ public class BuildStation {
             if (checkTicketLocation()) {
                 activeTicket.setX(308);
                 activeTicket.setY(517);
-                parent.orderState = OrderState.RATING_ORDER;
-                parent.panelState = PanelState.RATING_STATION;
-                parent.ratingStation.setBurgerResult(burgerProducts);
-                parent.ratingStation.setCustomer(parent.orderStation.customer);
                 parent.ratingStation.setReceipt(ticket.getReceipt());
-                parent.ratingStation.setTicketHolder(ticketHolder);
-                parent.ratingStation.startRating();
+                transferInfoForRating();
                 return;
             }
             lastTicket = activeTicket;
@@ -115,6 +107,15 @@ public class BuildStation {
         }
         updateTicketMovement();
         ticket.updateReceiptPosition();
+    }
+
+    private void transferInfoForRating(){
+        parent.orderState = OrderState.RATING_ORDER;
+        parent.panelState = PanelState.RATING_STATION;
+        parent.ratingStation.setBurgerResult(burgerProducts);
+        parent.ratingStation.setCustomer(parent.orderStation.customer);
+        parent.ratingStation.setTicketHolder(ticketHolder);
+        parent.ratingStation.startRating();
     }
 
     private boolean checkTicketLocation() {

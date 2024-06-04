@@ -101,7 +101,7 @@ public class GrillStation {
                     if (thisX >= plate.getX() && thisX <= plate.getX() + plate.getWidth() && thisY >= plate.getY() && thisY <= plate.getY() + plate.getHeight()) {
                         parent.cookingState = CookingState.MEAT_SENT_TO_BD;
                         System.out.println("sent");
-                        BuildStation.meatArrayList.add(selectedMeat);
+                        sendMeat(selectedMeat);
                         meatArrayList.remove(selectedMeat);
                         //numOfMeat++;
                         sentMeat = true;
@@ -118,6 +118,10 @@ public class GrillStation {
                 }
             }
         });
+    }
+
+    private void sendMeat(Meat meat){
+        parent.transferMeatToBuild(meat);
     }
 
 //    public boolean areaOccupied(int x, int y, Meat meat) {

@@ -3,10 +3,11 @@ package GrillStation.GrillStationElements;
 import Elements.Node;
 import GrillStation.GrillStation;
 import Menu.GameMenu;
+import Products.Product;
 
 import java.awt.image.BufferedImage;
 
-public class Meat extends Node {
+public class Meat extends Product {
     private String path;
 
     public Meat(int x, int y, int width, int height) {
