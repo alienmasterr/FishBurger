@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class TicketPin extends Node {
     private Ticket ticket;
+    private boolean drawTicket = true;
     public TicketPin(int x, int y, int width, int height) {
         super(x, y, width, height);
         image = getImage("/orderstation/ticketpin.png");
@@ -33,13 +34,16 @@ public class TicketPin extends Node {
         ticket.draw(g2d);
         if(ticket.isFilled()){
             ArrayList<Product> temp = ticket.getReceipt();
-            for(int i = 0; i < temp.size(); i++){
-//                temp.get(i).setX(835);
-//                temp.get(i).setY(407-(i*37));
-//                temp.get(i).setWidth(40);
-//                temp.get(i).setHeight(25);
-                temp.get(i).draw(g2d);
-            }
+            for (Product product : temp)
+                product.draw(g2d);
         }
+    }
+
+    public boolean isDrawTicket() {
+        return drawTicket;
+    }
+
+    public void setDrawTicket(boolean drawTicket) {
+        this.drawTicket = drawTicket;
     }
 }

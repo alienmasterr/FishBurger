@@ -19,6 +19,7 @@ public class GameMenu extends JPanel {
     private GamePanel gamePanel = new GamePanel(ORDER_STATION);
     private MenuPanel menuPanel = new MenuPanel();
     private Game parent;
+    public Thread gameThread;
 
     public GameMenu(Game parent) {
         super();
@@ -30,6 +31,10 @@ public class GameMenu extends JPanel {
         add(menuPanel);
     }
 
+    public void restart(){
+        gamePanel.restartGame();
+    }
+
     private void setStaticSize() {
         setPreferredSize(new Dimension(Game.WIDTH, Game.HEIGHT));
         setMaximumSize(new Dimension(Game.WIDTH, Game.HEIGHT));
@@ -37,6 +42,7 @@ public class GameMenu extends JPanel {
     }
 
     public class GamePanel extends JPanel implements Runnable {
+        public double money = 0;
         public OrderState orderState = OrderState.WAITING_CUSTOMER;
         public CookingState cookingState = CookingState.NO_MEAT;
         public TicketPin pin = new TicketPin(680, 0, 340, 140);
@@ -44,19 +50,26 @@ public class GameMenu extends JPanel {
         private BuildStation buildStation = new BuildStation(this);
         private GrillStation grillStation = new GrillStation(this);
         public RatingStation ratingStation = new RatingStation(this);
-        public static boolean isRunning = true;
+        public boolean isRunning = true;
         public PanelState panelState;
 
         public GamePanel(PanelState state) {
             super();
             this.panelState = state;
             setup();
-            Thread gameThread = new Thread(this);
+            gameThread = new Thread(this);
             gameThread.start();
         }
 
         public void restartGame(){
-            parent.startGame(LevelState.LEVEL1);
+            orderState = OrderState.WAITING_CUSTOMER;
+            cookingState = CookingState.NO_MEAT;
+            pin = new TicketPin(680, 0, 340, 140);
+            orderStation = new OrderStation(this);
+            buildStation = new BuildStation(this);
+            grillStation = new GrillStation(this);
+            ratingStation = new RatingStation(this);
+            panelState = ORDER_STATION;
         }
 
        public void toggleButtons(){
@@ -118,7 +131,8 @@ public class GameMenu extends JPanel {
                 case GAME_MENU:
                     parent.setVisiblePanel(FrameState.MAIN_MENU);
             }
-            pin.draw(g2d);
+            if(pin.isDrawTicket())
+                pin.draw(g2d);
         }
     }
 

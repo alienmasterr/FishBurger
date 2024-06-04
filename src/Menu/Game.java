@@ -53,7 +53,7 @@ public class Game extends JFrame {
 
     private void setBox(JPanel panel) {
         if(frameState == FrameState.GAME)
-            gameMenu = new GameMenu(this);
+            gameMenu.restart();
         box = new Box(BoxLayout.Y_AXIS);
         box.add(Box.createVerticalGlue());
         box.add(panel);

@@ -75,7 +75,7 @@ public class RatingStation {
             case SHOWING_RESULT -> drawResults(g2d);
             case GETTING_MONEY -> drawGettingMoney(g2d);
             case WALKING_AWAY -> drawWalkingAway(g2d);
-            case RESTARTING -> restartGame();
+            case RESTARTING -> restartGame(g2d);
         }
     }
 
@@ -89,14 +89,16 @@ public class RatingStation {
             pr.draw(g2d);
     }
 
-    private void restartGame(){
-//        clearValues();
-        parent.restartGame();
+    private void restartGame(Graphics2D g2d){
+        drawLoadingScreen(g2d);
     }
 
-    private void clearValues(){
-        ratingValues.clear();
-        ratingBalloons.clear();
+    private void drawLoadingScreen(Graphics2D g2d){
+        g2d.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+        g2d.setPaint(Color.WHITE);
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+        g2d.drawString(customer.getMessage(), (Game.WIDTH/2)-300, Game.HEIGHT/2);
+        g2d.setPaint(Color.black);
     }
 
     private void drawWalkingAway(Graphics2D g2d){
@@ -108,8 +110,24 @@ public class RatingStation {
     }
 
     private void moveCustomerToExit(){
-        if(customer.getX() < -300)
+        if(customer.getX() < -300) {
             state = RatingState.RESTARTING;
+            parent.pin.setDrawTicket(false);
+            parent.money = 5;
+            customer.setMessage("Waiting for the next customer");
+            timer = new Timer(1200, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    customer.setMessage(customer.getMessage()+".");
+                    if(customer.getMessage().length() == 34) {
+                        parent.pin.setDrawTicket(true);
+                        timer.stop();
+                        parent.restartGame();
+                    }
+                }
+            });
+            timer.start();
+        }
         customer.goToTable();
     }
 
