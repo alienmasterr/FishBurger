@@ -60,9 +60,6 @@ public class BuildStation {
     додаю м'ясо
      */
     public void drawMeat(Graphics2D g2d) {
-//        if (GrillStation.sentMeat) {
-//            meatArrayList.add(new Meat(500, 300, 100, 100));
-//        }
         if (!meatArrayList.isEmpty()) {
             for (Meat meat : meatArrayList) {
                 meat.draw(g2d);

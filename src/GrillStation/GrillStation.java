@@ -45,12 +45,27 @@ public class GrillStation {
         parent.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+
+                //ПРОБЛЕМА ТЯГАННЯ ТУТ
+                //якщо цей метод застосовувати до ліста, то можна тягати мишкою будь що будь коли
+                //але
+                //смажиться і стрибає лише котлета яку ти щойно перетягнув
                 for (Meat meat : meatArrayList) {
                     if (e.getX() >= meat.getX() && e.getX() <= meat.getX() + 100 && e.getY() >= meat.getY() && e.getY() <= meat.getY() + 200) {
                         initialClick = e.getPoint();
                         selectedMeat = meat;
                         break;
                     }
+                }
+                for (Meat meat : grillingMeatArrayList) {
+                    if(meat!=null){
+                        if (e.getX() >= meat.getX() && e.getX() <= meat.getX() + 100 && e.getY() >= meat.getY() && e.getY() <= meat.getY() + 200) {
+                            initialClick = e.getPoint();
+                            selectedMeat = meat;
+                            break;
+                        }
+                    }
+
                 }
             }
         });
@@ -67,9 +82,13 @@ public class GrillStation {
                     }
 
                     if (thisX >= trash.getX() && thisX <= trash.getX() + trash.getWidth() && thisY >= trash.getY() && thisY <= trash.getY() + trash.getHeight()) {
-                        //System.out.println("перейшли в режим м'со викинуто");
+                        System.out.println("перейшли в режим м'со викинуто");
                         parent.cookingState = CookingState.MEAT_SHROWN_AWAY;
+
+                        //todo можливо треба перевірка чи це м'ясо взагалі існує в цьому ареї
+                        //ПРОБЛЕМА З ВИДАЛЕННЯМ
                         meatArrayList.remove(selectedMeat);
+                        grillingMeatArrayList.remove(selectedMeat);
                         selectedMeat = null;
                         return;
                     }
@@ -96,32 +115,32 @@ public class GrillStation {
         });
     }
 
-    public boolean areaOccupied(int x, int y, Meat meat) {
-        return meat.getX() == x && meat.getY() == y;
-    }
+//    public boolean areaOccupied(int x, int y, Meat meat) {
+//        return meat.getX() == x && meat.getY() == y;
+//    }
 
     //метод що відмальовує панель
     public void draw(Graphics2D g2d) {
         drawBase(g2d);
-
         switch (parent.cookingState) {
             case NO_MEAT -> createMeat(g2d);
             case MEAT_NOT_READY -> drawNewMeat(g2d);
             case MEAT_GRILLING -> grillingMeat(g2d);
             case MEAT_READY -> readyMeat(g2d);
             case MEAT_BURNING -> meatBurnt(g2d);
-            case MEAT_SHROWN_AWAY -> noMeat(g2d);
+            case MEAT_SHROWN_AWAY -> readyMeat(g2d);//noMeat
             case MEAT_SENT_TO_BD -> readyMeat(g2d);
         }
     }
 
     int counter = 0;
-
     public void setupTimer() {
         this.timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 grillingMeatArrayList.add(selectedMeat);
+                //todo проблеми з видаленням
+                //todo не можу взятися за будь яке м'яс лише останнє
                meatArrayList.remove(selectedMeat);
                 //коли я звідси прибираю м'ясо, мені далі треба весь код підлаштувати щоб воно хендлило
                 //арей смаженого м'яса
@@ -163,8 +182,11 @@ public class GrillStation {
     private void readyMeat(Graphics2D g2d) {
         drawNewMeat(g2d);
         //meat.beReady();
-        for (Meat meat : meatArrayList) {
-            meat.beReady();
+        for (Meat meat : meatArrayList) meat.beReady();
+        for (Meat meat : grillingMeatArrayList) {
+            if(meat!=null){
+                meat.beReady();
+            }
         }
     }
 
@@ -183,6 +205,7 @@ public class GrillStation {
         plate.draw(g2d);
         trash.draw(g2d);
         mince.draw(g2d);
+
         createMeat(g2d);
     }
 
