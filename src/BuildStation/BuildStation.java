@@ -16,22 +16,21 @@ import java.io.File;
 import java.util.*;
 
 public class BuildStation {
-    private GameMenu.GamePanel parent;
+    private final GameMenu.GamePanel parent;
     private Product activeProduct;
     private Product lastActiveProduct;
     private Ticket activeTicket;
     private Ticket lastTicket;
-    private ArrayList<Product> burgerProducts = new ArrayList<>();
-    private ProductTray[] productTrays = new ProductTray[7];
-    private BuildBackground background = new BuildBackground(0, 0, Game.WIDTH, Game.HEIGHT - 100);
-    private TicketBackground ticketBackground = new TicketBackground(0, 0, Game.WIDTH, Game.HEIGHT - 100);
-    private TicketHolder ticketHolder = new TicketHolder(260, 470, 170, 230);
+    private final ArrayList<Product> burgerProducts = new ArrayList<>();
+    private final ProductTray[] productTrays = new ProductTray[7];
+    private final BuildBackground background = new BuildBackground(0, 0, Game.WIDTH, Game.HEIGHT - 100);
+    private final TicketBackground ticketBackground = new TicketBackground(0, 0, Game.WIDTH, Game.HEIGHT - 100);
+    private final TicketHolder ticketHolder = new TicketHolder(260, 470, 170, 230);
     public BuildState buildState = BuildState.BUILDING;
     private int diffX = -1;
     private int diffY = -1;
 
-//    private Meat[] meatArray = new Meat[GrillStation.numOfMeat];
-private ArrayList<Meat> meatArrayList = new ArrayList<>();
+    private final ArrayList<Meat> meatArrayList = new ArrayList<>();
 
     public BuildStation(GameMenu.GamePanel parent) {
         this.parent = parent;
@@ -57,14 +56,14 @@ private ArrayList<Meat> meatArrayList = new ArrayList<>();
         drawMeat(g2d);
     }
 
-/*
-додаю м'ясо
- */
-    public void drawMeat(Graphics2D g2d){
-        if(GrillStation.sentMeat){
+    /*
+    додаю м'ясо
+     */
+    public void drawMeat(Graphics2D g2d) {
+        if (GrillStation.sentMeat) {
             meatArrayList.add(new Meat(500, 300, 100, 100));
         }
-        if(!meatArrayList.isEmpty()){
+        if (!meatArrayList.isEmpty()) {
             for (Meat meat : meatArrayList) {
                 meat.draw(g2d);
             }
@@ -97,7 +96,7 @@ private ArrayList<Meat> meatArrayList = new ArrayList<>();
         if (Game.mouse.pressed && ticket.getX() <= Game.mouse.x && ticket.getX() + ticket.getWidth() >= Game.mouse.x && ticket.getY() <= Game.mouse.y && ticket.getY() + ticket.getHeight() >= Game.mouse.y)
             activeTicket = ticket;
         else if (!Game.mouse.pressed && activeTicket != null) {
-            if(checkTicketLocation()){
+            if (checkTicketLocation()) {
                 activeTicket.setX(308);
                 activeTicket.setY(517);
                 parent.orderState = OrderState.RATING_ORDER;
@@ -121,12 +120,10 @@ private ArrayList<Meat> meatArrayList = new ArrayList<>();
         ticket.updateReceiptPosition();
     }
 
-    private boolean checkTicketLocation(){
-        if(activeTicket == null)
+    private boolean checkTicketLocation() {
+        if (activeTicket == null)
             return false;
-        if(activeTicket.getX() > 260 && activeTicket.getX() < 260+170 && activeTicket.getY() >= 470 && activeTicket.getX() <= 470+230)
-            return true;
-        return false;
+        return activeTicket.getX() > 260 && activeTicket.getX() < 260 + 170 && activeTicket.getY() >= 470 && activeTicket.getX() <= 470 + 230;
     }
 
     private void returnToHolder() {
@@ -257,7 +254,7 @@ private ArrayList<Meat> meatArrayList = new ArrayList<>();
             int distY = trayProduct.getY() - lastActiveProduct.getY();
             double gDist = Math.sqrt(distX * distX + distY * distY);
             int steps = (int) ((gDist - 1) / 30);
-            if(steps == 0)
+            if (steps == 0)
                 steps = 1;
             diffY = distY / steps;
             diffX = distX / steps;
@@ -305,7 +302,7 @@ private ArrayList<Meat> meatArrayList = new ArrayList<>();
     }
 
     private class ProductTray extends Node {
-        private Product product = new Product();
+        private final Product product = new Product();
 
         public ProductTray(int x, int y, int width, int height) {
             super(x, y, width, height);
