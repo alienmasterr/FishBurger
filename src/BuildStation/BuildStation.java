@@ -30,7 +30,7 @@ public class BuildStation {
     private int diffX = -1;
     private int diffY = -1;
 
-    private final ArrayList<Meat> meatArrayList = new ArrayList<>();
+    public static final ArrayList<Meat> meatArrayList = new ArrayList<>();
 
     public BuildStation(GameMenu.GamePanel parent) {
         this.parent = parent;
@@ -60,9 +60,9 @@ public class BuildStation {
     додаю м'ясо
      */
     public void drawMeat(Graphics2D g2d) {
-        if (GrillStation.sentMeat) {
-            meatArrayList.add(new Meat(500, 300, 100, 100));
-        }
+//        if (GrillStation.sentMeat) {
+//            meatArrayList.add(new Meat(500, 300, 100, 100));
+//        }
         if (!meatArrayList.isEmpty()) {
             for (Meat meat : meatArrayList) {
                 meat.draw(g2d);

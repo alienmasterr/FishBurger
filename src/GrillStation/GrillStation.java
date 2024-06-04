@@ -3,6 +3,7 @@ package GrillStation;
 import java.awt.*;
 import java.awt.event.*;
 
+import BuildStation.BuildStation;
 import Enums.CookingState;
 import GrillStation.GrillStationElements.*;
 import Menu.*;
@@ -28,7 +29,7 @@ public class GrillStation {
     private final GrillBoard grillBoard = new GrillBoard(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 6, Game.WIDTH / 2, Game.HEIGHT / 3);
 
     private Point initialClick;
-    private Meat selectedMeat = null;
+    public static Meat selectedMeat = null;
 
     public static boolean sentMeat = false;
 
@@ -45,7 +46,7 @@ public class GrillStation {
             @Override
             public void mousePressed(MouseEvent e) {
                 for (Meat meat : meatArrayList) {
-                    if (e.getX() >= meat.getX() && e.getX() <= meat.getX() + 200 && e.getY() >= meat.getY() && e.getY() <= meat.getY() + 200) {
+                    if (e.getX() >= meat.getX() && e.getX() <= meat.getX() + 100 && e.getY() >= meat.getY() && e.getY() <= meat.getY() + 200) {
                         initialClick = e.getPoint();
                         selectedMeat = meat;
                         break;
@@ -76,6 +77,7 @@ public class GrillStation {
                     if (thisX >= plate.getX() && thisX <= plate.getX() + plate.getWidth() && thisY >= plate.getY() && thisY <= plate.getY() + plate.getHeight()) {
                         parent.cookingState = CookingState.MEAT_SENT_TO_BD;
                         System.out.println("sent");
+                        BuildStation.meatArrayList.add(selectedMeat);
                         meatArrayList.remove(selectedMeat);
                         //numOfMeat++;
                         sentMeat = true;
@@ -120,7 +122,9 @@ public class GrillStation {
             @Override
             public void actionPerformed(ActionEvent e) {
                 grillingMeatArrayList.add(selectedMeat);
-                meatArrayList.remove(selectedMeat);
+               meatArrayList.remove(selectedMeat);
+                //коли я звідси прибираю м'ясо, мені далі треба весь код підлаштувати щоб воно хендлило
+                //арей смаженого м'яса
 //                System.out.println("додали");
                 for (Meat meat : grillingMeatArrayList) {
                     if (meat != null) {
@@ -156,7 +160,6 @@ public class GrillStation {
         }
     }
 
-
     private void readyMeat(Graphics2D g2d) {
         drawNewMeat(g2d);
         //meat.beReady();
@@ -165,10 +168,14 @@ public class GrillStation {
         }
     }
 
+//отут треба порішати за селектид мід
     private void meatBurnt(Graphics2D g2d) {
         drawNewMeat(g2d);
-        BurningSign burningSign = new BurningSign(selectedMeat.getX(), selectedMeat.getY(), 50, 50);
-        burningSign.draw(g2d);
+        if(selectedMeat != null) {
+            BurningSign burningSign = new BurningSign(selectedMeat.getX(), selectedMeat.getY(), 50, 50);
+            burningSign.draw(g2d);
+        }
+
     }
 
     private void noMeat(Graphics2D g2d) {
@@ -204,12 +211,14 @@ public class GrillStation {
         for (Meat meat : meatArrayList) {
             meat.draw(g2d);
         }
+
         if(!grillingMeatArrayList.isEmpty()) {
             for(Meat meat : grillingMeatArrayList) {
-                meat.draw(g2d);
+                if(meat != null) {
+                    meat.draw(g2d);
+                }
             }
         }
-
 
 //        meat.draw(g2d);
     }
