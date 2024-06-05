@@ -148,6 +148,22 @@ public class GrillStation {
     private void update() {
         updateActiveElement();
         updateActiveElementMovement();
+        updateTransferToBuildStation();
+    }
+
+    private void updateTransferToBuildStation() {
+        if (selectedMeat == null)
+            return;
+        if (selectedMeat.getX() > plate.getX() - 20 && selectedMeat.getX() < plate.getX() + plate.getWidth() + 20 && selectedMeat.getY() > plate.getY() - 20 && selectedMeat.getY() < plate.getY() + plate.getHeight() + 20) {
+            //взято з твого загадкового мауслісенера
+            parent.cookingState = CookingState.MEAT_SENT_TO_BD;
+            System.out.println("sent");
+            meatArrayList.remove(selectedMeat);
+            //numOfMeat++;
+            sendMeat(selectedMeat);
+            sentMeat = true;
+            selectedMeat = null;
+        }
     }
 
     private void updateActiveElementMovement() {
@@ -156,8 +172,8 @@ public class GrillStation {
         selectedMeat.setPosition(Game.mouse.x - selectedMeat.getWidth() / 2, Game.mouse.y - selectedMeat.getHeight() / 2);
     }
 
-    private void updateActiveElement(){
-        if(selectedMeat != null && Game.mouse.pressed)
+    private void updateActiveElement() {
+        if (selectedMeat != null && Game.mouse.pressed)
             return;
         selectedMeat = null;
         findNewActiveElement();
@@ -259,7 +275,7 @@ public class GrillStation {
 //            burntMeat=false;
 //            meat=false;
 
-            meatArrayList.add(new Meat(0, 300, 100, 100));
+            meatArrayList.add(new Meat(0, 300, 150, 100));
             parent.cookingState = CookingState.MEAT_NOT_READY;
         }
     }

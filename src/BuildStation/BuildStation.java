@@ -38,6 +38,8 @@ public class BuildStation {
 
     public void getMeatFromGrill(Meat meat) {
         meat.setPosition(250, 580);
+        meat.setInitialX(250);
+        meat.setInitialY(580);
         burgerProducts.add(meat);
     }
 
@@ -170,16 +172,43 @@ public class BuildStation {
     private void updateLastProduct() {
         if (burgerProducts.isEmpty())
             return;
+        if (updateLastMeat())
+            return;
         Product lastProduct = burgerProducts.getLast();
         if (Game.mouse.pressed && Game.mouse.x >= lastProduct.getX() && Game.mouse.x <= lastProduct.getX() + 150 && Game.mouse.y >= lastProduct.getY() && Game.mouse.y <= lastProduct.getY() + 100) {
             activeProduct = lastProduct;
         }
     }
 
+    private boolean updateLastMeat() {
+        Product lastMeat = getLastMeat();
+        if (lastMeat == null)
+            return false;
+        if (!lastMeat.isUsed() && Game.mouse.pressed && Game.mouse.x >= lastMeat.getX() && Game.mouse.x <= lastMeat.getX() + 150 && Game.mouse.y >= lastMeat.getY() && Game.mouse.y <= lastMeat.getY() + 100) {
+            activeProduct = lastMeat;
+            burgerProducts.remove(lastMeat);
+            burgerProducts.add(lastMeat);
+            return true;
+        }
+        return false;
+    }
+
+    private Product getLastMeat() {
+        Product lastMeat = null;
+        for (Product pr : burgerProducts) {
+            if (pr instanceof Meat)
+                lastMeat = pr;
+        }
+        return lastMeat;
+    }
+
     private void updateNonactiveProducts() {
         for (Product product : burgerProducts)
-            if (isFalling(product) && !isColliding(product))
+            if (isFalling(product) && !isColliding(product)) {
                 product.setY(product.getY() + 15);
+                if(product instanceof Meat)
+                    product.setUsed(true);
+            }
         if (burgerProducts.isEmpty())
             return;
         if (isUpperBun(burgerProducts.getLast()) && (!isFalling(burgerProducts.getLast()) || isColliding(burgerProducts.getLast())))
@@ -256,10 +285,12 @@ public class BuildStation {
         moveToInitial(lastActiveProduct.getInitialX(), lastActiveProduct.getInitialY(), lastActiveProduct.getX(), lastActiveProduct.getY());
     }
 
-    private void moveToInitial(int x1, int y1, int x, int y){
+    private void moveToInitial(int x1, int y1, int x, int y) {
         if (x1 - 30 <= x && x1 + 30 >= x && y1 - 30 < y && y1 + 30 > y) {
             diffX = -1;
             diffY = -1;
+            lastActiveProduct.setUsed(false);
+            burgerProducts.add(lastActiveProduct);
             lastActiveProduct = null;
             return;
         }

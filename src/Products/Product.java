@@ -7,6 +7,7 @@ import java.nio.Buffer;
 
 public class Product extends Node {
     private int initialX, initialY;
+    private boolean isUsed = false;
 
     public Product(int x, int y, int width, int height) {
         super(x, y, width, height);
@@ -59,4 +60,11 @@ public class Product extends Node {
         this.height = height;
     }
 
+    public boolean isUsed() {
+        return isUsed;
+    }
+
+    public void setUsed(boolean used) {
+        isUsed = used;
+    }
 }
