@@ -42,7 +42,7 @@ public class GrillStation {
         //addMouseListeners();
     }
 
-    private boolean meatTaken = false;
+    //private boolean meatTaken = false;
 
     private void addMouseListeners() {
 //        parent.addMouseListener(new MouseAdapter() {
@@ -140,8 +140,6 @@ public class GrillStation {
         update();
     }
 
-    //todo я не знаю яка в тебе логіка до цього була, я просто зробила так, щоби воно рухалося та бралося нормально.
-    //todo пофікси це або перероби на щось схоже в білдстейшоні
     private void update() {
         updateActiveElement();
         updateActiveElementMovement();
@@ -150,16 +148,17 @@ public class GrillStation {
         updateShrowAway();
     }
 
+    // todo м'ясо що стрибає погано надсилається. воно відмальовується на всіх панелях
     private void updateTransferToBuildStation() {
         if (selectedMeat == null)
             return;
         if (selectedMeat.getX() > plate.getX() - 20 && selectedMeat.getX() < plate.getX() + plate.getWidth() + 20 && selectedMeat.getY() > plate.getY() - 20 && selectedMeat.getY() < plate.getY() + plate.getHeight() + 20) {
-            parent.cookingState = CookingState.MEAT_SENT_TO_BD;
             //System.out.println("sent");
+            sendMeat(selectedMeat);
             meatArrayList.remove(selectedMeat);
             grillingMeatArrayList.remove(selectedMeat);
 
-            sendMeat(selectedMeat);
+            parent.cookingState = CookingState.MEAT_SENT_TO_BD;
             sentMeat = true;
             selectedMeat = null;
         }
@@ -181,7 +180,6 @@ public class GrillStation {
             System.out.println("перейшли в режим м'со викинуто");
             parent.cookingState = CookingState.MEAT_SHROWN_AWAY;
             //todo можливо треба перевірка чи це м'ясо взагалі існує в цьому ареї
-            //ПРОБЛЕМА З ВИДАЛЕННЯМ
             meatArrayList.remove(selectedMeat);
             grillingMeatArrayList.remove(selectedMeat);
             selectedMeat = null;
