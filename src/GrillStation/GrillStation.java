@@ -1,23 +1,17 @@
 package GrillStation;
 
 import java.awt.*;
-import java.awt.event.*;
-
-import BuildStation.BuildStation;
 import Enums.CookingState;
 import GrillStation.GrillStationElements.*;
 import Menu.*;
 import Menu.Game;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
 
 public class GrillStation {
 
     private final GameMenu.GamePanel parent;
-    private Timer timer;
+    //private Timer timer;
 
     private final ArrayList<Meat> meatArrayList = new ArrayList<>();
     private final ArrayList<Meat> grillingMeatArrayList = new ArrayList<>();
@@ -29,7 +23,7 @@ public class GrillStation {
 
     public static Meat selectedMeat = null;
 
-    public static boolean sentMeat = false;
+    //public static boolean sentMeat = false;
 
 //    public static boolean rawMeat = false;
 //    public static boolean rawMeat1 = false;
@@ -159,7 +153,7 @@ public class GrillStation {
             grillingMeatArrayList.remove(selectedMeat);
 
             parent.cookingState = CookingState.MEAT_SENT_TO_BD;
-            sentMeat = true;
+            //sentMeat = true;
             selectedMeat = null;
         }
     }

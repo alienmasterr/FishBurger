@@ -12,15 +12,15 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 public class Meat extends Product {
-    private String path;
+    //private String path;
     private Timer timer;
 
     public Meat(int x, int y, int width, int height) {
         super(x, y, width, height);
 
-        String path = "/meat/meat.png";
+        //path = "/meat/meat.png";
 
-        image = getImage(path);
+        image = getImage("/meat/meat.png");
     }
 
 
@@ -76,7 +76,7 @@ public class Meat extends Product {
 
                 } else if (counter == 30) {
                     System.out.println("30 sec");
-                    path = "/meat/burntmeat.png";
+                    image = getImage("/meat/burntmeat.png");
                     timer.stop();
                     // parent.cookingState = CookingState.MEAT_BURNING;
                 }
