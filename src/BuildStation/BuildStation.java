@@ -36,9 +36,9 @@ public class BuildStation {
         fillTrays();
     }
 
-    public void getMeatFromGrill(Meat meat){
+    public void getMeatFromGrill(Meat meat) {
         meat.setPosition(250, 580);
-        allMeat.add(meat);
+        burgerProducts.add(meat);
     }
 
     private void fillTrays() {
@@ -70,8 +70,8 @@ public class BuildStation {
         update();
     }
 
-    private void drawMeat(Graphics2D g2d){
-        for(Product meat: allMeat)
+    private void drawMeat(Graphics2D g2d) {
+        for (Product meat : allMeat)
             meat.draw(g2d);
     }
 
@@ -109,7 +109,7 @@ public class BuildStation {
         ticket.updateReceiptPosition();
     }
 
-    private void transferInfoForRating(){
+    private void transferInfoForRating() {
         parent.orderState = OrderState.RATING_ORDER;
         parent.panelState = PanelState.RATING_STATION;
         parent.ratingStation.setBurgerResult(burgerProducts);
@@ -128,14 +128,8 @@ public class BuildStation {
         Ticket ticket = parent.pin.getTicket();
         if (ticket == null)
             return;
-        if (diffX == -1 && diffY == -1) {
-            int distX = parent.pin.getX() - ticket.getX();
-            int distY = parent.pin.getY() - ticket.getY();
-            double gDist = Math.sqrt(distX * distX + distY * distY);
-            int steps = (int) ((gDist - 1) / 30);
-            diffY = distY / steps;
-            diffX = distX / steps;
-        }
+        if (diffX == -1 && diffY == -1)
+            calculateDiffs(parent.pin.getX(), parent.pin.getY(), ticket.getX(), ticket.getY());
         moveToHolder();
         ticket.updateReceiptPosition();
     }
@@ -244,20 +238,45 @@ public class BuildStation {
     }
 
     private void returnToTray() {
+        if (lastActiveProduct instanceof Meat) {
+            returnToInitial();
+            return;
+        }
         Product trayProduct = getTrayProduct(lastActiveProduct);
         if (trayProduct == null)
             return;
-        if (diffX == -1 && diffY == -1) {
-            int distX = trayProduct.getX() - lastActiveProduct.getX();
-            int distY = trayProduct.getY() - lastActiveProduct.getY();
-            double gDist = Math.sqrt(distX * distX + distY * distY);
-            int steps = (int) ((gDist - 1) / 30);
-            if (steps == 0)
-                steps = 1;
-            diffY = distY / steps;
-            diffX = distX / steps;
-        }
+        if (diffX == -1 && diffY == -1)
+            calculateDiffs(trayProduct.getX(), trayProduct.getY(), lastActiveProduct.getX(), lastActiveProduct.getY());
         moveToTray(trayProduct, lastActiveProduct);
+    }
+
+    private void returnToInitial() {
+        if (diffX == -1 && diffY == -1)
+            calculateDiffs(lastActiveProduct.getInitialX(), lastActiveProduct.getInitialY(), lastActiveProduct.getX(), lastActiveProduct.getY());
+        moveToInitial(lastActiveProduct.getInitialX(), lastActiveProduct.getInitialY(), lastActiveProduct.getX(), lastActiveProduct.getY());
+    }
+
+    private void moveToInitial(int x1, int y1, int x, int y){
+        if (x1 - 30 <= x && x1 + 30 >= x && y1 - 30 < y && y1 + 30 > y) {
+            diffX = -1;
+            diffY = -1;
+            lastActiveProduct = null;
+            return;
+        }
+        lastActiveProduct.setX(lastActiveProduct.getX() + diffX);
+        lastActiveProduct.setY(lastActiveProduct.getY() + diffY);
+    }
+
+    //з (х.у) в (х1, у1)
+    private void calculateDiffs(int x1, int y1, int x, int y) {
+        int distX = x1 - x;
+        int distY = y1 - y;
+        double gDist = Math.sqrt(distX * distX + distY * distY);
+        int steps = (int) ((gDist - 1) / 30);
+        if (steps == 0)
+            steps = 1;
+        diffY = distY / steps;
+        diffX = distX / steps;
     }
 
     private void moveToTray(Product trayProduct, Product product) {
