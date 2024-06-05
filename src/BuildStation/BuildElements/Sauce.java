@@ -6,7 +6,7 @@ public class Sauce extends Product {
     private String splashSrc;
     public Sauce(int x, int y, int width, int height) {
         super(x, y, width, height);
-        setImage("/products/drip/bbq.png");
+        setImage("/sauses/drip/bbq.png");
     }
 
     public String getSplashSrc() {
@@ -18,6 +18,6 @@ public class Sauce extends Product {
     }
 
     public void turnIntoSplash(){
-        setImage("/products/splashes/bbq.png");
+        setImage(splashSrc);
     }
 }

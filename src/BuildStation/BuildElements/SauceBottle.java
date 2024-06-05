@@ -29,9 +29,9 @@ public class SauceBottle extends Product {
     }
 
     public Product createSauce(){
-        Sauce sauce = new Sauce(this.getX()+this.getWidth()/2, this.getY()+this.getWidth(), 150, 100);
-        sauce.getImage("/sauses/drip/bbq.png");
-        sauce.setSplashSrc("/sauses/splashes/bbq.png");
+        Sauce sauce = new Sauce(this.getX()+(this.getWidth()/2)-40, this.getY()+this.getHeight(), 150, 100);
+        sauce.getImage(sauceDripSrc);
+        sauce.setSplashSrc(sauceSplashSrc);
         return sauce;
     }
 }

@@ -21,6 +21,8 @@ public class BuildStation {
     private Product lastActiveProduct;
     private Ticket activeTicket;
     private Ticket lastTicket;
+    private SauceBottle activeBottle;
+    private SauceBottle lastBottle;
     private ArrayList<Product> burgerProducts = new ArrayList<>();
     private ProductTray[] productTrays = new ProductTray[7];
     private SauceBottle[] sauceBottles = new SauceBottle[4];
@@ -55,19 +57,21 @@ public class BuildStation {
         }
     }
 
-    private void fillBottles(){
+    private void fillBottles() {
         int counter = 0;
         File[] files = (new File("res/sauses")).listFiles();
         if (files == null)
             return;
-        for (int i = 0; i < files.length; i++) {
-            if(files[i].isDirectory())
+        for (File file : files) {
+            if (file.isDirectory())
                 continue;
-            System.out.println(files[i].getName());
-            sauceBottles[counter] = new SauceBottle(600- counter * 60, 560-140, 80, 180);
-            sauceBottles[counter].getImage("/sauses/" + files[i].getName());
-            sauceBottles[counter].setSauceDripSrc("/sauses/drip/"  + files[i].getName());
-            sauceBottles[counter].setSauceSplashSrc("/sauses/splashes/"  + files[i].getName());
+            System.out.println(file.getName());
+            sauceBottles[counter] = new SauceBottle(920 - counter * 60, 460, 80, 180);
+            sauceBottles[counter].setInitialX(920 - counter * 60);
+            sauceBottles[counter].setInitialY(460);
+            sauceBottles[counter].getImage("/sauses/" + file.getName());
+            sauceBottles[counter].setSauceDripSrc("/sauses/drip/" + file.getName());
+            sauceBottles[counter].setSauceSplashSrc("/sauses/splashes/" + file.getName());
             counter++;
         }
     }
@@ -86,7 +90,7 @@ public class BuildStation {
             productTrays[i].draw(g2d);
         for (Product product : burgerProducts)
             product.draw(g2d);
-        for(Product product: sauceBottles)
+        for (Product product : sauceBottles)
             product.draw(g2d);
         if (lastActiveProduct != null)
             lastActiveProduct.draw(g2d);
@@ -188,6 +192,60 @@ public class BuildStation {
         updateLastProduct();
         updateActiveProduct();
         updateNonactiveProducts();
+        updateBottle();
+        updateActiveBottle();
+        updateStateActiveBottle();
+    }
+
+    private void updateStateActiveBottle() {
+        if (activeBottle != null && !Game.mouse.pressed) {
+            lastBottle = activeBottle;
+            createSauceDrip();
+            activeBottle = null;
+        } else if(lastBottle != null)
+            returnToCup();
+    }
+
+    private void createSauceDrip(){
+        burgerProducts.add(lastBottle.createSauce());
+    }
+
+    private void returnToCup() {
+        if (diffX == -1 && diffY == -1)
+            calculateDiffs(lastBottle.getInitialX(), lastBottle.getInitialY(), lastBottle.getX(), lastBottle.getY());
+        moveToCup(lastBottle.getInitialX(), lastBottle.getInitialY(), lastBottle.getX(), lastBottle.getY());
+    }
+
+    private void moveToCup(int x1, int y1, int x, int y) {
+        if (x1 - 30 <= x && x1 + 30 >= x && y1 - 30 < y && y1 + 30 > y) {
+            diffX = -1;
+            diffY = -1;
+            lastBottle.setX(lastBottle.getInitialX());
+            lastBottle.setY(lastBottle.getInitialY());
+            lastBottle = null;
+            activeBottle = null;
+            return;
+        }
+        lastBottle.setX(lastBottle.getX() + diffX);
+        lastBottle.setY(lastBottle.getY() + diffY);
+    }
+
+    private void updateActiveBottle() {
+        if (activeBottle == null)
+            return;
+        activeBottle.setX(Game.mouse.x - activeBottle.getWidth() / 2);
+        activeBottle.setY(Game.mouse.y - activeBottle.getHeight() / 2);
+    }
+
+    private void updateBottle() {
+        if (activeProduct != null || activeBottle != null)
+            return;
+        for (SauceBottle bottle : sauceBottles) {
+            if (Game.mouse.pressed && Game.mouse.x > bottle.getX() - 10 && Game.mouse.x < bottle.getX() + bottle.getWidth() + 10 && Game.mouse.y > bottle.getY() - 10 && Game.mouse.y < bottle.getY() + bottle.getHeight() + 10) {
+                activeBottle = bottle;
+                return;
+            }
+        }
     }
 
     private void updateLastProduct() {
@@ -227,8 +285,12 @@ public class BuildStation {
         for (Product product : burgerProducts)
             if (isFalling(product) && !isColliding(product)) {
                 product.setY(product.getY() + 15);
-                if(product instanceof Meat)
+                if (product instanceof Meat)
                     product.setUsed(true);
+                if(product instanceof Sauce) {
+                    product.setY(product.getY() + 15);
+                    ((Sauce) product).turnIntoSplash();
+                }
             }
         if (burgerProducts.isEmpty())
             return;
