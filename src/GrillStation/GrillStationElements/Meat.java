@@ -15,6 +15,10 @@ public class Meat extends Product {
     //private String path;
     private Timer timer;
 
+    boolean isGrilling = true;
+    boolean canFlip = false;
+
+
     public Meat(int x, int y, int width, int height) {
         super(x, y, width, height);
 
@@ -38,8 +42,10 @@ public class Meat extends Product {
     }
 
     public void grilling() {
-        y += yVelocity;
-        yVelocity *= -1;
+        if (isGrilling) {
+            y += yVelocity;
+            yVelocity *= -1;
+        }
     }
 
     public void startGrilling() {
@@ -50,43 +56,43 @@ public class Meat extends Product {
     }
 
     int counter = 0;
-//todo цей таймер треба стопати
+
+    //todo цей таймер треба стопати
     public void setupTimer() {
         this.timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //grillingMeatArrayList.add(selectedMeat);
-                // meatArrayList.remove(selectedMeat);
-                // for (Meat meat : grillingMeatArrayList) {
-                // if (meat != null) {
-                //meat.
                 System.out.println("counter: " + counter);
                 System.out.println("смажимо");
                 grilling();
-                //}
-                //}
                 counter++;
                 if (counter == 5) {
                     //image = getImage("/meat/rawmeat.png");
-
-
                 } else if (counter == 10) {
                     System.out.println("10 sec");
                     image = getImage("/meat/meat.png");
-
-                    //parent.cookingState = CookingState.MEAT_READY;
+                    canFlip = true;
+                    isGrilling = false;
                 } else if (counter == 20) {
                     System.out.println("20 sec");
                     image = getImage("/meat/overcookedmeat.png");
-
+                    canFlip = false;
                 } else if (counter == 30) {
                     System.out.println("30 sec");
                     image = getImage("/meat/burntmeat.png");
                     timer.stop();
-                    // parent.cookingState = CookingState.MEAT_BURNING;
                 }
             }
         });
+    }
+
+    public void getFlipped() {
+        if(canFlip){
+            y = getY() - 15;
+            image = getImage("/meat/rawmeat1.png");
+            y = getY() + 15;
+        }
+
     }
 }
 

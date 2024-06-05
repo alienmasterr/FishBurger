@@ -157,7 +157,7 @@ public class GameMenu extends JPanel {
         }
 
         private void setMenuButtons() {
-            setSoundButton();
+            setStoreButton();
             setStationButtons();
             setMenuButton();
         }
@@ -172,18 +172,18 @@ public class GameMenu extends JPanel {
             add(stationPanel, BorderLayout.CENTER);
         }
 
-        private void setSoundButton() {
-            JButton pause = new JButton("Vol");
-            pause.setPreferredSize(new Dimension((int) (Game.WIDTH * 0.07), (int) (Game.WIDTH * 0.05)));
-            pause.setBackground(Color.black);
-            pause.setForeground(Color.white);
-            pause.addActionListener(new ActionListener() {
+        private void setStoreButton() {
+            JButton store = new JButton("Store");
+            store.setPreferredSize(new Dimension((int) (Game.WIDTH * 0.07), (int) (Game.WIDTH * 0.05)));
+            store.setBackground(Color.black);
+            store.setForeground(Color.white);
+            store.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //зміна гучності
+                    //магазин
                 }
             });
-            add(pause, BorderLayout.EAST);
+            add(store, BorderLayout.EAST);
         }
 
         private void setMenuButton() {
