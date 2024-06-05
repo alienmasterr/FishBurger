@@ -127,7 +127,7 @@ public class GrillStation {
             case MEAT_NOT_READY -> drawNewMeat(g2d);
             case MEAT_GRILLING -> grillingMeat(g2d);
             case MEAT_READY -> readyMeat(g2d);
-            case MEAT_BURNING -> meatBurnt(g2d);
+            case MEAT_BURNING -> drawNewMeat(g2d);//burntMeat
             case MEAT_SHROWN_AWAY -> readyMeat(g2d);//noMeat
             case MEAT_SENT_TO_BD -> readyMeat(g2d);
         }
@@ -277,12 +277,12 @@ public class GrillStation {
         //System.out.println("гориш чи ні");
         drawNewMeat(g2d);
         //todo тут треба селектид міт заміняти на іншу змінну м'яса, бо селектид це те що ми тримаємо мишкою
-       if (selectedMeat != null) {
-           // BurningSign burningSign = new BurningSign(selectedMeat.getX(), selectedMeat.getY(), 50, 50);
-           // burningSign.draw(g2d);
-            selectedMeat.setImage("/meat/burntmeat.png");
-            System.out.println("картинка бурнт міт");
-      }
+//       if (selectedMeat != null) {
+//           // BurningSign burningSign = new BurningSign(selectedMeat.getX(), selectedMeat.getY(), 50, 50);
+//           // burningSign.draw(g2d);
+//           // selectedMeat.setImage("/meat/burntmeat.png");
+//            System.out.println("картинка бурнт міт");
+//      }
 
     }
 

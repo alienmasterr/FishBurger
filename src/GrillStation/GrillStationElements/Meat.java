@@ -20,7 +20,7 @@ public class Meat extends Product {
 
         //path = "/meat/meat.png";
 
-        image = getImage("/meat/meat.png");
+        image = getImage("/meat/rawmeat.png");
     }
 
 
@@ -67,12 +67,17 @@ public class Meat extends Product {
                 //}
                 counter++;
                 if (counter == 5) {
+                    //image = getImage("/meat/rawmeat.png");
+
 
                 } else if (counter == 10) {
                     System.out.println("10 sec");
+                    image = getImage("/meat/meat.png");
+
                     //parent.cookingState = CookingState.MEAT_READY;
                 } else if (counter == 20) {
                     System.out.println("20 sec");
+                    image = getImage("/meat/overcookedmeat.png");
 
                 } else if (counter == 30) {
                     System.out.println("30 sec");
