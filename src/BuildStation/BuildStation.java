@@ -16,16 +16,17 @@ import java.io.File;
 import java.util.*;
 
 public class BuildStation {
-    private final GameMenu.GamePanel parent;
+    private GameMenu.GamePanel parent;
     private Product activeProduct;
     private Product lastActiveProduct;
     private Ticket activeTicket;
     private Ticket lastTicket;
-    private final ArrayList<Product> burgerProducts = new ArrayList<>();
-    private final ProductTray[] productTrays = new ProductTray[7];
-    private final BuildBackground background = new BuildBackground(0, 0, Game.WIDTH, Game.HEIGHT - 100);
-    private final TicketBackground ticketBackground = new TicketBackground(0, 0, Game.WIDTH, Game.HEIGHT - 100);
-    private final TicketHolder ticketHolder = new TicketHolder(260, 470, 170, 230);
+    private ArrayList<Product> burgerProducts = new ArrayList<>();
+    private ProductTray[] productTrays = new ProductTray[7];
+    private SauceBottle[] sauceBottles = new SauceBottle[4];
+    private BuildBackground background = new BuildBackground(0, 0, Game.WIDTH, Game.HEIGHT - 100);
+    private TicketBackground ticketBackground = new TicketBackground(0, 0, Game.WIDTH, Game.HEIGHT - 100);
+    private TicketHolder ticketHolder = new TicketHolder(260, 470, 170, 230);
     public BuildState buildState = BuildState.BUILDING;
     private int diffX = -1;
     private int diffY = -1;
@@ -34,6 +35,7 @@ public class BuildStation {
     public BuildStation(GameMenu.GamePanel parent) {
         this.parent = parent;
         fillTrays();
+        fillBottles();
     }
 
     public void getMeatFromGrill(Meat meat) {
@@ -53,6 +55,23 @@ public class BuildStation {
         }
     }
 
+    private void fillBottles(){
+        int counter = 0;
+        File[] files = (new File("res/sauses")).listFiles();
+        if (files == null)
+            return;
+        for (int i = 0; i < files.length; i++) {
+            if(files[i].isDirectory())
+                continue;
+            System.out.println(files[i].getName());
+            sauceBottles[counter] = new SauceBottle(600- counter * 60, 560-140, 80, 180);
+            sauceBottles[counter].getImage("/sauses/" + files[i].getName());
+            sauceBottles[counter].setSauceDripSrc("/sauses/drip/"  + files[i].getName());
+            sauceBottles[counter].setSauceSplashSrc("/sauses/splashes/"  + files[i].getName());
+            counter++;
+        }
+    }
+
     public void draw(Graphics2D g2d) {
         switch (buildState) {
             case BUILDING -> drawBase(g2d);
@@ -66,6 +85,8 @@ public class BuildStation {
         for (int i = 0; i < 7; i++)
             productTrays[i].draw(g2d);
         for (Product product : burgerProducts)
+            product.draw(g2d);
+        for(Product product: sauceBottles)
             product.draw(g2d);
         if (lastActiveProduct != null)
             lastActiveProduct.draw(g2d);
