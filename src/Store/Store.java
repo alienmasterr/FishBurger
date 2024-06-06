@@ -47,7 +47,8 @@ public class Store {
         }
     }
     public void saveAll(){
-        parent.pin.setDrawTicket(true);
+
+        //parent.pin.setDrawTicket(true);
     }
 
 }

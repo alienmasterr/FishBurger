@@ -77,6 +77,7 @@ public class BuildStation {
     }
 
     public void draw(Graphics2D g2d) {
+        parent.pin.setDrawTicket(true);
         switch (buildState) {
             case BUILDING -> drawBase(g2d);
             case PUTTING_TICKET -> drawTicketBase(g2d);

@@ -110,6 +110,7 @@ public class GrillStation {
 
     //метод що відмальовує панель
     public void draw(Graphics2D g2d) {
+        parent.pin.setDrawTicket(true);
         drawBase(g2d);
         switch (parent.cookingState) {
             case NO_MEAT -> createMeat(g2d);
