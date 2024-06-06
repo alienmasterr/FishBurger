@@ -4,6 +4,7 @@ import BuildStation.BuildStation;
 import Enums.*;
 import GrillStation.GrillStation;
 import GrillStation.GrillStationElements.Meat;
+import Menu.MenuElements.LevelBar;
 import Menu.MenuElements.TicketPin;
 import OrderStation.OrderStation;
 import RatingStation.RatingStation;
@@ -33,7 +34,7 @@ public class GameMenu extends JPanel {
         add(menuPanel);
     }
 
-    public void restart(){
+    public void restart() {
         gamePanel.restartGame();
     }
 
@@ -53,6 +54,7 @@ public class GameMenu extends JPanel {
         private GrillStation grillStation = new GrillStation(this);
         public RatingStation ratingStation = new RatingStation(this);
         public Store store = new Store(this);
+        private LevelBar levelBar = new LevelBar(10, 10, 300, 60);
         public boolean isRunning = true;
         public PanelState panelState;
 
@@ -64,7 +66,7 @@ public class GameMenu extends JPanel {
             gameThread.start();
         }
 
-        public void restartGame(){
+        public void restartGame() {
             orderState = OrderState.WAITING_CUSTOMER;
             cookingState = CookingState.NO_MEAT;
             pin = new TicketPin(680, 0, 340, 140);
@@ -72,24 +74,26 @@ public class GameMenu extends JPanel {
             buildStation = new BuildStation(this);
             grillStation = new GrillStation(this);
             ratingStation = new RatingStation(this);
-            //
+
             store = new Store(this);
             panelState = ORDER_STATION;
         }
 
-       public void toggleButtons(){
+        public void toggleButtons() {
             menuPanel.buildStation.toggle();
             menuPanel.grillStation.toggle();
             menuPanel.orderStation.toggle();
-            //
-            menuPanel.storeButton.toggle();
-       }
 
-       public void transferMeatToBuild(Meat meat){
+            menuPanel.storeButton.toggle();
+        }
+
+        public void transferMeatToBuild(Meat meat) {
             buildStation.getMeatFromGrill(meat);
-       }
+        }
 
         private void setup() {
+            levelBar.setLevel(5, 1);
+            levelBar.setLevelNum(1);
             setMaximumSize(new Dimension(Game.WIDTH, (int) (Game.HEIGHT * 0.9)));
             setBackground(Color.darkGray);
             addMouseMotionListener(mouse);
@@ -145,8 +149,9 @@ public class GameMenu extends JPanel {
                 case GAME_MENU:
                     parent.setVisiblePanel(FrameState.MAIN_MENU);
             }
-            if(pin.isDrawTicket())
+            if (pin.isDrawTicket())
                 pin.draw(g2d);
+            levelBar.draw(g2d);
         }
     }
 
@@ -182,6 +187,7 @@ public class GameMenu extends JPanel {
             add(stationPanel, BorderLayout.CENTER);
         }
 
+        //вау як все погано я завтра зранку виправлю... це
         private void setStoreButton() {
             //JButton store = new JButton("Store");
             JPanel store = new JPanel();
@@ -198,7 +204,7 @@ public class GameMenu extends JPanel {
 //
 //
 //                }
-          //  });
+            //  });
             add(store, BorderLayout.EAST);
         }
 
