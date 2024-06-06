@@ -7,6 +7,7 @@ import GrillStation.GrillStationElements.Meat;
 import Menu.MenuElements.TicketPin;
 import OrderStation.OrderStation;
 import RatingStation.RatingStation;
+import Store.Store;
 
 import javax.swing.*;
 import java.awt.*;
@@ -51,6 +52,7 @@ public class GameMenu extends JPanel {
         private BuildStation buildStation = new BuildStation(this);
         private GrillStation grillStation = new GrillStation(this);
         public RatingStation ratingStation = new RatingStation(this);
+        public Store store = new Store(this);
         public boolean isRunning = true;
         public PanelState panelState;
 
@@ -70,6 +72,8 @@ public class GameMenu extends JPanel {
             buildStation = new BuildStation(this);
             grillStation = new GrillStation(this);
             ratingStation = new RatingStation(this);
+            //
+            store = new Store(this);
             panelState = ORDER_STATION;
         }
 
@@ -77,6 +81,8 @@ public class GameMenu extends JPanel {
             menuPanel.buildStation.toggle();
             menuPanel.grillStation.toggle();
             menuPanel.orderStation.toggle();
+            //
+            menuPanel.storeButton.toggle();
        }
 
        public void transferMeatToBuild(Meat meat){
@@ -133,6 +139,9 @@ public class GameMenu extends JPanel {
                 case RATING_STATION:
                     ratingStation.draw(g2d);
                     break;
+                case STORE:
+                    store.draw(g2d);
+                    break;
                 case GAME_MENU:
                     parent.setVisiblePanel(FrameState.MAIN_MENU);
             }
@@ -146,6 +155,7 @@ public class GameMenu extends JPanel {
         private PanelButton orderStation = new PanelButton("Order Station", ORDER_STATION);
         private PanelButton grillStation = new PanelButton("Grill Station", GRILL_STATION);
         private PanelButton menu = new PanelButton("Exit", GAME_MENU);
+        private PanelButton storeButton = new PanelButton("Store", STORE);
 
         public MenuPanel() {
             super();
@@ -173,16 +183,22 @@ public class GameMenu extends JPanel {
         }
 
         private void setStoreButton() {
-            JButton store = new JButton("Store");
+            //JButton store = new JButton("Store");
+            JPanel store = new JPanel();
             store.setPreferredSize(new Dimension((int) (Game.WIDTH * 0.07), (int) (Game.WIDTH * 0.05)));
-            store.setBackground(Color.black);
-            store.setForeground(Color.white);
-            store.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    //магазин
-                }
-            });
+//            store.setBackground(Color.black);
+//            store.setForeground(Color.white);
+            store.setBackground(Color.darkGray);
+            store.add(storeButton);
+            add(store, BorderLayout.EAST);
+//            store.addActionListener(new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//                    //магазин
+//
+//
+//                }
+          //  });
             add(store, BorderLayout.EAST);
         }
 
