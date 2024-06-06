@@ -30,6 +30,7 @@ public class RatingStation {
     private BackJar backJar = new BackJar(720, 390, 200, 250);
     private FrontJar frontJar = new FrontJar(720, 390, 200, 250);
     private Coin coin = new Coin(790,-100, 50, 50);
+    private int velocityY = 1;
     private Timer timer;
 
     public RatingStation(GameMenu.GamePanel parent) {
@@ -107,6 +108,14 @@ public class RatingStation {
         coin.draw(g2d);
         frontJar.draw(g2d);
         moveCustomerToExit();
+        drawMoney(g2d);
+    }
+
+    private void drawMoney(Graphics2D g2d){
+        g2d.setPaint(Color.green);
+        g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
+        g2d.drawString("+" + String.format("%.2f", calculateMoney()) + "$", 800, 560-velocityY);
+        velocityY++;
     }
 
     private void moveCustomerToExit(){
@@ -147,9 +156,16 @@ public class RatingStation {
     }
 
     private void moveCoin(){
-        if(coin.getY()+50 >= 390+200)
+        if(coin.getY()+50 >= 390+200) {
+            parent.money+=calculateMoney();
             state = RatingState.WALKING_AWAY;
+        }
         coin.setY(coin.getY()+8);
+    }
+
+    private double calculateMoney(){
+        parent.money+= ((double) getAverageRating() /100)*10;
+        return ((double) getAverageRating() /100)*10;
     }
 
     private void drawRating(Graphics2D g2d) {
