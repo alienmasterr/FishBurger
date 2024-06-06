@@ -59,31 +59,34 @@ public class Meat extends Product {
 
     //todo цей таймер треба стопати
     public void setupTimer() {
-        this.timer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("counter: " + counter);
-                System.out.println("смажимо");
-                grilling();
-                counter++;
-                if (counter == 5) {
-                    //image = getImage("/meat/rawmeat.png");
-                } else if (counter == 10) {
-                    System.out.println("10 sec");
-                    image = getImage("/meat/meat.png");
-                    canFlip = true;
-                    isGrilling = false;
-                } else if (counter == 20) {
-                    System.out.println("20 sec");
-                    image = getImage("/meat/overcookedmeat.png");
-                    canFlip = false;
-                } else if (counter == 30) {
-                    System.out.println("30 sec");
-                    image = getImage("/meat/burntmeat.png");
-                    timer.stop();
+
+            this.timer = new Timer(1000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("counter: " + counter);
+                    System.out.println("смажимо");
+                    grilling();
+                    counter++;
+                    if(GrillStation.meatSent){
+                        timer.stop();
+                    }
+                   if (counter == 10) {
+                        //System.out.println("10 sec");
+                        image = getImage("/meat/meat.png");
+                        canFlip = true;
+                        isGrilling = false;
+                    } else if (counter == 20) {
+                        //System.out.println("20 sec");
+                        image = getImage("/meat/overcookedmeat.png");
+                        canFlip = false;
+                    } else if (counter == 30) {
+                        //System.out.println("30 sec");
+                        image = getImage("/meat/burntmeat.png");
+                        timer.stop();
+                    }
                 }
-            }
-        });
+            });
+
     }
 
     public void getFlipped() {

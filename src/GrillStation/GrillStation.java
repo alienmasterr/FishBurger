@@ -22,6 +22,7 @@ public class GrillStation {
     private final GrillBoard grillBoard = new GrillBoard(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 6, Game.WIDTH / 2, Game.HEIGHT / 3);
 
     public static Meat selectedMeat = null;
+    public static boolean meatSent=false;
 
     public GrillStation(GameMenu.GamePanel parent) {
         this.parent = parent;
@@ -143,7 +144,7 @@ public class GrillStation {
             grillingMeatArrayList.remove(selectedMeat);
 
             parent.cookingState = CookingState.MEAT_SENT_TO_BD;
-            //sentMeat = true;
+            meatSent = true;
             selectedMeat = null;
         }
     }
