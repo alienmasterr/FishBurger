@@ -15,6 +15,7 @@ public class Sauce extends Product {
 
     public void setSplashSrc(String splashSrc) {
         this.splashSrc = splashSrc;
+        this.setX(getX()-getWidth()/4);
     }
 
     public void turnIntoSplash(){

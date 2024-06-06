@@ -65,7 +65,6 @@ public class BuildStation {
         for (File file : files) {
             if (file.isDirectory())
                 continue;
-            System.out.println(file.getName());
             sauceBottles[counter] = new SauceBottle(920 - counter * 60, 460, 80, 180);
             sauceBottles[counter].setInitialX(920 - counter * 60);
             sauceBottles[counter].setInitialY(460);
@@ -203,12 +202,13 @@ public class BuildStation {
             lastBottle = activeBottle;
             createSauceDrip();
             activeBottle = null;
-        } else if(lastBottle != null)
+        } else if (lastBottle != null)
             returnToCup();
     }
 
-    private void createSauceDrip(){
-        burgerProducts.add(lastBottle.createSauce());
+    private void createSauceDrip() {
+        if (!(activeBottle.getY() >= 560 || activeBottle.getX() < 300 || activeBottle.getX() > 600))
+            burgerProducts.add(lastBottle.createSauce());
     }
 
     private void returnToCup() {
@@ -255,6 +255,8 @@ public class BuildStation {
         if (updateLastMeat())
             return;
         Product lastProduct = burgerProducts.getLast();
+        if (lastProduct instanceof Sauce)
+            return;
         if (Game.mouse.pressed && Game.mouse.x >= lastProduct.getX() && Game.mouse.x <= lastProduct.getX() + 150 && Game.mouse.y >= lastProduct.getY() && Game.mouse.y <= lastProduct.getY() + 100) {
             activeProduct = lastProduct;
         }
@@ -286,10 +288,10 @@ public class BuildStation {
         for (Product product : burgerProducts)
             if (isFalling(product) && !isColliding(product)) {
                 product.setY(product.getY() + 15);
+            } else {
                 if (product instanceof Meat)
                     product.setUsed(true);
-                if(product instanceof Sauce) {
-                    product.setY(product.getY() + 15);
+                if (product instanceof Sauce) {
                     ((Sauce) product).turnIntoSplash();
                 }
             }
@@ -429,7 +431,7 @@ public class BuildStation {
             if (fallenPr == activeProduct)
                 continue;
             if (fallenPr.getY() - 30 <= activeProduct.getY() && fallenPr.getY() + 100 >= activeProduct.getY() && fallenPr.getX() - 100 < activeProduct.getX() && fallenPr.getX() + 120 > activeProduct.getX())
-                activeProduct.setY(fallenPr.getY() - 27);
+                activeProduct.setY(fallenPr.getY() - 40);
         }
     }
 
@@ -455,7 +457,7 @@ public class BuildStation {
 
         public void checkAction() {
             if (Game.mouse.pressed && Game.mouse.x >= product.getX() && Game.mouse.x <= product.getX() + 150 && Game.mouse.y >= product.getY() && Game.mouse.y <= product.getY() + 100) {
-                if (activeProduct != null)
+                if (activeProduct != null || activeBottle != null)
                     return;
                 activeProduct = createProduct(product);
                 burgerProducts.add(activeProduct);
