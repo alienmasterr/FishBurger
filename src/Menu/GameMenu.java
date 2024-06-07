@@ -46,7 +46,10 @@ public class GameMenu extends JPanel {
     }
 
     public class GamePanel extends JPanel implements Runnable {
-        public double money = 0;
+         /**
+         * осьо гроші!!!!!!!!!!!!!!!!!!!!!
+         **/
+        public static double money = 10000;
         public OrderState orderState = OrderState.WAITING_CUSTOMER;
         public CookingState cookingState = CookingState.NO_MEAT;
         public TicketPin pin = new TicketPin(680, 0, 340, 140);

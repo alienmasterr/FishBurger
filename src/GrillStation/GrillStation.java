@@ -133,7 +133,7 @@ public class GrillStation {
         updateShrowAway();
     }
 
-    // todo м'ясо що стрибає погано надсилається. воно відмальовується на всіх панелях
+
     private void updateTransferToBuildStation() {
         if (selectedMeat == null)
             return;
