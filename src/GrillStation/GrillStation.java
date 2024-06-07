@@ -28,7 +28,7 @@ public class GrillStation {
     public static Meat selectedMeat = null;
     public static boolean meatSent = false;
     public static boolean spatulaTaken=false;
-    public static boolean meatOnGrill=false;
+    //public static boolean meatOnGrill=false;
 
     public GrillStation(GameMenu.GamePanel parent) {
         this.parent = parent;
@@ -172,12 +172,19 @@ public class GrillStation {
             return;
         if (selectedMeat.getX() >= grillBoard.getX() && selectedMeat.getX() <= grillBoard.getX() + grillBoard.getWidth() && selectedMeat.getY() >= grillBoard.getY() && selectedMeat.getY() <= grillBoard.getY() + grillBoard.getHeight()) {
             parent.cookingState = CookingState.MEAT_GRILLING;
-            meatOnGrill=true;
+            //meatOnGrill=true;
+
+           selectedMeat.setGrilling(true);
             //grillingMeatArrayList.add(selectedMeat);
            // meatArrayList.remove(selectedMeat);
             // System.out.println("перейшли в режим смаження");
+            //Meat.isGrilling = true;
         }else{
-            meatOnGrill = false;
+            //meatOnGrill = false;
+
+            selectedMeat.setGrilling(false);
+
+            //Meat.isGrilling = false;
         }
     }
 

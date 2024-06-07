@@ -15,8 +15,10 @@ public class Meat extends Product {
     //private String path;
     private Timer timer;
 
-    boolean isGrilling = true;
+    public static boolean isGrilling = true;
     boolean canFlip = false;
+    private boolean grilling = false;
+
 
 
     public Meat(int x, int y, int width, int height) {
@@ -25,6 +27,21 @@ public class Meat extends Product {
         //path = "/meat/meat.png";
 
         image = getImage("/meat/rawmeat.png");
+    }
+
+    public Meat(int x, int y, int width, int height, boolean grilling) {
+        super(x, y, width, height);
+        this.grilling = grilling;
+        //path = "/meat/meat.png";
+        image = getImage("/meat/rawmeat.png");
+    }
+
+//    public boolean isOnGrill(boolean isOnGrill) {
+//        return isOnGrill;
+//    }
+
+    public void setGrilling(boolean grilling) {
+        this.grilling = grilling;
     }
 
 
@@ -63,8 +80,10 @@ public class Meat extends Product {
             this.timer = new Timer(1000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    grilling();
-                    counter++;
+                   if(grilling) {
+                       grilling();
+                       counter++;
+                   }
                     if(GrillStation.meatSent){
                         timer.stop();
                     }
