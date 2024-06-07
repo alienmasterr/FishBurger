@@ -52,8 +52,7 @@ public class GameMenu extends JPanel {
          * осьо гроші!!!!!!!!!!!!!!!!!!!!!
          **/
 
-         //нахіба ти зробила гроші до цього статичними????
-        public  double money = 0;
+        public double money = 10000;
         public OrderState orderState = OrderState.WAITING_CUSTOMER;
         public CookingState cookingState = CookingState.NO_MEAT;
         public TicketPin pin = new TicketPin(680, 0, 340, 140);

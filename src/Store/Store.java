@@ -8,9 +8,6 @@ import java.awt.*;
 
 import Menu.*;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Store {
@@ -28,6 +25,7 @@ public class Store {
     public AccessorySix accessorySix = new AccessorySix(700, 400, 200, 200, 6000);
 
     public ArrayList<Accessories> boughtAccessoriesArrayList = new ArrayList<>();
+    private Accessories[] accessories = {accessoryOne, accessoryTwo, accessoryThree, accessoryFour, accessoryFive, accessorySix};
 
     public Store(GameMenu.GamePanel parent) {
         this.parent = parent;
@@ -54,31 +52,26 @@ public class Store {
         accessorySix.draw(g2d);
     }
 
+    private boolean paid = false;
+
     private void buyAccessories() {
-        //я би поклала це в арей і через фор ітерувала
-        if(Game.mouse.pressed && Game.mouse.x >= accessoryOne.getX() && Game.mouse.x <= accessoryOne.getX() + 200 && Game.mouse.y <= accessoryOne.getY() + 200 && Game.mouse.y >= accessoryOne.getY()){
-           accessoryOne.startFalling();
-           boughtAccessoriesArrayList.add(accessoryOne);
+        if (Game.mouse.pressed && !paid) {
+            for (Accessories accessory : accessories) {
+                if (Game.mouse.pressed && Game.mouse.x >= accessory.getX() && Game.mouse.x <= accessory.getX() + 200 && Game.mouse.y <= accessory.getY() + 200 && Game.mouse.y >= accessory.getY() && parent.money >= accessory.getPrice()) {
+                    accessory.startFalling();
+                    boughtAccessoriesArrayList.add(accessory);
+                    System.out.println("в гаманці " + parent.money);
+                    System.out.println("за продукт " + accessory.getPrice());
+                    parent.money -= accessory.getPrice();
+                    System.out.println("лишилося " + parent.money);
+                    break;
+                }
+            }
+            paid = true;
         }
-        if(Game.mouse.pressed && Game.mouse.x >= accessoryTwo.getX() && Game.mouse.x <= accessoryTwo.getX() + 200 && Game.mouse.y <= accessoryTwo.getY() + 200 && Game.mouse.y >= accessoryTwo.getY()){
-            accessoryTwo.startFalling();
-            boughtAccessoriesArrayList.add(accessoryTwo);
-        }
-        if(Game.mouse.pressed && Game.mouse.x >= accessoryThree.getX() && Game.mouse.x <= accessoryThree.getX() + 200 && Game.mouse.y <= accessoryThree.getY() + 200 && Game.mouse.y >= accessoryThree.getY()){
-            accessoryThree.startFalling();
-            boughtAccessoriesArrayList.add(accessoryThree);
-        }
-        if(Game.mouse.pressed && Game.mouse.x >= accessoryFour.getX() && Game.mouse.x <= accessoryFour.getX() + 200 && Game.mouse.y <= accessoryFour.getY() + 200 && Game.mouse.y >= accessoryFour.getY()){
-            accessoryFour.startFalling();
-            boughtAccessoriesArrayList.add(accessoryFour);
-        }
-        if(Game.mouse.pressed && Game.mouse.x >= accessoryFive.getX() && Game.mouse.x <= accessoryFive.getX() + 200 && Game.mouse.y <= accessoryFive.getY() + 200 && Game.mouse.y >= accessoryFive.getY()){
-            accessoryFive.startFalling();
-            boughtAccessoriesArrayList.add(accessoryFive);
-        }
-        if(Game.mouse.pressed && Game.mouse.x >= accessorySix.getX() && Game.mouse.x <= accessorySix.getX() + 200 && Game.mouse.y <= accessorySix.getY() + 200 && Game.mouse.y >= accessorySix.getY()){
-            accessorySix.startFalling();
-            boughtAccessoriesArrayList.add(accessorySix);
+
+        if (!Game.mouse.pressed) {
+            paid = false;
         }
     }
 
