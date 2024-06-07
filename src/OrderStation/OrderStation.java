@@ -43,7 +43,6 @@ public class OrderStation {
                 break;
         }
     }
-
     public void updateTime(){
         miliSec++;
         if(miliSec==60) {

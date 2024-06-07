@@ -4,6 +4,7 @@ import BuildStation.BuildStation;
 import Enums.*;
 import GrillStation.GrillStation;
 import GrillStation.GrillStationElements.Meat;
+import Level.Level;
 import Menu.MenuElements.LevelBar;
 import Menu.MenuElements.MoneyDisplay;
 import Menu.MenuElements.TicketPin;
@@ -20,7 +21,7 @@ import static Enums.PanelState.*;
 import static Menu.Game.mouse;
 
 public class GameMenu extends JPanel {
-    private GamePanel gamePanel = new GamePanel(ORDER_STATION);
+    private GamePanel gamePanel;
     private MenuPanel menuPanel = new MenuPanel();
     private Game parent;
     public Thread gameThread;
@@ -28,6 +29,7 @@ public class GameMenu extends JPanel {
     public GameMenu(Game parent) {
         super();
         this.parent = parent;
+        gamePanel = new GamePanel(ORDER_STATION);
         setStaticSize();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(Color.black);
@@ -74,6 +76,9 @@ public class GameMenu extends JPanel {
         }
 
         public void restartGame() {
+            Level.levelState = parent.levelState.getState();
+            levelBar.setLevel(5, 0);
+            levelBar.setLevelNum(Level.levelState);
             orderState = OrderState.WAITING_CUSTOMER;
             cookingState = CookingState.NO_MEAT;
             pin = new TicketPin(680, 0, 340, 140);
@@ -105,8 +110,9 @@ public class GameMenu extends JPanel {
         }
 
         private void setup() {
+            Level.levelState = parent.levelState.getState();
             levelBar.setLevel(5, 0);
-            levelBar.setLevelNum(1);
+            levelBar.setLevelNum(Level.levelState);
             moneyDisplay.setCurrentMoney(money);
             setMaximumSize(new Dimension(Game.WIDTH, (int) (Game.HEIGHT * 0.9)));
             setBackground(Color.darkGray);

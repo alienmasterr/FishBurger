@@ -1,6 +1,7 @@
 package OrderStation.OrderElements;
 
 import Elements.Node;
+import Level.Level;
 
 public class Customer extends Node {
     //дописати рандомайзер вибору картинок для кастомерів
@@ -23,7 +24,7 @@ public class Customer extends Node {
     }
 
     private void setRandomImage(){
-        int num = 1 + (int)(Math.random() * (9));
+        int num = 1 + (int)(Math.random() * (Level.getTypesOfCustomers()));
         image = getImage("/customers/customer" + num +".png");
     }
 
