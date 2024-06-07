@@ -3,11 +3,8 @@ package Store;
 import Elements.Node;
 import Enums.StoreState;
 import Menu.GameMenu;
-
 import java.awt.*;
-
 import Menu.*;
-
 import java.util.ArrayList;
 
 public class Store {
@@ -76,8 +73,7 @@ public class Store {
     }
 
     private void drawBase(Graphics2D g2d) {
-        //g2d.setColor(Color.BLUE);
-        //g2d.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+
     }
 
     public void activateSaveButton(){
@@ -85,10 +81,10 @@ public class Store {
             storeState = StoreState.SAVED;
         }
     }
+
     public void saveAll(){
 
     }
-
 }
 
 class HelpButton extends Node {

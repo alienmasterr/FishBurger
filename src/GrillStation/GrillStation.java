@@ -1,15 +1,11 @@
 package GrillStation;
 
 import java.awt.*;
-
 import Enums.CookingState;
 import GrillStation.GrillStationElements.*;
 import Menu.*;
 import Menu.Game;
-
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import javax.swing.*;
 
 public class GrillStation {
 
@@ -60,7 +56,6 @@ public class GrillStation {
             if(selectedMeat.getFileName().equals("/meat/rawmeat.png")){
                 RareLevelOfGrill rareLevelOfGrill = new RareLevelOfGrill(selectedMeat.getX(), selectedMeat.getY(), 50, 50);
                 rareLevelOfGrill.draw(g2d);
-                //System.out.println("сире");
             }else if(selectedMeat.getFileName().equals("/meat/meat.png") || selectedMeat.getFileName().equals("/meat/rawmeat1.png")){
                 MediumLevelOfGrill mediumLevelOfGrill = new MediumLevelOfGrill(selectedMeat.getX(), selectedMeat.getY(), 50, 50);
                 mediumLevelOfGrill.draw(g2d);
@@ -109,10 +104,8 @@ public class GrillStation {
         if (selectedMeat == null)
             return;
         if (selectedMeat.getX() > plate.getX() - 20 && selectedMeat.getX() < plate.getX() + plate.getWidth() + 20 && selectedMeat.getY() > plate.getY() - 20 && selectedMeat.getY() < plate.getY() + plate.getHeight() + 20) {
-            //System.out.println("sent");
             sendMeat(selectedMeat);
             meatArrayList.remove(selectedMeat);
-            //grillingMeatArrayList.remove(selectedMeat);
             parent.cookingState = CookingState.MEAT_SENT_TO_BD;
             meatSent = true;
             selectedMeat = null;
@@ -182,12 +175,6 @@ public class GrillStation {
             parent.cookingState = CookingState.MEAT_NOT_READY;
         }
     }
-
-//    private void flipMeat() {
-//        if (selectedMeat != null && Game.mouse.pressed && Game.mouse.x >= selectedMeat.getX() && Game.mouse.x <= selectedMeat.getX() + 200 && Game.mouse.y <= selectedMeat.getY() + 200 && Game.mouse.y >= selectedMeat.getY() && selectedMeat.getX() >= grillBoard.getX() && selectedMeat.getX() <= grillBoard.getX() + grillBoard.getWidth() && selectedMeat.getY() >= grillBoard.getY() && selectedMeat.getY() <= grillBoard.getY() + grillBoard.getHeight()) {
-//            selectedMeat.getFlipped();
-//        }
-//    }
 
     private void readyMeat(Graphics2D g2d) {
         drawNewMeat(g2d);

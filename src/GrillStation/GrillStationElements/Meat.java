@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 public class Meat extends Product {
-    //private String path;
+
     private Timer timer;
 
     public static boolean isGrilling = true;
