@@ -85,4 +85,9 @@ public class Node {
     public void setWidth(int width) {
         this.width = width;
     }
+
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
 }

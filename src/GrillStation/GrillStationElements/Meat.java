@@ -48,10 +48,10 @@ public class Meat extends Product {
     }
 
 
-    public void setPosition(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
+//    public void setPosition(int x, int y) {
+//        this.x = x;
+//        this.y = y;
+//    }
 
     private int yVelocity = -4;
 

@@ -16,7 +16,6 @@ public class GrillStation {
     //private Timer timer;
 
     private final ArrayList<Meat> meatArrayList = new ArrayList<>();
-    //private final ArrayList<Meat> grillingMeatArrayList = new ArrayList<>();
 
     private final Mince mince = new Mince(Game.WIDTH / 15, Game.HEIGHT - Game.HEIGHT / 3 + Game.HEIGHT / 10, 150, 100);
     private final Trash trash = new Trash(Game.WIDTH / 12, Game.HEIGHT / 2 - Game.HEIGHT / 4, 100, 100);
@@ -34,99 +33,98 @@ public class GrillStation {
         this.parent = parent;
     }
 
-    private void addMouseListeners() {
-//        parent.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mousePressed(MouseEvent e) {
-//
-//                //ПРОБЛЕМА ТЯГАННЯ ТУТ
-//                //якщо цей метод застосовувати до ліста, то можна тягати мишкою будь що будь коли
-//                //але
-//                //смажиться і стрибає лише котлета яку ти щойно перетягнув
-//                for (Meat meat : meatArrayList) {
-//                    if (e.getX() >= meat.getX() && e.getX() <= meat.getX() + 100 && e.getY() >= meat.getY() && e.getY() <= meat.getY() + 200) {
-//                        initialClick = e.getPoint();
-//                        selectedMeat = meat;
-//                        break;
-//                    }
-//                }
-//                for (Meat meat : grillingMeatArrayList) {
-//                    if(meat!=null){
-//                        if (e.getX() >= meat.getX() && e.getX() <= meat.getX() + 100 && e.getY() >= meat.getY() && e.getY() <= meat.getY() + 200) {
-//                            initialClick = e.getPoint();
-//                            selectedMeat = meat;
-//                            break;
-//                        }
-//                    }
-//                }
-//            }
-//        });
-//
-//        parent.addMouseMotionListener(new MouseMotionAdapter() {
-//            @Override
-//            public void mouseDragged(MouseEvent e) {
-//                if (!meatTaken && initialClick != null && selectedMeat != null) {
-//                    int thisX = selectedMeat.getX();
-//                    int thisY = selectedMeat.getY();
-//                    if (thisX >= grillBoard.getX() && thisX <= grillBoard.getX() + grillBoard.getWidth() && thisY >= grillBoard.getY() && thisY <= grillBoard.getY() + grillBoard.getHeight()) {
-//                        parent.cookingState = CookingState.MEAT_GRILLING;
-//                        // System.out.println("перейшли в режим смаження");
-//                    }
-//
-//                    if (thisX >= trash.getX() && thisX <= trash.getX() + trash.getWidth() && thisY >= trash.getY() && thisY <= trash.getY() + trash.getHeight()) {
-//                        System.out.println("перейшли в режим м'со викинуто");
-//                        parent.cookingState = CookingState.MEAT_SHROWN_AWAY;
-//
-//                        //todo можливо треба перевірка чи це м'ясо взагалі існує в цьому ареї
-//                        //ПРОБЛЕМА З ВИДАЛЕННЯМ
-//                        meatArrayList.remove(selectedMeat);
-//                        grillingMeatArrayList.remove(selectedMeat);
-//                        selectedMeat = null;
-//                        return;
-//                    }
-//
-//                    if (thisX >= plate.getX() && thisX <= plate.getX() + plate.getWidth() && thisY >= plate.getY() && thisY <= plate.getY() + plate.getHeight()) {
-//                        parent.cookingState = CookingState.MEAT_SENT_TO_BD;
-//                        System.out.println("sent");
-//                        meatArrayList.remove(selectedMeat);
-//                        //numOfMeat++;
-//                        sentMeat = true;
-//                        selectedMeat = null;
-//                        sendMeat(selectedMeat);
-//                        return;
-//                    }
-//
-//                    int xMoved = e.getX() - initialClick.x;
-//                    int yMoved = e.getY() - initialClick.y;
-//                    int X = thisX + xMoved;
-//                    int Y = thisY + yMoved;
-//                    selectedMeat.setPosition(X, Y);
-//                    initialClick = e.getPoint();
-//                }
-//            }
-//        });
-    }
+//    private void addMouseListeners() {
+////        parent.addMouseListener(new MouseAdapter() {
+////            @Override
+////            public void mousePressed(MouseEvent e) {
+////
+////                //ПРОБЛЕМА ТЯГАННЯ ТУТ
+////                //якщо цей метод застосовувати до ліста, то можна тягати мишкою будь що будь коли
+////                //але
+////                //смажиться і стрибає лише котлета яку ти щойно перетягнув
+////                for (Meat meat : meatArrayList) {
+////                    if (e.getX() >= meat.getX() && e.getX() <= meat.getX() + 100 && e.getY() >= meat.getY() && e.getY() <= meat.getY() + 200) {
+////                        initialClick = e.getPoint();
+////                        selectedMeat = meat;
+////                        break;
+////                    }
+////                }
+////                for (Meat meat : grillingMeatArrayList) {
+////                    if(meat!=null){
+////                        if (e.getX() >= meat.getX() && e.getX() <= meat.getX() + 100 && e.getY() >= meat.getY() && e.getY() <= meat.getY() + 200) {
+////                            initialClick = e.getPoint();
+////                            selectedMeat = meat;
+////                            break;
+////                        }
+////                    }
+////                }
+////            }
+////        });
+////
+////        parent.addMouseMotionListener(new MouseMotionAdapter() {
+////            @Override
+////            public void mouseDragged(MouseEvent e) {
+////                if (!meatTaken && initialClick != null && selectedMeat != null) {
+////                    int thisX = selectedMeat.getX();
+////                    int thisY = selectedMeat.getY();
+////                    if (thisX >= grillBoard.getX() && thisX <= grillBoard.getX() + grillBoard.getWidth() && thisY >= grillBoard.getY() && thisY <= grillBoard.getY() + grillBoard.getHeight()) {
+////                        parent.cookingState = CookingState.MEAT_GRILLING;
+////                        // System.out.println("перейшли в режим смаження");
+////                    }
+////
+////                    if (thisX >= trash.getX() && thisX <= trash.getX() + trash.getWidth() && thisY >= trash.getY() && thisY <= trash.getY() + trash.getHeight()) {
+////                        System.out.println("перейшли в режим м'со викинуто");
+////                        parent.cookingState = CookingState.MEAT_SHROWN_AWAY;
+////
+////                        //todo можливо треба перевірка чи це м'ясо взагалі існує в цьому ареї
+////                        //ПРОБЛЕМА З ВИДАЛЕННЯМ
+////                        meatArrayList.remove(selectedMeat);
+////                        grillingMeatArrayList.remove(selectedMeat);
+////                        selectedMeat = null;
+////                        return;
+////                    }
+////
+////                    if (thisX >= plate.getX() && thisX <= plate.getX() + plate.getWidth() && thisY >= plate.getY() && thisY <= plate.getY() + plate.getHeight()) {
+////                        parent.cookingState = CookingState.MEAT_SENT_TO_BD;
+////                        System.out.println("sent");
+////                        meatArrayList.remove(selectedMeat);
+////                        //numOfMeat++;
+////                        sentMeat = true;
+////                        selectedMeat = null;
+////                        sendMeat(selectedMeat);
+////                        return;
+////                    }
+////
+////                    int xMoved = e.getX() - initialClick.x;
+////                    int yMoved = e.getY() - initialClick.y;
+////                    int X = thisX + xMoved;
+////                    int Y = thisY + yMoved;
+////                    selectedMeat.setPosition(X, Y);
+////                    initialClick = e.getPoint();
+////                }
+////            }
+////        });
+//    }
 
     private void moveSpatula() {
-//        if (Game.mouse.pressed && Game.mouse.x >= spatula.getX() && Game.mouse.x <= spatula.getX() + 100 && Game.mouse.y >= spatula.getY() && Game.mouse.y <= spatula.getY() + 200) {
-//            spatulaTaken = true;
-//                spatula.setX(Game.mouse.x);
-//                spatula.setY(Game.mouse.y);
-//
-//        }
-        if (Game.mouse.pressed && Game.mouse.x >= spatula.getX() && Game.mouse.x <= spatula.getX() + 100 && Game.mouse.y >= spatula.getY() && Game.mouse.y <= spatula.getY() + 200) {
+        if (!spatulaTaken && Game.mouse.pressed && Game.mouse.x >= spatula.getX() && Game.mouse.x <= spatula.getX() + 100 && Game.mouse.y >= spatula.getY() && Game.mouse.y <= spatula.getY() + 200) {
             spatulaTaken = true;
-            spatula.startBouncing();
+            Game.mouse.dragging = true;
         }
-
+        if (spatulaTaken) {
+            spatula.setPosition(Game.mouse.x, Game.mouse.y);
+        }
+        if (!Game.mouse.pressed && spatulaTaken) {
+            Game.mouse.dragging = false;
+        }
     }
 
     private void flip(){
         if(spatulaTaken &&  selectedMeat != null && Game.mouse.pressed && Game.mouse.x >= selectedMeat.getX() && Game.mouse.x <= selectedMeat.getX() + 100 && Game.mouse.y >= selectedMeat.getY() && Game.mouse.y <= selectedMeat.getY() + 200 && selectedMeat.getGrilling()){
-            //System.out.println("повинно фліпнутись");
-
             selectedMeat.getFlipped();
             spatulaTaken=false;
+            spatula.setPosition(Game.WIDTH / 2 + Game.WIDTH / 3, Game.HEIGHT / 4);
+
         }
     }
 

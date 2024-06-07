@@ -26,6 +26,8 @@ public class Spatula extends Node {
         });
     }
 
+
+
     public void startBouncing() {
         timer.start();
     }
