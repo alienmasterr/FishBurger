@@ -22,6 +22,7 @@ public class GrillStation {
     private final Plate plate = new Plate(Game.WIDTH / 2 + Game.WIDTH / 3, Game.HEIGHT / 2 + Game.HEIGHT / 6, 100, 100);
     public final Spatula spatula = new Spatula(Game.WIDTH / 2 + Game.WIDTH / 3, Game.HEIGHT / 4, 20, 200);
     private final GrillBoard grillBoard = new GrillBoard(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 6, Game.WIDTH / 2, Game.HEIGHT / 3);
+    private final GrillBackground grillBackground = new GrillBackground(0, 0, Game.WIDTH, Game.HEIGHT);
 
     //todo може приватним?
     public static Meat selectedMeat = null;
@@ -32,79 +33,6 @@ public class GrillStation {
     public GrillStation(GameMenu.GamePanel parent) {
         this.parent = parent;
     }
-
-//    private void addMouseListeners() {
-////        parent.addMouseListener(new MouseAdapter() {
-////            @Override
-////            public void mousePressed(MouseEvent e) {
-////
-////                //ПРОБЛЕМА ТЯГАННЯ ТУТ
-////                //якщо цей метод застосовувати до ліста, то можна тягати мишкою будь що будь коли
-////                //але
-////                //смажиться і стрибає лише котлета яку ти щойно перетягнув
-////                for (Meat meat : meatArrayList) {
-////                    if (e.getX() >= meat.getX() && e.getX() <= meat.getX() + 100 && e.getY() >= meat.getY() && e.getY() <= meat.getY() + 200) {
-////                        initialClick = e.getPoint();
-////                        selectedMeat = meat;
-////                        break;
-////                    }
-////                }
-////                for (Meat meat : grillingMeatArrayList) {
-////                    if(meat!=null){
-////                        if (e.getX() >= meat.getX() && e.getX() <= meat.getX() + 100 && e.getY() >= meat.getY() && e.getY() <= meat.getY() + 200) {
-////                            initialClick = e.getPoint();
-////                            selectedMeat = meat;
-////                            break;
-////                        }
-////                    }
-////                }
-////            }
-////        });
-////
-////        parent.addMouseMotionListener(new MouseMotionAdapter() {
-////            @Override
-////            public void mouseDragged(MouseEvent e) {
-////                if (!meatTaken && initialClick != null && selectedMeat != null) {
-////                    int thisX = selectedMeat.getX();
-////                    int thisY = selectedMeat.getY();
-////                    if (thisX >= grillBoard.getX() && thisX <= grillBoard.getX() + grillBoard.getWidth() && thisY >= grillBoard.getY() && thisY <= grillBoard.getY() + grillBoard.getHeight()) {
-////                        parent.cookingState = CookingState.MEAT_GRILLING;
-////                        // System.out.println("перейшли в режим смаження");
-////                    }
-////
-////                    if (thisX >= trash.getX() && thisX <= trash.getX() + trash.getWidth() && thisY >= trash.getY() && thisY <= trash.getY() + trash.getHeight()) {
-////                        System.out.println("перейшли в режим м'со викинуто");
-////                        parent.cookingState = CookingState.MEAT_SHROWN_AWAY;
-////
-////                        //todo можливо треба перевірка чи це м'ясо взагалі існує в цьому ареї
-////                        //ПРОБЛЕМА З ВИДАЛЕННЯМ
-////                        meatArrayList.remove(selectedMeat);
-////                        grillingMeatArrayList.remove(selectedMeat);
-////                        selectedMeat = null;
-////                        return;
-////                    }
-////
-////                    if (thisX >= plate.getX() && thisX <= plate.getX() + plate.getWidth() && thisY >= plate.getY() && thisY <= plate.getY() + plate.getHeight()) {
-////                        parent.cookingState = CookingState.MEAT_SENT_TO_BD;
-////                        System.out.println("sent");
-////                        meatArrayList.remove(selectedMeat);
-////                        //numOfMeat++;
-////                        sentMeat = true;
-////                        selectedMeat = null;
-////                        sendMeat(selectedMeat);
-////                        return;
-////                    }
-////
-////                    int xMoved = e.getX() - initialClick.x;
-////                    int yMoved = e.getY() - initialClick.y;
-////                    int X = thisX + xMoved;
-////                    int Y = thisY + yMoved;
-////                    selectedMeat.setPosition(X, Y);
-////                    initialClick = e.getPoint();
-////                }
-////            }
-////        });
-//    }
 
     private void moveSpatula() {
         if (!spatulaTaken && Game.mouse.pressed && Game.mouse.x >= spatula.getX() && Game.mouse.x <= spatula.getX() + 100 && Game.mouse.y >= spatula.getY() && Game.mouse.y <= spatula.getY() + 200) {
@@ -225,11 +153,6 @@ public class GrillStation {
         for (Meat meat : meatArrayList) {
             findEl(meat);
         }
-//        for (Meat meat : grillingMeatArrayList) {
-//            if (meat != null) {
-//                findEl(meat);
-//            }
-//        }
     }
 
     private void findEl(Meat meat) {
@@ -238,39 +161,6 @@ public class GrillStation {
             //return;
         }
     }
-
-
-    // int counter = 0;
-
-//    public void setupTimer() {
-//        this.timer = new Timer(1000, new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                grillingMeatArrayList.add(selectedMeat);
-//                meatArrayList.remove(selectedMeat);
-//                for (Meat meat : grillingMeatArrayList) {
-//                    if (meat != null) {
-//                        meat.grilling();
-//                    }
-//                }
-//                counter++;
-//                if (counter == 5) {
-//
-//                } else if (counter == 10) {
-//                    System.out.println("10 sec");
-//                    parent.cookingState = CookingState.MEAT_READY;
-//                } else if (counter == 20) {
-//                    System.out.println("20 sec");
-//
-//                } else if (counter == 30) {
-//                    System.out.println("30 sec");
-//                    timer.stop();
-//                    parent.cookingState = CookingState.MEAT_BURNING;
-//                }
-//            }
-//        });
-//    }
-
 
     private void createMeat(Graphics2D g2d) {
         grillBoard.draw(g2d);
@@ -299,11 +189,6 @@ public class GrillStation {
         drawNewMeat(g2d);
         //meat.beReady();
         for (Meat meat : meatArrayList) meat.beReady();
-//        for (Meat meat : grillingMeatArrayList) {
-//            if (meat != null) {
-//                meat.beReady();
-//            }
-//        }
     }
 
 //    private void meatBurnt(Graphics2D g2d) {
@@ -354,37 +239,18 @@ public class GrillStation {
     }
 
     private void drawNewMeat(Graphics2D g2d) {
-        // mince.draw(g2d);
-        //activateMinceButton();
-
         createMeat(g2d);
-
-        //grillBoard.draw(g2d);
-        //plate.draw(g2d);
-        //trash.draw(g2d);
 
         for (Meat meat : meatArrayList) {
             meat.draw(g2d);
         }
 
-//        if (!grillingMeatArrayList.isEmpty()) {
-//            for (Meat meat : grillingMeatArrayList) {
-//                if (meat != null) {
-//                    meat.draw(g2d);
-//                }
-//            }
-//        }
-
-//        meat.draw(g2d);
     }
 
-//    private void drawImportant(Graphics2D g2d){
-//        spatula.draw(g2d);
-//    }
-
     private void drawBase(Graphics2D g2d) {
-        g2d.setColor(Color.lightGray);
-        g2d.fillRect(0, Game.HEIGHT / 5, Game.WIDTH, Game.HEIGHT - Game.HEIGHT / 5);
+      //  g2d.setColor(Color.lightGray);
+      //  g2d.fillRect(0, Game.HEIGHT / 5, Game.WIDTH, Game.HEIGHT - Game.HEIGHT / 5);
+        grillBackground.draw(g2d);
     }
 
 
