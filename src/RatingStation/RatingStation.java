@@ -11,6 +11,8 @@ import Elements.Node;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -121,8 +123,8 @@ public class RatingStation {
     private void moveCustomerToExit(){
         if(customer.getX() < -300) {
             state = RatingState.RESTARTING;
+            parent.increaseExp();
             parent.pin.setDrawTicket(false);
-            parent.money = 5;
             customer.setMessage("Waiting for the next customer");
             timer = new Timer(1200, new ActionListener() {
                 @Override
@@ -131,6 +133,7 @@ public class RatingStation {
                     if(customer.getMessage().length() == 34) {
                         parent.pin.setDrawTicket(true);
                         timer.stop();
+                        parent.toggleButtons();
                         parent.restartGame();
                     }
                 }
@@ -158,6 +161,7 @@ public class RatingStation {
     private void moveCoin(){
         if(coin.getY()+50 >= 390+200) {
             parent.money+=calculateMoney();
+            parent.updateMoneyDisplay();
             state = RatingState.WALKING_AWAY;
         }
         coin.setY(coin.getY()+8);

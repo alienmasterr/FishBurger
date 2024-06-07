@@ -5,6 +5,7 @@ import Enums.*;
 import GrillStation.GrillStation;
 import GrillStation.GrillStationElements.Meat;
 import Menu.MenuElements.LevelBar;
+import Menu.MenuElements.MoneyDisplay;
 import Menu.MenuElements.TicketPin;
 import OrderStation.OrderStation;
 import RatingStation.RatingStation;
@@ -53,8 +54,9 @@ public class GameMenu extends JPanel {
         private BuildStation buildStation = new BuildStation(this);
         private GrillStation grillStation = new GrillStation(this);
         public RatingStation ratingStation = new RatingStation(this);
-        public Store store = new Store(this);
-        private LevelBar levelBar = new LevelBar(10, 10, 300, 60);
+        private Store store = new Store(this);
+        private LevelBar levelBar = new LevelBar(5, 5, 300, 60);
+        private MoneyDisplay moneyDisplay = new MoneyDisplay(5,65, 50, 50);
         public boolean isRunning = true;
         public PanelState panelState;
 
@@ -74,9 +76,16 @@ public class GameMenu extends JPanel {
             buildStation = new BuildStation(this);
             grillStation = new GrillStation(this);
             ratingStation = new RatingStation(this);
-
             store = new Store(this);
             panelState = ORDER_STATION;
+        }
+
+        public void increaseExp(){
+            levelBar.increaseLevel();
+        }
+
+        public void updateMoneyDisplay(){
+            moneyDisplay.setCurrentMoney(money);
         }
 
         public void toggleButtons() {
@@ -92,8 +101,9 @@ public class GameMenu extends JPanel {
         }
 
         private void setup() {
-            levelBar.setLevel(5, 1);
+            levelBar.setLevel(5, 0);
             levelBar.setLevelNum(1);
+            moneyDisplay.setCurrentMoney(money);
             setMaximumSize(new Dimension(Game.WIDTH, (int) (Game.HEIGHT * 0.9)));
             setBackground(Color.darkGray);
             addMouseMotionListener(mouse);
@@ -152,6 +162,7 @@ public class GameMenu extends JPanel {
             if (pin.isDrawTicket())
                 pin.draw(g2d);
             levelBar.draw(g2d);
+            moneyDisplay.draw(g2d);
         }
     }
 

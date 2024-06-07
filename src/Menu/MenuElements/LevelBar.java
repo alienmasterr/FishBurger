@@ -18,6 +18,10 @@ public class LevelBar extends Node {
         this.currentNumber = currentNumber;
     }
 
+    public void increaseLevel(){
+        this.currentNumber++;
+    }
+
     public void setLevelNum(int number){
         this.levelNum = number;
     }
