@@ -1,18 +1,14 @@
 package Level;
 
 public class Level {
-    private int levelState = 1;
+    public static int levelState = 1;
 
-    public Level(int levelState) {
-        this.levelState = levelState;
-    }
-
-    public void nextLevel() {
+    public static void nextLevel() {
         if (levelState != 3)
             levelState++;
     }
 
-    public int getBurgerSize(){
+    public static int getBurgerSize(){
         return switch (levelState) {
             case 2 -> 9;
             case 3 -> 7;
@@ -20,7 +16,7 @@ public class Level {
         };
     }
 
-    public int getTimesBeforeNextLevel(){
+    public static int getTimesBeforeNextLevel(){
         return switch (levelState) {
             case 2 -> 7;
             case 3 -> 15;
@@ -28,7 +24,7 @@ public class Level {
         };
     }
 
-    public int getTypesOfCustomers(){
+    public static int getTypesOfCustomers(){
         return switch (levelState) {
             case 2 -> 9;
             case 3 -> 6;
@@ -36,7 +32,7 @@ public class Level {
         };
     }
 
-    public int getMistakeBuildFine(){
+    public static int getMistakeBuildFine(){
         return switch (levelState) {
             case 2 -> 5;
             case 3 -> 9;
@@ -44,7 +40,7 @@ public class Level {
         };
     }
 
-    public int getWrongSizeFine(){
+    public static int getWrongSizeFine(){
         return switch (levelState) {
             case 2 -> 50;
             case 3 -> 30;
@@ -52,7 +48,7 @@ public class Level {
         };
     }
 
-    public int getNumberOfSauces() {
+    public static int getNumberOfSauces() {
         return switch (levelState) {
             case 2 -> 2;
             case 3 -> 4;
@@ -60,7 +56,7 @@ public class Level {
         };
     }
 
-    public int getMaxTimeForOrder() {
+    public static int getMaxTimeForOrder() {
         return switch (levelState) {
             case 2 -> 60;
             case 3 -> 90;
@@ -68,7 +64,7 @@ public class Level {
         };
     }
 
-    public int getMaxMoney() {
+    public static int getMaxMoney() {
         return switch (levelState) {
             case 2 -> 25;
             case 3 -> 50;
@@ -76,11 +72,8 @@ public class Level {
         };
     }
 
-    public int getLevelState() {
+    public static int getLevelState() {
         return levelState;
     }
 
-    public void setLevelState(int levelState) {
-        this.levelState = levelState;
-    }
 }

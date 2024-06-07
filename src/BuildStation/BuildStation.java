@@ -261,6 +261,8 @@ public class BuildStation {
             return;
         if (updateLastMeat())
             return;
+        if(activeBottle != null)
+            return;
         Product lastProduct = burgerProducts.getLast();
         if (lastProduct instanceof Sauce)
             return;

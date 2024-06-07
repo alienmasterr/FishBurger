@@ -3,6 +3,7 @@ package Menu;
 import Elements.Mouse;
 import Enums.FrameState;
 import Enums.LevelState;
+import Level.Level;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,11 +13,11 @@ public class Game extends JFrame {
     public static final int HEIGHT = 800;
     public static final int WIDTH = 1000;
     public static Mouse mouse = new Mouse();
-    private GameMenu gameMenu = new GameMenu(this);
+    private GameMenu gameMenu;
     private MainMenu mainMenu = new MainMenu(this);
     private LevelMenu levelMenu = new LevelMenu(this);
     public FrameState frameState = FrameState.MAIN_MENU;
-    public LevelState levelState;
+    public LevelState levelState = LevelState.LEVEL1;
     private Box box;
 
     public static void main(String[] args) {
@@ -28,12 +29,15 @@ public class Game extends JFrame {
         setSize(new Dimension(WIDTH, HEIGHT));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        gameMenu = new GameMenu(this);
         getContentPane().setBackground(Color.black);
         setVisiblePanel(frameState);
     }
 
     public void startGame(LevelState level){
         levelState = level;
+        Level.levelState = level.getState();
+        System.out.println(Level.levelState);
         setVisiblePanel(FrameState.GAME);
     }
 
