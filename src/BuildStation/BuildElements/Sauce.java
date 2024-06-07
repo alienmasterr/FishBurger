@@ -16,7 +16,7 @@ public class Sauce extends Product {
             case 1 -> "bbq.png";
             case 2 -> "catsup.png";
             case 3 -> "mayo.png";
-            default -> "mustard.png";
+            default -> "musсard.png";
         };
     }
 
