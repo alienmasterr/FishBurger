@@ -140,8 +140,8 @@ public class GrillStation {
         if (selectedMeat.getX() > plate.getX() - 20 && selectedMeat.getX() < plate.getX() + plate.getWidth() + 20 && selectedMeat.getY() > plate.getY() - 20 && selectedMeat.getY() < plate.getY() + plate.getHeight() + 20) {
             //System.out.println("sent");
             sendMeat(selectedMeat);
-            System.out.println(meatArrayList.remove(selectedMeat));
-            System.out.println(grillingMeatArrayList.remove(selectedMeat));
+            meatArrayList.remove(selectedMeat);
+            grillingMeatArrayList.remove(selectedMeat);
             parent.cookingState = CookingState.MEAT_SENT_TO_BD;
             meatSent = true;
             selectedMeat = null;
