@@ -97,7 +97,6 @@ public class GameMenu extends JPanel {
             menuPanel.buildStation.toggle();
             menuPanel.grillStation.toggle();
             menuPanel.orderStation.toggle();
-
             menuPanel.storeButton.toggle();
         }
 
@@ -164,6 +163,8 @@ public class GameMenu extends JPanel {
                 case GAME_MENU:
                     parent.setVisiblePanel(FrameState.MAIN_MENU);
             }
+            if(panelState == STORE)
+                return;
             if (pin.isDrawTicket())
                 pin.draw(g2d);
             levelBar.draw(g2d);
@@ -203,25 +204,9 @@ public class GameMenu extends JPanel {
             add(stationPanel, BorderLayout.CENTER);
         }
 
-        //вау як все погано я завтра зранку виправлю... це
         private void setStoreButton() {
-            //JButton store = new JButton("Store");
-            JPanel store = new JPanel();
-            store.setPreferredSize(new Dimension((int) (Game.WIDTH * 0.07), (int) (Game.WIDTH * 0.05)));
-//            store.setBackground(Color.black);
-//            store.setForeground(Color.white);
-            store.setBackground(Color.darkGray);
-            store.add(storeButton);
-            add(store, BorderLayout.EAST);
-//            store.addActionListener(new ActionListener() {
-//                @Override
-//                public void actionPerformed(ActionEvent e) {
-//                    //магазин
-//
-//
-//                }
-            //  });
-            add(store, BorderLayout.EAST);
+            storeButton.setPreferredSize(new Dimension((int) (Game.WIDTH * 0.07), (int) (Game.WIDTH * 0.05)));
+            add(storeButton, BorderLayout.EAST);
         }
 
         private void setMenuButton() {

@@ -6,7 +6,22 @@ public class Sauce extends Product {
     private String splashSrc;
     public Sauce(int x, int y, int width, int height) {
         super(x, y, width, height);
-        setImage("/sauses/drip/bbq.png");
+        setImage("/sauses/splashes/" + getRandomImage());
+    }
+
+    public Sauce(){setImage("/sauses/splashes/" + getRandomImage());}
+
+    private String getRandomImage(){
+        return switch (getRandomNumber(1, 4)) {
+            case 1 -> "bbq.png";
+            case 2 -> "catsup.png";
+            case 3 -> "mayo.png";
+            default -> "mustard.png";
+        };
+    }
+
+    private int getRandomNumber(int min, int max) {
+        return min + (int) (Math.random() * ((max - min) + 1));
     }
 
     public String getSplashSrc() {

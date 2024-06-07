@@ -1,5 +1,6 @@
 package Menu.MenuElements;
 
+import BuildStation.BuildElements.Sauce;
 import Elements.Node;
 import Products.*;
 
@@ -84,13 +85,14 @@ public class Ticket extends Node {
     }
 
     private Product getRandomProduct() {
-        int generatedNum = getRandomNumber(0, 6);
+        int generatedNum = getRandomNumber(0, 7);
         return switch (generatedNum) {
             case 0 -> new Cheese();
             case 1 -> new Cucumber();
             case 2 -> new Onion();
             case 3 -> new Spinach();
             case 4 -> new Tomato();
+            case 5 -> new Sauce();
             default -> new Meat();
         };
     }

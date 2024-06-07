@@ -55,6 +55,7 @@ public class Store {
     }
 
     private void buyAccessories() {
+        //я би поклала це в арей і через фор ітерувала
         if(Game.mouse.pressed && Game.mouse.x >= accessoryOne.getX() && Game.mouse.x <= accessoryOne.getX() + 200 && Game.mouse.y <= accessoryOne.getY() + 200 && Game.mouse.y >= accessoryOne.getY()){
            accessoryOne.startFalling();
            boughtAccessoriesArrayList.add(accessoryOne);
