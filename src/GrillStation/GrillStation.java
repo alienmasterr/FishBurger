@@ -16,7 +16,7 @@ public class GrillStation {
     //private Timer timer;
 
     private final ArrayList<Meat> meatArrayList = new ArrayList<>();
-    private final ArrayList<Meat> grillingMeatArrayList = new ArrayList<>();
+    //private final ArrayList<Meat> grillingMeatArrayList = new ArrayList<>();
 
     private final Mince mince = new Mince(Game.WIDTH / 15, Game.HEIGHT - Game.HEIGHT / 3 + Game.HEIGHT / 10, 150, 100);
     private final Trash trash = new Trash(Game.WIDTH / 12, Game.HEIGHT / 2 - Game.HEIGHT / 4, 100, 100);
@@ -28,6 +28,7 @@ public class GrillStation {
     public static Meat selectedMeat = null;
     public static boolean meatSent = false;
     public static boolean spatulaTaken=false;
+    //public static boolean meatOnGrill=false;
 
     public GrillStation(GameMenu.GamePanel parent) {
         this.parent = parent;
@@ -159,7 +160,7 @@ public class GrillStation {
             //System.out.println("sent");
             sendMeat(selectedMeat);
             meatArrayList.remove(selectedMeat);
-            grillingMeatArrayList.remove(selectedMeat);
+            //grillingMeatArrayList.remove(selectedMeat);
             parent.cookingState = CookingState.MEAT_SENT_TO_BD;
             meatSent = true;
             selectedMeat = null;
@@ -171,9 +172,19 @@ public class GrillStation {
             return;
         if (selectedMeat.getX() >= grillBoard.getX() && selectedMeat.getX() <= grillBoard.getX() + grillBoard.getWidth() && selectedMeat.getY() >= grillBoard.getY() && selectedMeat.getY() <= grillBoard.getY() + grillBoard.getHeight()) {
             parent.cookingState = CookingState.MEAT_GRILLING;
-            grillingMeatArrayList.add(selectedMeat);
-            meatArrayList.remove(selectedMeat);
+            //meatOnGrill=true;
+
+           selectedMeat.setGrilling(true);
+            //grillingMeatArrayList.add(selectedMeat);
+           // meatArrayList.remove(selectedMeat);
             // System.out.println("перейшли в режим смаження");
+            //Meat.isGrilling = true;
+        }else{
+            //meatOnGrill = false;
+
+            selectedMeat.setGrilling(false);
+
+            //Meat.isGrilling = false;
         }
     }
 
@@ -183,7 +194,8 @@ public class GrillStation {
         if (selectedMeat.getX() >= trash.getX() && selectedMeat.getX() - 25 <= trash.getX() + trash.getWidth() && selectedMeat.getY() >= trash.getY() && selectedMeat.getY() <= trash.getY() + trash.getHeight() - 50) {
             //System.out.println("перейшли в режим м'со викинуто");
             meatArrayList.remove(selectedMeat);
-            grillingMeatArrayList.remove(selectedMeat);
+
+            //grillingMeatArrayList.remove(selectedMeat);
             parent.cookingState = CookingState.MEAT_SHROWN_AWAY;
             //todo можливо треба перевірка чи це м'ясо взагалі існує в цьому ареї
             selectedMeat = null;
@@ -207,11 +219,11 @@ public class GrillStation {
         for (Meat meat : meatArrayList) {
             findEl(meat);
         }
-        for (Meat meat : grillingMeatArrayList) {
-            if (meat != null) {
-                findEl(meat);
-            }
-        }
+//        for (Meat meat : grillingMeatArrayList) {
+//            if (meat != null) {
+//                findEl(meat);
+//            }
+//        }
     }
 
     private void findEl(Meat meat) {
@@ -281,11 +293,11 @@ public class GrillStation {
         drawNewMeat(g2d);
         //meat.beReady();
         for (Meat meat : meatArrayList) meat.beReady();
-        for (Meat meat : grillingMeatArrayList) {
-            if (meat != null) {
-                meat.beReady();
-            }
-        }
+//        for (Meat meat : grillingMeatArrayList) {
+//            if (meat != null) {
+//                meat.beReady();
+//            }
+//        }
     }
 
 //    private void meatBurnt(Graphics2D g2d) {
@@ -321,10 +333,15 @@ public class GrillStation {
         drawNewMeat(g2d);
         //тут не було циклу
         //System.out.println("ми в грілін міт");
-        for (Meat m : grillingMeatArrayList) {
+
+        //!!!!!!!!!!!був грілін
+        for (Meat m : meatArrayList) {
             // System.out.println("ми в циклі");
-            m.startGrilling();
-            flipMeat();
+            if(m.getX() >= grillBoard.getX() && m.getX() <= grillBoard.getX() + grillBoard.getWidth() && m.getY() >= grillBoard.getY() && m.getY() <= grillBoard.getY() + grillBoard.getHeight()) {
+                m.startGrilling();
+                //todo flip meat
+                //flipMeat();
+            }
         }
 
     }
@@ -343,13 +360,13 @@ public class GrillStation {
             meat.draw(g2d);
         }
 
-        if (!grillingMeatArrayList.isEmpty()) {
-            for (Meat meat : grillingMeatArrayList) {
-                if (meat != null) {
-                    meat.draw(g2d);
-                }
-            }
-        }
+//        if (!grillingMeatArrayList.isEmpty()) {
+//            for (Meat meat : grillingMeatArrayList) {
+//                if (meat != null) {
+//                    meat.draw(g2d);
+//                }
+//            }
+//        }
 
 //        meat.draw(g2d);
     }
