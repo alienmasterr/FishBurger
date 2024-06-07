@@ -9,7 +9,7 @@ public class GrillBoard extends Node {
 
     public GrillBoard(int x, int y, int width, int height) {
         super(x, y, width, height);
-        image = getImage("/temp.png");
+        image = getImage("/grillstation/cook.png");
     }
 
 }
