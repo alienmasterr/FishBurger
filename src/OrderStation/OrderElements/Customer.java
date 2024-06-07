@@ -23,7 +23,7 @@ public class Customer extends Node {
     }
 
     private void setRandomImage(){
-        int num = 1 + (int)(Math.random() * (3));
+        int num = 1 + (int)(Math.random() * (9));
         image = getImage("/customers/customer" + num +".png");
     }
 

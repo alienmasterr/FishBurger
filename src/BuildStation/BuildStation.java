@@ -288,9 +288,9 @@ public class BuildStation {
         for (Product product : burgerProducts)
             if (isFalling(product) && !isColliding(product)) {
                 product.setY(product.getY() + 15);
-            } else {
                 if (product instanceof Meat)
                     product.setUsed(true);
+            } else {
                 if (product instanceof Sauce) {
                     ((Sauce) product).turnIntoSplash();
                 }
