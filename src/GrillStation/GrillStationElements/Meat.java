@@ -63,24 +63,19 @@ public class Meat extends Product {
             this.timer = new Timer(1000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                   // System.out.println("counter: " + counter);
-                    //System.out.println("смажимо");
                     grilling();
                     counter++;
                     if(GrillStation.meatSent){
                         timer.stop();
                     }
                    if (counter == 10) {
-                        //System.out.println("10 sec");
                         image = getImage("/meat/meat.png");
                         canFlip = true;
                         //isGrilling = false;
                     } else if (counter == 20) {
-                        //System.out.println("20 sec");
                         image = getImage("/meat/overcookedmeat.png");
-                        canFlip = false;
+                        //canFlip = false;
                     } else if (counter == 30) {
-                        //System.out.println("30 sec");
                         image = getImage("/meat/burntmeat.png");
                         timer.stop();
                     }
