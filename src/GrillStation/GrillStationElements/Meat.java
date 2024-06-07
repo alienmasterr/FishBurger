@@ -16,7 +16,7 @@ public class Meat extends Product {
     private Timer timer;
 
     public static boolean isGrilling = true;
-    boolean canFlip = false;
+  //  boolean canFlip = false;
     private boolean grilling = false;
 
 
@@ -42,6 +42,9 @@ public class Meat extends Product {
 
     public void setGrilling(boolean grilling) {
         this.grilling = grilling;
+    }
+    public boolean getGrilling(){
+        return grilling;
     }
 
 
@@ -89,7 +92,7 @@ public class Meat extends Product {
                     }
                    if (counter == 10) {
                         image = getImage("/meat/meat.png");
-                        canFlip = true;
+                        //canFlip = true;
                         //isGrilling = false;
                     } else if (counter == 20) {
                         image = getImage("/meat/overcookedmeat.png");
@@ -104,12 +107,11 @@ public class Meat extends Product {
     }
 
     public void getFlipped() {
-        if(canFlip){
+        //if(canFlip){
             y = getY() - 15;
             image = getImage("/meat/rawmeat1.png");
             y = getY() + 15;
-        }
-
+       // }
     }
 }
 

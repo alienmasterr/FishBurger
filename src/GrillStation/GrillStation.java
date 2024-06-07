@@ -24,7 +24,7 @@ public class GrillStation {
     public final Spatula spatula = new Spatula(Game.WIDTH / 2 + Game.WIDTH / 3, Game.HEIGHT / 4, 20, 200);
     private final GrillBoard grillBoard = new GrillBoard(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 6, Game.WIDTH / 2, Game.HEIGHT / 3);
 
-    //todo можу приватним?
+    //todo може приватним?
     public static Meat selectedMeat = null;
     public static boolean meatSent = false;
     public static boolean spatulaTaken=false;
@@ -115,11 +115,19 @@ public class GrillStation {
 //
 //        }
         if (Game.mouse.pressed && Game.mouse.x >= spatula.getX() && Game.mouse.x <= spatula.getX() + 100 && Game.mouse.y >= spatula.getY() && Game.mouse.y <= spatula.getY() + 200) {
-            //spatulaTaken = true;
-            spatula.setX(Game.mouse.x);
-            spatula.setY(Game.mouse.y);
+            spatulaTaken = true;
+            spatula.startBouncing();
         }
 
+    }
+
+    private void flip(){
+        if(spatulaTaken &&  selectedMeat != null && Game.mouse.pressed && Game.mouse.x >= selectedMeat.getX() && Game.mouse.x <= selectedMeat.getX() + 100 && Game.mouse.y >= selectedMeat.getY() && Game.mouse.y <= selectedMeat.getY() + 200 && selectedMeat.getGrilling()){
+            //System.out.println("повинно фліпнутись");
+
+            selectedMeat.getFlipped();
+            spatulaTaken=false;
+        }
     }
 
     private void sendMeat(Meat meat) {
@@ -341,6 +349,7 @@ public class GrillStation {
                 m.startGrilling();
                 //todo flip meat
                 //flipMeat();
+                flip();
             }
         }
 
