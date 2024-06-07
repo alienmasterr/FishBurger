@@ -7,6 +7,7 @@ public class Mouse extends MouseAdapter {
 
     public int x, y;
     public boolean pressed;
+    public boolean dragging;
 
     @Override
     public void mousePressed(MouseEvent e) {
