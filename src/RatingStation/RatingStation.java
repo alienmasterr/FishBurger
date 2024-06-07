@@ -4,6 +4,7 @@ import BuildStation.BuildElements.*;
 import Enums.RatingState;
 import Menu.*;
 import OrderStation.OrderElements.*;
+import Products.Meat;
 import Products.Product;
 import RatingStation.RatingElements.*;
 import Elements.Node;
@@ -88,8 +89,9 @@ public class RatingStation {
         ratingTable.draw(g2d);
         ticketHolder.draw(g2d);
         fish.draw(g2d);
-        for (Product pr : burgerResult)
+        for (Product pr : burgerResult) {
             pr.draw(g2d);
+        }
     }
 
     private void restartGame(Graphics2D g2d){
@@ -160,6 +162,7 @@ public class RatingStation {
 
     private void moveCoin(){
         if(coin.getY()+50 >= 390+200) {
+            System.out.println(calculateMoney());
             parent.money+=calculateMoney();
             parent.updateMoneyDisplay();
             state = RatingState.WALKING_AWAY;
@@ -168,7 +171,6 @@ public class RatingStation {
     }
 
     private double calculateMoney(){
-        parent.money+= ((double) getAverageRating() /100)*10;
         return ((double) getAverageRating() /100)*10;
     }
 

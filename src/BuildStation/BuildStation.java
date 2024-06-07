@@ -105,8 +105,15 @@ public class BuildStation {
     private void drawTicketBase(Graphics2D g2d) {
         ticketBackground.draw(g2d);
         ticketHolder.draw(g2d);
-        for (Product product : burgerProducts)
-            product.draw(g2d);
+        try{
+            for (Product product : burgerProducts) {
+                if(product instanceof Meat && !product.isUsed()) {
+                    burgerProducts.remove(product);
+                    continue;
+                }
+                product.draw(g2d);
+            }
+        } catch (Exception ignored){}
         updateTicket();
     }
 
@@ -309,6 +316,12 @@ public class BuildStation {
 
     private void startTicketState() {
         buildState = BuildState.PUTTING_TICKET;
+        if(burgerProducts.getFirst().getX() < 447) {
+            int diff = burgerProducts.getFirst().getX()-447;
+            for(Product product: burgerProducts){
+                product.setX(product.getX()-diff);
+            }
+        }
     }
 
     private boolean isColliding(Product product) {
