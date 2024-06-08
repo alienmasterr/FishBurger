@@ -4,6 +4,8 @@ import BuildStation.BuildElements.*;
 import Enums.RatingState;
 import Level.Level;
 import Menu.*;
+import Menu.MenuElements.Anything;
+import Menu.MenuElements.Unknown;
 import OrderStation.OrderElements.*;
 import Products.Meat;
 import Products.Product;
@@ -270,6 +272,10 @@ public class RatingStation {
         if (receipt.size() != burgerResult.size())
             res -= Level.getWrongSizeFine();
         for (int i = 0; i < (Math.min(receipt.size(), burgerResult.size())) - 1; i++) {
+            if(receipt.get(i) instanceof Anything)
+                continue;
+            if(checkUnknownProduct(receipt.get(i), burgerResult.get(i)))
+                continue;
             if (!Objects.equals(receipt.get(i).getSrc(), burgerResult.get(i).getSrc()))
                 res -= maxStep;
             if (!(receipt.get(i).getX() > xDiff - 5 && receipt.get(i).getX() <= xDiff + 5))
@@ -278,6 +284,12 @@ public class RatingStation {
         if (res < 0)
             res = 0;
         return res;
+    }
+
+    private boolean checkUnknownProduct(Product ticketProduct, Product burgerProduct){
+        if(ticketProduct instanceof Unknown)
+            return Objects.equals(((Unknown) ticketProduct).getSecretProduct().getSrc(), burgerProduct.getSrc());
+        return false;
     }
 
     private int getGrillRating() {
