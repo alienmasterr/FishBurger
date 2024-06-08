@@ -31,8 +31,8 @@ public class Store {
     public void draw(Graphics2D g2d) {
         parent.pin.setDrawTicket(false);
         drawBase(g2d);
-        helpButton.draw(g2d);
-        activateSaveButton();
+        //helpButton.draw(g2d);
+        //activateSaveButton();
         drawAllAccessories(g2d);
         buyAccessories();
         switch (storeState) {
