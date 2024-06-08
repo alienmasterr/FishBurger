@@ -1,12 +1,15 @@
 package Store;
 
 import Elements.Node;
+import Level.Level;
+import Menu.GameMenu;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Accessories extends Node {
+
     public int speed = 25;
     public Timer timer;
     public boolean falling = false;
@@ -28,8 +31,10 @@ public class Accessories extends Node {
     }
 
     public void startFalling() {
-        falling = true;
-        timer.start();
+       // if(!getFileName().equals("/store/lockedproduct.png")){
+            falling = true;
+            timer.start();
+       // }
     }
 
     public void update() {
@@ -47,8 +52,6 @@ class AccessoryOne extends Accessories {
     public AccessoryOne(int x, int y, int width, int height, int price) {
         super(x, y, width, height, price);
         image = getImage("/temp.png");
-
-
     }
 
 
@@ -68,27 +71,43 @@ class AccessoryTwo extends Accessories {
 class AccessoryThree extends Accessories {
     public AccessoryThree(int x, int y, int width, int height, int price) {
         super(x, y, width, height, price);
-        image = getImage("/store/lockedproduct.png");
+        if(Level.levelState < 2){
+            image = getImage("/store/lockedproduct.png");
+        }else {
+            image = getImage("/store/icon.png");
+        }
     }
 }
 
 class AccessoryFour extends Accessories {
     public AccessoryFour(int x, int y, int width, int height, int price) {
         super(x, y, width, height, price);
-        image = getImage("/temp.png");
+        if(Level.levelState <2){
+            image = getImage("/store/lockedproduct.png");
+        }else {
+            image = getImage("/store/icon.png");
+        }
     }
 }
 
 class AccessoryFive extends Accessories {
     public AccessoryFive(int x, int y, int width, int height, int price) {
         super(x, y, width, height, price);
-        image = getImage("/temp.png");
+        if(Level.levelState <3){
+            image = getImage("/store/lockedproduct.png");
+        }else {
+            image = getImage("/temp.png");
+        }
     }
 }
 
 class AccessorySix extends Accessories {
     public AccessorySix(int x, int y, int width, int height, int price) {
         super(x, y, width, height, price);
-        image = getImage("/store/icon.png");
+        if(Level.levelState < 3){
+            image = getImage("/store/lockedproduct.png");
+        }else {
+            image = getImage("/store/icon.png");
+        }
     }
 }

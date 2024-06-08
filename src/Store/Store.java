@@ -2,11 +2,13 @@ package Store;
 
 import Elements.Node;
 import Enums.StoreState;
+import Level.Level;
 import Menu.GameMenu;
 
 import java.awt.*;
 
 import Menu.*;
+import Menu.MenuElements.MoneyDisplay;
 import Store.StoreElements.ProductBack;
 import Store.StoreElements.StoreBackground;
 
@@ -20,13 +22,14 @@ public class Store {
 
     private final HelpButton helpButton = new HelpButton(Game.WIDTH / 2 - 50, Game.HEIGHT - 150, 100, 50);
     private final StoreBackground storeBackground = new StoreBackground(0, 0, Game.WIDTH, Game.HEIGHT);
+    private MoneyDisplay moneyDisplay = new MoneyDisplay(5,20, 70, 70);
 
-    public AccessoryOne accessoryOne = new AccessoryOne(100, 120, 200, 200, 1000);
-    public AccessoryTwo accessoryTwo = new AccessoryTwo(400, 120, 200, 200, 2000);
-    public AccessoryThree accessoryThree = new AccessoryThree(700, 120, 200, 200, 3000);
-    public AccessoryFour accessoryFour = new AccessoryFour(100, 400, 200, 200, 4000);
-    public AccessoryFive accessoryFive = new AccessoryFive(400, 400, 200, 200, 5000);
-    public AccessorySix accessorySix = new AccessorySix(700, 400, 200, 200, 6000);
+    public AccessoryOne accessoryOne = new AccessoryOne(100, 120, 200, 200, 500);
+    public AccessoryTwo accessoryTwo = new AccessoryTwo(400, 120, 200, 200, 1000);
+    public AccessoryThree accessoryThree = new AccessoryThree(700, 120, 200, 200, 1500);
+    public AccessoryFour accessoryFour = new AccessoryFour(100, 400, 200, 200, 2000);
+    public AccessoryFive accessoryFive = new AccessoryFive(400, 400, 200, 200, 2500);
+    public AccessorySix accessorySix = new AccessorySix(700, 400, 200, 200, 3000);
 
     public ArrayList<Accessories> boughtAccessoriesArrayList = new ArrayList<>();
     private Accessories[] accessories = {accessoryOne, accessoryTwo, accessoryThree, accessoryFour, accessoryFive, accessorySix};
@@ -38,8 +41,12 @@ public class Store {
     public void draw(Graphics2D g2d) {
         parent.pin.setDrawTicket(false);
         drawBase(g2d);
+        moneyDisplay.draw(g2d);
+        moneyDisplay.setCurrentMoney(parent.money);
+
         //helpButton.draw(g2d);
         //activateSaveButton();
+
         drawAllAccessories(g2d);
         buyAccessories();
         switch (storeState) {
@@ -72,13 +79,14 @@ public class Store {
     private void buyAccessories() {
         if (Game.mouse.pressed && !paid) {
             for (Accessories accessory : accessories) {
-                if (Game.mouse.pressed && Game.mouse.x >= accessory.getX() && Game.mouse.x <= accessory.getX() + 200 && Game.mouse.y <= accessory.getY() + 200 && Game.mouse.y >= accessory.getY() && parent.money >= accessory.getPrice()) {
+                if (!accessory.getFileName().equals("/store/lockedproduct.png") && Game.mouse.pressed && Game.mouse.x >= accessory.getX() && Game.mouse.x <= accessory.getX() + 200 && Game.mouse.y <= accessory.getY() + 200 && Game.mouse.y >= accessory.getY() && parent.money >= accessory.getPrice()) {
                     accessory.startFalling();
                     boughtAccessoriesArrayList.add(accessory);
                     System.out.println("в гаманці " + parent.money);
                     System.out.println("за продукт " + accessory.getPrice());
                     parent.money -= accessory.getPrice();
                     System.out.println("лишилося " + parent.money);
+                    moneyDisplay.setCurrentMoney(parent.money);
                     break;
                 }
             }
