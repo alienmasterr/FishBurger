@@ -43,7 +43,7 @@ public class Level {
     public static int getTypesOfCustomers(){
         return switch (levelState) {
             case 2 -> 6;
-            case 3 -> 9;
+            case 3 -> 10;
             default -> 3;
         };
     }

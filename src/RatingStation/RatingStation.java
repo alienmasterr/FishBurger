@@ -23,7 +23,7 @@ import java.util.Objects;
 public class RatingStation {
     private GameMenu.GamePanel parent;
     private Customer customer;
-    private RatingState state = RatingState.RATING;
+    public RatingState state = RatingState.RATING;
     private RatingFish fish = new RatingFish(0, 340, (int) (250 * 1.1), (int) (383 * 1.1));
     private TicketHolder ticketHolder;
     private ArrayList<Product> receipt;
@@ -132,7 +132,7 @@ public class RatingStation {
             parent.increaseExp();
             parent.pin.setDrawTicket(false);
             customer.setMessage("Waiting for the next customer");
-            timer = new Timer(1200, new ActionListener() {
+            timer = new Timer(1000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     customer.setMessage(customer.getMessage() + ".");
@@ -150,6 +150,7 @@ public class RatingStation {
     }
 
     private void drawGettingMoney(Graphics2D g2d) {
+        checkGameOver();
         backJar.draw(g2d);
         coin.draw(g2d);
         frontJar.draw(g2d);
@@ -157,6 +158,11 @@ public class RatingStation {
         moveCoin();
         withdrawRatingBalloons();
         update();
+    }
+
+    private void checkGameOver(){
+        if (getAverageRating() <= Level.getZeroFine() && Objects.equals(customer.getSrc(), "/customers/customer10.png"))
+            parent.gameOver();
     }
 
     private void withdrawRatingBalloons() {

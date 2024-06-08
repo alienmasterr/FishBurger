@@ -6,6 +6,7 @@ import Level.Level;
 import Products.*;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Ticket extends Node {
     private ArrayList<Product> receipt = new ArrayList<>();
@@ -23,7 +24,7 @@ public class Ticket extends Node {
     public void showAllProducts(){
         for(Product pr: receipt) {
             pr.setVisible(true);
-            if(pr instanceof Unknown)
+            if(pr instanceof Unknown && Objects.equals(pr.getSrc(), "/higherlevels/something.png"))
                 pr.getImage(((Unknown) pr).getSecretProduct().getSrc());
         }
     }

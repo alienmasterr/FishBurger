@@ -2,9 +2,6 @@ package Menu;
 
 import Elements.Node;
 import Enums.FrameState;
-import Enums.LevelState;
-import Enums.PanelState;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
