@@ -25,7 +25,7 @@ public class Ticket extends Node {
     }
 
     private Product getRandomProduct() {
-        int generatedNum = getRandomNumber(0, 7);
+        int generatedNum = getRandomNumber(0, 11);
         return switch (generatedNum) {
             case 0 -> new Cheese();
             case 1 -> new Cucumber();
@@ -33,6 +33,8 @@ public class Ticket extends Node {
             case 3 -> new Spinach();
             case 4 -> new Tomato();
             case 5 -> new Sauce();
+            case 6, 7 -> new Anything();
+            case 8, 9 -> new Unknown();
             default -> new Meat();
         };
     }
