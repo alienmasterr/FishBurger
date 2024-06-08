@@ -2,6 +2,7 @@ package RatingStation;
 
 import BuildStation.BuildElements.*;
 import Enums.RatingState;
+import Level.Level;
 import Menu.*;
 import OrderStation.OrderElements.*;
 import Products.Meat;
@@ -171,7 +172,7 @@ public class RatingStation {
     }
 
     private double calculateMoney(){
-        return ((double) getAverageRating() /100)*10;
+        return ((double) getAverageRating() /100)* Level.getMaxMoney();
     }
 
     private void drawRating(Graphics2D g2d) {
@@ -250,9 +251,9 @@ public class RatingStation {
     private int getOrderRating() {
         int res = 100;
         int seconds = parent.orderStation.getSeconds();
-        while (seconds > 60) {
+        while (seconds > Level.getMaxTimeForOrder()) {
             seconds -= 10;
-            res -= 10;
+            res -= Level.getTimeFine();
         }
         if (res < 0)
             res = 0;
@@ -267,12 +268,12 @@ public class RatingStation {
         int xDiff = burgerResult.getFirst().getX();
         int res = 100;
         if (receipt.size() != burgerResult.size())
-            res -= 20;
+            res -= Level.getWrongSizeFine();
         for (int i = 0; i < (Math.min(receipt.size(), burgerResult.size())) - 1; i++) {
             if (!Objects.equals(receipt.get(i).getSrc(), burgerResult.get(i).getSrc()))
                 res -= maxStep;
             if (!(receipt.get(i).getX() > xDiff - 5 && receipt.get(i).getX() <= xDiff + 5))
-                res -= 3;
+                res -= Level.getMistakeBuildFine();
         }
         if (res < 0)
             res = 0;
@@ -280,7 +281,27 @@ public class RatingStation {
     }
 
     private int getGrillRating() {
-        return 100;
+       if(getAmountOfMeat() == 0 && getAmountOfMeatInBurger() == 0)
+           return 100;
+       if(getAmountOfMeat() == 0)
+           return 0;
+       return 80;
+    }
+
+    private int getAmountOfMeatInBurger(){
+        int amount = 0;
+        for(Product pr: burgerResult)
+            if(pr instanceof Meat)
+                amount++;
+        return amount;
+    }
+
+    private int getAmountOfMeat(){
+        int amount = 0;
+        for(Product pr: receipt)
+            if(pr instanceof Meat)
+                amount++;
+        return amount;
     }
 
     private void update() {

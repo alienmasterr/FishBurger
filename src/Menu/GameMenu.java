@@ -52,7 +52,7 @@ public class GameMenu extends JPanel {
          * осьо гроші!!!!!!!!!!!!!!!!!!!!!
          **/
 
-        public double money = 10000;
+        public double money = 0;
         public OrderState orderState = OrderState.WAITING_CUSTOMER;
         public CookingState cookingState = CookingState.NO_MEAT;
         public TicketPin pin = new TicketPin(680, 0, 340, 140);
@@ -75,8 +75,7 @@ public class GameMenu extends JPanel {
         }
 
         public void restartGame() {
-            Level.levelState = parent.levelState.getState();
-            levelBar.setLevel(5, 0);
+            levelBar.setLevel(Level.getTimesBeforeNextLevel(), levelBar.getCurrentNumber());
             levelBar.setLevelNum(Level.levelState);
             orderState = OrderState.WAITING_CUSTOMER;
             cookingState = CookingState.NO_MEAT;
@@ -110,7 +109,7 @@ public class GameMenu extends JPanel {
 
         private void setup() {
             Level.levelState = parent.levelState.getState();
-            levelBar.setLevel(5, 0);
+            levelBar.setLevel(Level.getTimesBeforeNextLevel(), 0);
             levelBar.setLevelNum(Level.levelState);
             moneyDisplay.setCurrentMoney(money);
             setMaximumSize(new Dimension(Game.WIDTH, (int) (Game.HEIGHT * 0.9)));

@@ -1,5 +1,6 @@
 package BuildStation.BuildElements;
 
+import Level.Level;
 import Products.Product;
 
 public class Sauce extends Product {
@@ -9,10 +10,15 @@ public class Sauce extends Product {
         setImage("/sauses/splashes/" + getRandomImage());
     }
 
-    public Sauce(){setImage("/sauses/splashes/" + getRandomImage());}
+    public Sauce(){
+        if(Level.levelState == 1)
+            setImage("/products/tomato.png");
+        else
+            setImage("/sauses/splashes/" + getRandomImage());
+    }
 
     private String getRandomImage(){
-        return switch (getRandomNumber(1, 4)) {
+        return switch (getRandomNumber(1, Level.getAmountOfSauces())) {
             case 1 -> "bbq.png";
             case 2 -> "catsup.png";
             case 3 -> "mayo.png";

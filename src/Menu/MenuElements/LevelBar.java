@@ -1,6 +1,7 @@
 package Menu.MenuElements;
 
 import Elements.Node;
+import Level.Level;
 
 import java.awt.*;
 
@@ -19,11 +20,22 @@ public class LevelBar extends Node {
     }
 
     public void increaseLevel(){
-        this.currentNumber++;
+        if(maxNumber-1 != currentNumber)
+            this.currentNumber++;
+        else {
+            Level.nextLevel();
+            levelNum = Level.levelState;
+            maxNumber = Level.getTimesBeforeNextLevel();
+            currentNumber = 0;
+        }
     }
 
     public void setLevelNum(int number){
         this.levelNum = number;
+    }
+
+    public int getCurrentNumber() {
+        return currentNumber;
     }
 
     @Override
@@ -35,7 +47,7 @@ public class LevelBar extends Node {
 
     private void drawLevel(Graphics2D g2d){
         g2d.setPaint(Color.yellow);
-        g2d.fillRect(getX(), getY(), getWidth()/maxNumber*currentNumber, getHeight());
+        g2d.fillRect(getX()+5, getY()+5, ((getWidth()-15)/maxNumber)*currentNumber, getHeight()-15);
     }
 
     private void drawLevelName(Graphics2D g2d){

@@ -1,6 +1,7 @@
 package OrderStation;
 
 import Enums.OrderState;
+import Level.Level;
 import Menu.*;
 import Menu.MenuElements.Ticket;
 import OrderStation.OrderElements.*;
@@ -55,10 +56,10 @@ public class OrderStation {
         return seconds;
     }
 
-    private void showBubble(Graphics2D g2d){
+    private void showBubble(){
         int size = parent.pin.getTicket().getReceipt().size();
-        if(size < 7){
-            parent.pin.getTicket().fillTicket(7);
+        if(size < Level.getBurgerSize()){
+            parent.pin.getTicket().fillTicket(Level.getBurgerSize());
             BufferedImage image = parent.pin.getTicket().getReceipt().get(size).getSprite();
             customer.getEmptyBubble().getShownProduct().setSprite(image);
         } else {
@@ -91,7 +92,7 @@ public class OrderStation {
             timer.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    showBubble(g2d);
+                    showBubble();
                 }
             });
             timer.start();

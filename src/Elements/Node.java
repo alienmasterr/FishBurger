@@ -33,7 +33,8 @@ public class Node {
         this.src = fileName;
         try {
             image = ImageIO.read(getClass().getResourceAsStream(fileName));
-        } catch (IOException ignore) {
+        } catch (Exception ignore) {
+            getImage("/sauses/splashes/bbq.png");
         }
         return image;
     }

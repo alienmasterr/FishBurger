@@ -7,6 +7,7 @@ import Enums.OrderState;
 import Enums.PanelState;
 import GrillStation.GrillStation;
 import GrillStation.GrillStationElements.Meat;
+import Level.Level;
 import Menu.*;
 import Menu.MenuElements.Ticket;
 import Products.Product;
@@ -65,6 +66,8 @@ public class BuildStation {
         for (File file : files) {
             if (file.isDirectory())
                 continue;
+            if(counter > Level.getAmountOfSauces()-1)
+                return;
             sauceBottles[counter] = new SauceBottle(920 - counter * 60, 460, 80, 180);
             sauceBottles[counter].setInitialX(920 - counter * 60);
             sauceBottles[counter].setInitialY(460);
@@ -90,11 +93,16 @@ public class BuildStation {
             productTrays[i].draw(g2d);
         for (Product product : burgerProducts)
             product.draw(g2d);
-        for (Product product : sauceBottles)
-            product.draw(g2d);
+        drawBottles(g2d);
         if (lastActiveProduct != null)
             lastActiveProduct.draw(g2d);
         update();
+    }
+
+    private void drawBottles(Graphics2D g2d){
+        for (Product product : sauceBottles)
+           if(product != null)
+               product.draw(g2d);
     }
 
     private void drawMeat(Graphics2D g2d) {

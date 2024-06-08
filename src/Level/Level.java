@@ -8,10 +8,18 @@ public class Level {
             levelState++;
     }
 
+    public static int getAmountOfSauces(){
+        return switch (levelState) {
+            case 2 -> 2;
+            case 3 -> 4;
+            default -> 0;
+        };
+    }
+
     public static int getBurgerSize(){
         return switch (levelState) {
-            case 2 -> 9;
-            case 3 -> 7;
+            case 2 -> 7;
+            case 3 -> 9;
             default -> 5;
         };
     }
@@ -20,14 +28,14 @@ public class Level {
         return switch (levelState) {
             case 2 -> 7;
             case 3 -> 15;
-            default -> 5;
+            default -> 3;
         };
     }
 
     public static int getTypesOfCustomers(){
         return switch (levelState) {
-            case 2 -> 9;
-            case 3 -> 6;
+            case 2 -> 6;
+            case 3 -> 9;
             default -> 3;
         };
     }
@@ -48,11 +56,11 @@ public class Level {
         };
     }
 
-    public static int getNumberOfSauces() {
+    public static int getTimeFine() {
         return switch (levelState) {
-            case 2 -> 2;
-            case 3 -> 4;
-            default -> 0;
+            case 2 -> 20;
+            case 3 -> 15;
+            default -> 10;
         };
     }
 
