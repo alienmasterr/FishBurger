@@ -23,7 +23,7 @@ import java.util.Objects;
 public class RatingStation {
     private GameMenu.GamePanel parent;
     private Customer customer;
-    private RatingState state = RatingState.RATING;
+    public RatingState state = RatingState.RATING;
     private RatingFish fish = new RatingFish(0, 340, (int) (250 * 1.1), (int) (383 * 1.1));
     private TicketHolder ticketHolder;
     private ArrayList<Product> receipt;
@@ -35,7 +35,8 @@ public class RatingStation {
     private EmptyBubble emptyBubble = new EmptyBubble(200, 40, 300, 300);
     private BackJar backJar = new BackJar(720, 390, 200, 250);
     private FrontJar frontJar = new FrontJar(720, 390, 200, 250);
-    private Coin coin = new Coin(790,-100, 50, 50);
+    private Coin coin = new Coin(790, -100, 50, 50);
+    private double newMoney;
     private int velocityY = 1;
     private Timer timer;
 
@@ -97,19 +98,19 @@ public class RatingStation {
         }
     }
 
-    private void restartGame(Graphics2D g2d){
+    private void restartGame(Graphics2D g2d) {
         drawLoadingScreen(g2d);
     }
 
-    private void drawLoadingScreen(Graphics2D g2d){
+    private void drawLoadingScreen(Graphics2D g2d) {
         g2d.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
         g2d.setPaint(Color.WHITE);
         g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
-        g2d.drawString(customer.getMessage(), (Game.WIDTH/2)-300, Game.HEIGHT/2);
+        g2d.drawString(customer.getMessage(), (Game.WIDTH / 2) - 300, Game.HEIGHT / 2);
         g2d.setPaint(Color.black);
     }
 
-    private void drawWalkingAway(Graphics2D g2d){
+    private void drawWalkingAway(Graphics2D g2d) {
         fish.waitForRating();
         backJar.draw(g2d);
         coin.draw(g2d);
@@ -118,24 +119,24 @@ public class RatingStation {
         drawMoney(g2d);
     }
 
-    private void drawMoney(Graphics2D g2d){
+    private void drawMoney(Graphics2D g2d) {
         g2d.setPaint(Color.green);
         g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
-        g2d.drawString("+" + String.format("%.2f", calculateMoney()) + "$", 800, 560-velocityY);
+        g2d.drawString("+" + String.format("%.2f", newMoney) + "$", 800, 560 - velocityY);
         velocityY++;
     }
 
-    private void moveCustomerToExit(){
-        if(customer.getX() < -300) {
+    private void moveCustomerToExit() {
+        if (customer.getX() < -300) {
             state = RatingState.RESTARTING;
             parent.increaseExp();
             parent.pin.setDrawTicket(false);
             customer.setMessage("Waiting for the next customer");
-            timer = new Timer(1200, new ActionListener() {
+            timer = new Timer(1000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    customer.setMessage(customer.getMessage()+".");
-                    if(customer.getMessage().length() == 34) {
+                    customer.setMessage(customer.getMessage() + ".");
+                    if (customer.getMessage().length() == 34) {
                         parent.pin.setDrawTicket(true);
                         timer.stop();
                         parent.toggleButtons();
@@ -148,7 +149,8 @@ public class RatingStation {
         customer.goToTable();
     }
 
-    private void drawGettingMoney(Graphics2D g2d){
+    private void drawGettingMoney(Graphics2D g2d) {
+        checkGameOver();
         backJar.draw(g2d);
         coin.draw(g2d);
         frontJar.draw(g2d);
@@ -158,23 +160,41 @@ public class RatingStation {
         update();
     }
 
-    private void withdrawRatingBalloons(){
+    private void checkGameOver(){
+        if (getAverageRating() <= Level.getZeroFine() && Objects.equals(customer.getSrc(), "/customers/customer10.png"))
+            parent.gameOver();
+    }
+
+    private void withdrawRatingBalloons() {
         for (Node rb : ratingBalloons)
             rb.setY(rb.getY() + 2);
     }
 
-    private void moveCoin(){
-        if(coin.getY()+50 >= 390+200) {
-            System.out.println(calculateMoney());
-            parent.money+=calculateMoney();
-            parent.updateMoneyDisplay();
+    private void moveCoin() {
+        if (coin.getY() + 50 >= 390 + 200) {
+            getMoney();
             state = RatingState.WALKING_AWAY;
         }
-        coin.setY(coin.getY()+8);
+        coin.setY(coin.getY() + 8);
     }
 
-    private double calculateMoney(){
-        return ((double) getAverageRating() /100)* Level.getMaxMoney();
+    private void getMoney() {
+        if (getAverageRating() <= Level.getZeroFine()) {
+            parent.money += 0;
+            newMoney = 0;
+            if(Objects.equals(customer.getSrc(), "/customers/customer8.png")){
+                newMoney = parent.money*-1;
+                parent.money = 0;
+            }
+        } else {
+            parent.money += calculateMoney();
+            newMoney = calculateMoney();
+        }
+        parent.updateMoneyDisplay();
+    }
+
+    private double calculateMoney() {
+        return ((double) getAverageRating() / 100) * Level.getMaxMoney();
     }
 
     private void drawRating(Graphics2D g2d) {
@@ -194,17 +214,17 @@ public class RatingStation {
         update();
     }
 
-    private void drawRatingBalloons(Graphics2D g2d){
+    private void drawRatingBalloons(Graphics2D g2d) {
         for (Node rb : ratingBalloons)
             rb.draw(g2d);
-        for(int i = 0; i < 3; i++){
+        for (int i = 0; i < 3; i++) {
             g2d.setPaint(Color.WHITE);
             g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 20));
-            g2d.drawString(ratingValues.get(i), ratingBalloons.get(i).getX()+40, ratingBalloons.get(i).getY()+50);
+            g2d.drawString(ratingValues.get(i), ratingBalloons.get(i).getX() + 40, ratingBalloons.get(i).getY() + 50);
         }
     }
 
-    private void drawEmotion(Graphics2D g2d){
+    private void drawEmotion(Graphics2D g2d) {
         drawThinkingBubble(g2d);
         if (getAverageRating() < 50) {
             NegativeReaction negativeReaction = new NegativeReaction(297, 135, 100, 100);
@@ -272,9 +292,9 @@ public class RatingStation {
         if (receipt.size() != burgerResult.size())
             res -= Level.getWrongSizeFine();
         for (int i = 0; i < (Math.min(receipt.size(), burgerResult.size())) - 1; i++) {
-            if(receipt.get(i) instanceof Anything)
+            if (receipt.get(i) instanceof Anything)
                 continue;
-            if(checkUnknownProduct(receipt.get(i), burgerResult.get(i)))
+            if (checkUnknownProduct(receipt.get(i), burgerResult.get(i)))
                 continue;
             if (!Objects.equals(receipt.get(i).getSrc(), burgerResult.get(i).getSrc()))
                 res -= maxStep;
@@ -286,32 +306,32 @@ public class RatingStation {
         return res;
     }
 
-    private boolean checkUnknownProduct(Product ticketProduct, Product burgerProduct){
-        if(ticketProduct instanceof Unknown)
+    private boolean checkUnknownProduct(Product ticketProduct, Product burgerProduct) {
+        if (ticketProduct instanceof Unknown)
             return Objects.equals(((Unknown) ticketProduct).getSecretProduct().getSrc(), burgerProduct.getSrc());
         return false;
     }
 
     private int getGrillRating() {
-       if(getAmountOfMeat() == 0 && getAmountOfMeatInBurger() == 0)
-           return 100;
-       if(getAmountOfMeat() == 0)
-           return 0;
-       return 80;
+        if (getAmountOfMeat() == 0 && getAmountOfMeatInBurger() == 0)
+            return 100;
+        if (getAmountOfMeat() == 0)
+            return 0;
+        return 80;
     }
 
-    private int getAmountOfMeatInBurger(){
+    private int getAmountOfMeatInBurger() {
         int amount = 0;
-        for(Product pr: burgerResult)
-            if(pr instanceof Meat)
+        for (Product pr : burgerResult)
+            if (pr instanceof Meat)
                 amount++;
         return amount;
     }
 
-    private int getAmountOfMeat(){
+    private int getAmountOfMeat() {
         int amount = 0;
-        for(Product pr: receipt)
-            if(pr instanceof Meat)
+        for (Product pr : receipt)
+            if (pr instanceof Meat)
                 amount++;
         return amount;
     }

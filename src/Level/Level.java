@@ -8,6 +8,14 @@ public class Level {
             levelState++;
     }
 
+    public static int getZeroFine(){
+        return switch (levelState) {
+            case 2 -> 40;
+            case 3 -> 30;
+            default -> 25;
+        };
+    }
+
     public static int getAmountOfSauces(){
         return switch (levelState) {
             case 2 -> 2;
@@ -35,7 +43,7 @@ public class Level {
     public static int getTypesOfCustomers(){
         return switch (levelState) {
             case 2 -> 6;
-            case 3 -> 9;
+            case 3 -> 10;
             default -> 3;
         };
     }

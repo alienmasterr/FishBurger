@@ -74,6 +74,10 @@ public class GameMenu extends JPanel {
             gameThread.start();
         }
 
+        public void gameOver(){
+            parent.setVisiblePanel(FrameState.GAME_OVER);
+        }
+
         public void restartGame() {
             levelBar.setLevel(Level.getTimesBeforeNextLevel(), levelBar.getCurrentNumber());
             levelBar.setLevelNum(Level.levelState);
@@ -167,7 +171,7 @@ public class GameMenu extends JPanel {
                 case GAME_MENU:
                     parent.setVisiblePanel(FrameState.MAIN_MENU);
             }
-            if(panelState == STORE)
+            if(panelState == STORE || ratingStation.state == RatingState.RESTARTING)
                 return;
             if (pin.isDrawTicket())
                 pin.draw(g2d);
