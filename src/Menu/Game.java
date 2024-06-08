@@ -16,6 +16,7 @@ public class Game extends JFrame {
     private GameMenu gameMenu;
     private MainMenu mainMenu = new MainMenu(this);
     private LevelMenu levelMenu = new LevelMenu(this);
+    private GameOverMenu gameOverMenu = new GameOverMenu(this);
     public FrameState frameState = FrameState.MAIN_MENU;
     public LevelState levelState = LevelState.LEVEL1;
     private Box box;
@@ -49,6 +50,7 @@ public class Game extends JFrame {
             case MAIN_MENU -> setBox(mainMenu);
             case CHOOSE_LEVEL -> setBox(levelMenu);
             case GAME -> setBox(gameMenu);
+            case GAME_OVER -> setBox(gameOverMenu);
             case EXIT -> dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         }
         pack();

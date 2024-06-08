@@ -5,7 +5,8 @@ public enum FrameState {
     CHOOSE_LEVEL(2),
     GAME(3),
     TUTORIAL(4),
-    EXIT(5);
+    EXIT(5),
+    GAME_OVER(6);
     private int state;
     FrameState(int state) {
         this.state = state;
