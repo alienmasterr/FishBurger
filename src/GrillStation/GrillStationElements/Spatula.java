@@ -1,12 +1,17 @@
 package GrillStation.GrillStationElements;
 
 import Elements.Node;
+import Store.Accessories;
+import Store.Store;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.Timer;
 
 public class Spatula extends Node {
+
+    Store store;
 
     private Timer timer;
     private boolean goingUp = true;
@@ -15,6 +20,8 @@ public class Spatula extends Node {
 
     public Spatula(int x, int y, int width, int height) {
         super(x, y, width, height);
+
+
         image = getImage("/grillstation/splatula.png");
 
         originalY = y;
@@ -25,7 +32,6 @@ public class Spatula extends Node {
             }
         });
     }
-
 
 
     public void startBouncing() {
