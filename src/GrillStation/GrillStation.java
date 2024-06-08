@@ -16,7 +16,7 @@ public class GrillStation {
     private final Mince mince = new Mince(Game.WIDTH / 15, Game.HEIGHT - Game.HEIGHT / 3 + Game.HEIGHT / 10, 150, 100);
     private final Trash trash = new Trash(Game.WIDTH / 12, Game.HEIGHT / 2 - Game.HEIGHT / 4, 160, 110);
     private final Plate plate = new Plate(Game.WIDTH / 2 + Game.WIDTH / 3, Game.HEIGHT / 2 + Game.HEIGHT / 6, 160, 110);
-    public final Spatula spatula = new Spatula(Game.WIDTH / 2 + Game.WIDTH / 3, Game.HEIGHT / 4, 70, 200);
+    public final Spatula spatula = new Spatula(Game.WIDTH / 2-35, Game.HEIGHT / 12, 70, 200);
     private final GrillBoard grillBoard = new GrillBoard(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 6, Game.WIDTH / 2, Game.HEIGHT / 3);
     private final GrillBackground grillBackground = new GrillBackground(0, 0, Game.WIDTH, Game.HEIGHT);
 
@@ -40,33 +40,50 @@ public class GrillStation {
         if (!Game.mouse.pressed && spatulaTaken) {
             Game.mouse.dragging = false;
         }
+//        if(spatulaTaken && Game.mouse.pressed && Game.mouse.x < grillBoard.getX() || Game.mouse.x > grillBoard.getX() + grillBoard.getWidth() || Game.mouse.y < grillBoard.getY() || Game.mouse.y > grillBoard.getY() + grillBoard.getHeight() && Game.mouse.y >= 500){
+//            spatulaTaken = false;
+//            spatula.setPosition(Game.WIDTH / 2-35, Game.HEIGHT / 12);
+//            System.out.println("є взагалі");
+//        }
     }
 
     private void flip() {
         if (spatulaTaken && selectedMeat != null && Game.mouse.pressed && Game.mouse.x >= selectedMeat.getX() && Game.mouse.x <= selectedMeat.getX() + 100 && Game.mouse.y >= selectedMeat.getY() && Game.mouse.y <= selectedMeat.getY() + 200 && selectedMeat.getGrilling()) {
             selectedMeat.getFlipped();
             spatulaTaken = false;
-            spatula.setPosition(Game.WIDTH / 2 + Game.WIDTH / 3, Game.HEIGHT / 4);
+            spatula.setPosition(Game.WIDTH / 2-35, Game.HEIGHT / 12);
         }
     }
 
     private void getLevelOfGrill(Graphics2D g2d) {
         if (selectedMeat!=null && Game.mouse.x >= selectedMeat.getX() && Game.mouse.x <= selectedMeat.getX() + selectedMeat.getWidth() &&
                 Game.mouse.y >= selectedMeat.getY() && Game.mouse.y <= selectedMeat.getY() + selectedMeat.getHeight() && selectedMeat.getGrilling()) {
-            if(selectedMeat.getFileName().equals("/meat/rawmeat.png")){
-                RareLevelOfGrill rareLevelOfGrill = new RareLevelOfGrill(selectedMeat.getX(), selectedMeat.getY(), 50, 50);
-                rareLevelOfGrill.draw(g2d);
-            }else if(selectedMeat.getFileName().equals("/meat/meat.png") || selectedMeat.getFileName().equals("/meat/rawmeat1.png")){
-                MediumLevelOfGrill mediumLevelOfGrill = new MediumLevelOfGrill(selectedMeat.getX(), selectedMeat.getY(), 50, 50);
-                mediumLevelOfGrill.draw(g2d);
-            }else if(selectedMeat.getFileName().equals("/meat/overcookedmeat.png")){
-                WellDoneLevelOfGrill wellDoneLevelOfGrill = new WellDoneLevelOfGrill(selectedMeat.getX(), selectedMeat.getY(), 50, 50);
-                wellDoneLevelOfGrill.draw(g2d);
-            }else if(selectedMeat.getFileName().equals("/meat/meat.png")){
-                BurnedLevelOfGrill burnedLevelOfGrill = new BurnedLevelOfGrill(selectedMeat.getX(), selectedMeat.getY(), 50, 50);
-                burnedLevelOfGrill.draw(g2d);
-            }
+           // if(selectedMeat.getFileName().equals("/meat/rawmeat.png")){
+                LevelOfGrill levelOfGrill = new LevelOfGrill(selectedMeat.getX()-50, selectedMeat.getY()-50, 90, 60, selectedMeat.getSideOne(), selectedMeat.getSideTwo());
+                levelOfGrill.draw(g2d);
+//            }else if(selectedMeat.getFileName().equals("/meat/meat.png") || selectedMeat.getFileName().equals("/meat/rawmeat1.png")){
+//                MediumLevelOfGrill mediumLevelOfGrill = new MediumLevelOfGrill(selectedMeat.getX(), selectedMeat.getY(), 50, 50);
+//                mediumLevelOfGrill.draw(g2d);
+//            }else if(selectedMeat.getFileName().equals("/meat/overcookedmeat.png")){
+//                WellDoneLevelOfGrill wellDoneLevelOfGrill = new WellDoneLevelOfGrill(selectedMeat.getX(), selectedMeat.getY(), 50, 50);
+//                wellDoneLevelOfGrill.draw(g2d);
+//            }else if(selectedMeat.getFileName().equals("/meat/meat.png")){
+//                BurnedLevelOfGrill burnedLevelOfGrill = new BurnedLevelOfGrill(selectedMeat.getX(), selectedMeat.getY(), 50, 50);
+//                burnedLevelOfGrill.draw(g2d);
+//            }
         }
+    }
+
+    private Rectangle showLevelOfGrill(Graphics2D g2d, int x, int y, int grillLevel){
+        Rectangle rect = new Rectangle(x, y, grillLevel, grillLevel);
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(x, y, 40, 20);
+        g2d.setColor(Color.BLACK);
+        g2d.drawRect(x, y, 40, 20);
+        g2d.setFont(new Font("Arial", Font.BOLD, 15));
+        g2d.setColor(Color.BLACK);
+        g2d.drawString(String.valueOf(grillLevel), x + 10, y + 5);
+        return rect;
     }
 
     private void sendMeat(Meat meat) {

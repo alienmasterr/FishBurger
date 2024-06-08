@@ -17,19 +17,38 @@ public class Meat extends Product {
 
     public static boolean isGrilling = true;
     private boolean grilling = false;
+    private int sideOne=0;
+    private int sideTwo=100;
+    private boolean canFlip = false;
 
     public Meat(int x, int y, int width, int height) {
         super(x, y, width, height);
         image = getImage("/meat/rawmeat.png");
     }
 
-    public BufferedImage getTheImage() {
-        return image;
+//    public BufferedImage getTheImage() {
+//        return image;
+//    }
+
+    public int getSideOne() {
+        return sideOne;
+    }
+    public int getSideTwo() {
+        return sideTwo;
+    }
+    public void setSideOne(int sideOne) {
+        this.sideOne = sideOne;
+    }
+    public void setSideTwo(int sideTwo) {
+        this.sideTwo = sideTwo;
     }
 
-    public Meat(int x, int y, int width, int height, boolean grilling) {
+    public Meat(int x, int y, int width, int height, boolean grilling, int sideOne, int sideTwo, boolean canFlip) {
         super(x, y, width, height);
         this.grilling = grilling;
+        this.sideOne = sideOne;
+        this.sideTwo = sideTwo;
+        this.canFlip = canFlip;
         image = getImage("/meat/rawmeat.png");
     }
 
@@ -68,26 +87,35 @@ public class Meat extends Product {
                    if(grilling) {
                        grilling();
                        counter++;
+                       sideOne++;
+                       if(canFlip) {
+                           sideTwo--;
+                       }
                    }
                     if(GrillStation.meatSent){
                         timer.stop();
                     }
                    if (counter == 20) {
-                        image = getImage("/meat/meat.png");
-                    } else if (counter == 30) {
+                        image = getImage("/meat/rawmeat1.png");
+                    } else if(counter == 35){
+                       image = getImage("/meat/meat.png");
+                    }else if (counter == 50) {
                         image = getImage("/meat/overcookedmeat.png");
-                    } else if (counter == 40) {
+                    } else if (counter == 70) {
                         image = getImage("/meat/burntmeat.png");
-                        timer.stop();
-                    }
+                    }else if (counter==100){
+                       timer.stop();
+                   }
                 }
             });
     }
 
+
+
     public void getFlipped() {
-            y = getY() - 15;
-            image = getImage("/meat/rawmeat1.png");
-            y = getY() + 15;
+       System.out.println("Flipped Meat");
+       canFlip = true;
     }
+
 }
 
