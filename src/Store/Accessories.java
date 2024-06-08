@@ -89,6 +89,6 @@ class AccessoryFive extends Accessories {
 class AccessorySix extends Accessories {
     public AccessorySix(int x, int y, int width, int height, int price) {
         super(x, y, width, height, price);
-        image = getImage("/temp.png");
+        image = getImage("/store/icon.png");
     }
 }
