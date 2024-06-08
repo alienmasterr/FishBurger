@@ -5,6 +5,8 @@ import Enums.CookingState;
 import GrillStation.GrillStationElements.*;
 import Menu.*;
 import Menu.Game;
+import Store.Store;
+
 import java.util.ArrayList;
 
 public class GrillStation {
@@ -16,7 +18,9 @@ public class GrillStation {
     private final Mince mince = new Mince(Game.WIDTH / 15, Game.HEIGHT - Game.HEIGHT / 3 + Game.HEIGHT / 10, 150, 100);
     private final Trash trash = new Trash(Game.WIDTH / 12, Game.HEIGHT / 2 - Game.HEIGHT / 4, 160, 110);
     private final Plate plate = new Plate(Game.WIDTH / 2 + Game.WIDTH / 3, Game.HEIGHT / 2 + Game.HEIGHT / 6, 160, 110);
-    public final Spatula spatula = new Spatula(Game.WIDTH / 2-35, Game.HEIGHT / 12, 70, 200);
+
+    private static Spatula spatula = new Spatula(Game.WIDTH / 2-35, Game.HEIGHT / 12, 70, 200);
+
     private final GrillBoard grillBoard = new GrillBoard(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 6, Game.WIDTH / 2, Game.HEIGHT / 3);
     private final GrillBackground grillBackground = new GrillBackground(0, 0, Game.WIDTH, Game.HEIGHT);
 
@@ -24,6 +28,7 @@ public class GrillStation {
     public static Meat selectedMeat = null;
     public static boolean meatSent = false;
     public static boolean spatulaTaken = false;
+
 
     public GrillStation(GameMenu.GamePanel parent) {
         this.parent = parent;
@@ -74,17 +79,17 @@ public class GrillStation {
         }
     }
 
-    private Rectangle showLevelOfGrill(Graphics2D g2d, int x, int y, int grillLevel){
-        Rectangle rect = new Rectangle(x, y, grillLevel, grillLevel);
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(x, y, 40, 20);
-        g2d.setColor(Color.BLACK);
-        g2d.drawRect(x, y, 40, 20);
-        g2d.setFont(new Font("Arial", Font.BOLD, 15));
-        g2d.setColor(Color.BLACK);
-        g2d.drawString(String.valueOf(grillLevel), x + 10, y + 5);
-        return rect;
-    }
+//    private Rectangle showLevelOfGrill(Graphics2D g2d, int x, int y, int grillLevel){
+//        Rectangle rect = new Rectangle(x, y, grillLevel, grillLevel);
+//        g2d.setColor(Color.WHITE);
+//        g2d.fillRect(x, y, 40, 20);
+//        g2d.setColor(Color.BLACK);
+//        g2d.drawRect(x, y, 40, 20);
+//        g2d.setFont(new Font("Arial", Font.BOLD, 15));
+//        g2d.setColor(Color.BLACK);
+//        g2d.drawString(String.valueOf(grillLevel), x + 10, y + 5);
+//        return rect;
+//    }
 
     private void sendMeat(Meat meat) {
         parent.transferMeatToBuild(meat);
@@ -180,6 +185,7 @@ public class GrillStation {
         plate.draw(g2d);
         trash.draw(g2d);
         mince.draw(g2d);
+        spatula.chooseImage();
         spatula.draw(g2d);
         activateMinceButton();
         moveSpatula();

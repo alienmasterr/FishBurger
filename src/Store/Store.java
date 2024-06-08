@@ -8,8 +8,7 @@ import java.awt.*;
 
 import Menu.*;
 import Menu.MenuElements.MoneyDisplay;
-import Store.StoreElements.ProductBack;
-import Store.StoreElements.StoreBackground;
+import Store.StoreElements.*;
 
 import java.util.ArrayList;
 
@@ -30,10 +29,17 @@ public class Store {
     public GoldenSpatula goldenSpatula = new GoldenSpatula(700, 120, 200, 200, 1500);
     public Music music = new Music(100, 400, 200, 200, 2000);
     public Painting painting = new Painting(400, 400, 200, 200, 2500);
-    public Icon icon = new Icon(700, 400, 200, 200, 3000);
+    public IconK iconK = new IconK(700, 400, 200, 200, 3000);
 
     public ArrayList<Accessories> boughtAccessoriesArrayList = new ArrayList<>();
-    private Accessories[] accessories = {chair, table, goldenSpatula, music, painting, icon};
+    private Accessories[] accessories = {chair, table, goldenSpatula, music, painting, iconK};
+
+    public boolean chairBought = false;
+    public boolean tableBought = false;
+    public static boolean goldenSpatulaBought = false;
+    public boolean musicBought = false;
+    public static boolean paintingBought = false;
+    public static boolean iconBought = false;
 
 
 
@@ -81,7 +87,7 @@ public class Store {
             goldenSpatula.draw(g2d);
             music.draw(g2d);
             painting.draw(g2d);
-            icon.draw(g2d);
+            iconK.draw(g2d);
         }
     }
     private boolean paid = false;
@@ -90,6 +96,25 @@ public class Store {
         if (Game.mouse.pressed && !paid) {
             for (Accessories accessory : accessories) {
                 if (!accessory.getFileName().equals("/store/lockedproduct.png") && Game.mouse.pressed && Game.mouse.x >= accessory.getX() && Game.mouse.x <= accessory.getX() + 200 && Game.mouse.y <= accessory.getY() + 200 && Game.mouse.y >= accessory.getY() && parent.money >= accessory.getPrice()) {
+                    if(accessory.getFileName().equals("/store/goldenspatula.png")) {
+                        System.out.println(accessory.getFileName() + " " + accessory.getPrice());
+                        goldenSpatulaBought = true;
+                    }else if(accessory.getFileName().equals("/store/music.png")) {
+                        System.out.println(accessory.getFileName() + " " + accessory.getPrice());
+                        musicBought = true;
+                    }else if(accessory.getFileName().equals("/store/picture.png")) {
+                        System.out.println(accessory.getFileName() + " " + accessory.getPrice());
+                        paintingBought = true;
+                    }else if(accessory.getFileName().equals("/store/icon.png")) {
+                        System.out.println(accessory.getFileName() + " " + accessory.getPrice());
+                        iconBought = true;
+                    }else if(accessory.getFileName().equals("/store/chair.png")) {
+                        System.out.println(accessory.getFileName() + " " + accessory.getPrice());
+                        chairBought = true;
+                    }else if(accessory.getFileName().equals("/store/table.png")) {
+                        System.out.println(accessory.getFileName() + " " + accessory.getPrice());
+                        tableBought = true;
+                    }
                     accessory.startFalling();
                     boughtAccessoriesArrayList.add(accessory);
                     parent.money -= accessory.getPrice();

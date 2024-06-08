@@ -1,17 +1,13 @@
 package GrillStation.GrillStationElements;
 
 import Elements.Node;
-import Store.Accessories;
 import Store.Store;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import javax.swing.Timer;
 
 public class Spatula extends Node {
-
-    Store store;
 
     private Timer timer;
     private boolean goingUp = true;
@@ -24,6 +20,7 @@ public class Spatula extends Node {
 
         image = getImage("/grillstation/splatula.png");
 
+
         originalY = y;
 
         timer = new Timer(30, new ActionListener() {
@@ -31,6 +28,12 @@ public class Spatula extends Node {
                 animateBounce();
             }
         });
+    }
+
+    public void chooseImage(){
+        if(Store.goldenSpatulaBought){
+            image = getImage("/store/goldenspatula.png");
+        }
     }
 
 
@@ -57,3 +60,4 @@ public class Spatula extends Node {
         }
     }
 }
+

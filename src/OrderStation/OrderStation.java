@@ -10,12 +10,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import Store.Store;
+
+import Store.StoreElements.IconK;
+import Store.StoreElements.Painting;
 
 public class OrderStation {
     private GameMenu.GamePanel parent;
     private OrderFish orderFish = new OrderFish(0, 240, 500, 500);
     private OrderTable orderTable = new OrderTable(0, 500, Game.WIDTH, 250);
     private OrderBackground background = new OrderBackground(0, 0, Game.WIDTH, 500);
+
+    private IconK iconK = new IconK(400, 100, 100, 100);
+    private Painting painting = new Painting(600,70, 100, 100);
+
     public Customer customer = new Customer(Game.WIDTH, 180, 260, 420);
     private Timer timer;
     private int seconds = 0;
@@ -90,6 +98,12 @@ public class OrderStation {
 
     private void drawBase(Graphics2D g2d) {
         background.draw(g2d);
+        if(Store.iconBought){
+            iconK.draw(g2d);
+        }
+        if(Store.paintingBought){
+            painting.draw(g2d);
+        }
         customer.draw(g2d);
         orderTable.draw(g2d);
         orderFish.draw(g2d);

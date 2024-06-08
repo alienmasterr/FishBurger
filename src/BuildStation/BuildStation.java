@@ -11,6 +11,9 @@ import Level.Level;
 import Menu.*;
 import Menu.MenuElements.Ticket;
 import Products.Product;
+import Store.Store;
+import Store.StoreElements.IconK;
+import Store.StoreElements.Painting;
 
 import java.awt.*;
 import java.io.File;
@@ -34,6 +37,9 @@ public class BuildStation {
     private int diffX = -1;
     private int diffY = -1;
     private ArrayList<Product> allMeat = new ArrayList<>();
+
+    private IconK iconK = new IconK(400, 100, 100, 100);
+    private Painting painting = new Painting(600,70, 100, 100);
 
     public BuildStation(GameMenu.GamePanel parent) {
         this.parent = parent;
@@ -88,6 +94,14 @@ public class BuildStation {
 
     private void drawBase(Graphics2D g2d) {
         background.draw(g2d);
+
+        if(Store.iconBought){
+            iconK.draw(g2d);
+        }
+        if(Store.paintingBought){
+            painting.draw(g2d);
+        }
+
         drawMeat(g2d);
         for (int i = 0; i < 7; i++)
             productTrays[i].draw(g2d);
