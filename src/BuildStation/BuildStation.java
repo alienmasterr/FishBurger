@@ -326,6 +326,7 @@ public class BuildStation {
 
     private void startTicketState() {
         buildState = BuildState.PUTTING_TICKET;
+        parent.orderStation.stopTicketErasure();
         if(burgerProducts.getFirst().getX() < 447) {
             int diff = burgerProducts.getFirst().getX()-447;
             for(Product product: burgerProducts){

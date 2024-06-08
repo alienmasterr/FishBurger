@@ -2,6 +2,7 @@ package Menu.MenuElements;
 
 import BuildStation.BuildElements.Sauce;
 import Elements.Node;
+import Level.Level;
 import Products.*;
 
 import java.util.ArrayList;
@@ -12,6 +13,19 @@ public class Ticket extends Node {
     public Ticket(int x, int y, int width, int height) {
         super(x, y, width, height);
         image = getImage("/orderstation/ticket.png");
+    }
+
+    public void hideRandomProduct(){
+        int index = getRandomNumber(0, Level.getBurgerSize()-1);
+        receipt.get(index).setVisible(false);
+    }
+
+    public void showAllProducts(){
+        for(Product pr: receipt) {
+            pr.setVisible(true);
+            if(pr instanceof Unknown)
+                pr.getImage(((Unknown) pr).getSecretProduct().getSrc());
+        }
     }
 
     public void fillTicket(int maxIndex) {

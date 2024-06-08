@@ -52,6 +52,12 @@ public class OrderStation {
         }
     }
 
+    public void stopTicketErasure(){
+        if(timer.isRunning())
+            timer.stop();
+        parent.pin.getTicket().showAllProducts();
+    }
+
     public int getSeconds() {
         return seconds;
     }
@@ -66,7 +72,20 @@ public class OrderStation {
             timer.stop();
             parent.orderState = OrderState.MAKING_ORDER;
             parent.toggleButtons();
+            startTicketErasure();
         }
+    }
+
+    private void startTicketErasure(){
+        if(Level.levelState != 3)
+            return;
+        timer = new Timer(12000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parent.pin.getTicket().hideRandomProduct();
+            }
+        });
+        timer.start();
     }
 
     private void drawBase(Graphics2D g2d) {
