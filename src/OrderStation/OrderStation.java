@@ -12,8 +12,10 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import Store.Store;
 
+import Store.StoreElements.Chair;
 import Store.StoreElements.IconK;
 import Store.StoreElements.Painting;
+import Store.StoreElements.Table;
 
 public class OrderStation {
     private GameMenu.GamePanel parent;
@@ -23,6 +25,8 @@ public class OrderStation {
 
     private IconK iconK = new IconK(400, 100, 100, 100);
     private Painting painting = new Painting(600,70, 100, 100);
+    private Chair chair = new Chair(100, 100, 100, 100);
+    private Table table = new Table(200,200,100,100);
 
     public Customer customer = new Customer(Game.WIDTH, 180, 260, 420);
     private Timer timer;
@@ -103,6 +107,12 @@ public class OrderStation {
         }
         if(Store.paintingBought){
             painting.draw(g2d);
+        }
+        if(Store.tableBought){
+            table.draw(g2d);
+        }
+        if(Store.chairBought){
+            chair.draw(g2d);
         }
         customer.draw(g2d);
         orderTable.draw(g2d);

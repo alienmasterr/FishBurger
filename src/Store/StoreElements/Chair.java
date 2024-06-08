@@ -7,5 +7,10 @@ public class Chair extends Accessories {
         image = getImage("/temp.png");
     }
 
+    public Chair(int x, int y, int width, int height) {
+        super(x, y, width, height, 10);
+        image = getImage("/temp.png");
+    }
+
 
 }

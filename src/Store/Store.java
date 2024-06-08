@@ -26,7 +26,7 @@ public class Store {
 
     public Chair chair = new Chair(100, 120, 200, 200, 500);
     public Table table = new Table(400, 120, 200, 200, 1000);
-    public GoldenSpatula goldenSpatula = new GoldenSpatula(700, 120, 200, 200, 1500);
+    public GoldenSpatula goldenSpatula = new GoldenSpatula(750, 120, 90, 200, 1500);
     public Music music = new Music(100, 400, 200, 200, 2000);
     public Painting painting = new Painting(400, 400, 200, 200, 2500);
     public IconK iconK = new IconK(700, 400, 200, 200, 3000);
@@ -34,8 +34,8 @@ public class Store {
     public ArrayList<Accessories> boughtAccessoriesArrayList = new ArrayList<>();
     private Accessories[] accessories = {chair, table, goldenSpatula, music, painting, iconK};
 
-    public boolean chairBought = false;
-    public boolean tableBought = false;
+    public static boolean chairBought = false;
+    public static boolean tableBought = false;
     public static boolean goldenSpatulaBought = false;
     public boolean musicBought = false;
     public static boolean paintingBought = false;

@@ -8,7 +8,7 @@ public class Music extends Accessories {
         if(Level.levelState <2){
             image = getImage("/store/lockedproduct.png");
         }else {
-            image = getImage("/store/icon.png");
+            image = getImage("/temp.png");
         }
     }
 }

@@ -12,8 +12,10 @@ import Menu.*;
 import Menu.MenuElements.Ticket;
 import Products.Product;
 import Store.Store;
+import Store.StoreElements.Chair;
 import Store.StoreElements.IconK;
 import Store.StoreElements.Painting;
+import Store.StoreElements.Table;
 
 import java.awt.*;
 import java.io.File;
@@ -40,6 +42,8 @@ public class BuildStation {
 
     private IconK iconK = new IconK(400, 100, 100, 100);
     private Painting painting = new Painting(600,70, 100, 100);
+    private Chair chair = new Chair(100, 100, 100, 100);
+    private Table table = new Table(200,200,100,100);
 
     public BuildStation(GameMenu.GamePanel parent) {
         this.parent = parent;
@@ -100,6 +104,12 @@ public class BuildStation {
         }
         if(Store.paintingBought){
             painting.draw(g2d);
+        }
+        if(Store.tableBought){
+            table.draw(g2d);
+        }
+        if(Store.chairBought){
+            chair.draw(g2d);
         }
 
         drawMeat(g2d);
