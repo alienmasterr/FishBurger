@@ -97,11 +97,11 @@ public class Meat extends Product {
                     }
                    if (counter == 20) {
                         image = getImage("/meat/rawmeat1.png");
-                    } else if(counter == 35){
+                    } else if(counter == 50){
                        image = getImage("/meat/meat.png");
-                    }else if (counter == 50) {
+                    }else if (counter == 70) {
                         image = getImage("/meat/overcookedmeat.png");
-                    } else if (counter == 70) {
+                    } else if (counter == 90) {
                         image = getImage("/meat/burntmeat.png");
                     }else if (counter==100){
                        timer.stop();
