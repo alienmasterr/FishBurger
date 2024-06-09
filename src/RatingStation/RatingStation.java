@@ -8,16 +8,13 @@ import Menu.MenuElements.Anything;
 import Menu.MenuElements.SoundPlayer;
 import Menu.MenuElements.Unknown;
 import OrderStation.OrderElements.*;
-import Products.Meat;
 import Products.Product;
 import RatingStation.RatingElements.*;
 import Elements.Node;
-
+import GrillStation.GrillStationElements.Meat;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -329,11 +326,31 @@ public class RatingStation {
     }
 
     private int getGrillRating() {
+        int res = 100;
         if (getAmountOfMeat() == 0 && getAmountOfMeatInBurger() == 0)
             return 100;
         if (getAmountOfMeat() == 0)
             return 0;
-        return 80;
+        for(int i = 0; i < getAmountOfMeatInBurger(); i++){
+            Meat meat = (Meat)burgerResult.get(getFirstMeatIndexFrom(i));
+            if(!Objects.equals(meat.getSrc(), "/meat/meat.png"))
+                res-=20;
+            if(meat.getSideOne() > 50-Level.getMeatSidesAmount() && meat.getSideOne() < 50+Level.getMeatSidesAmount())
+                res-=Level.getMeatSidesFine();
+            if(meat.getSideTwo() > 50-Level.getMeatSidesAmount() && meat.getSideTwo() < 50+Level.getMeatSidesAmount())
+                res-=Level.getMeatSidesFine();
+        }
+        if(res < 0)
+            res = 0;
+        return res;
+    }
+
+    private int getFirstMeatIndexFrom(int index){
+        for(int i = index; i < burgerResult.size(); i++){
+            if (burgerResult.get(i) instanceof Meat)
+                return i;
+        }
+        return -1;
     }
 
     private int getAmountOfMeatInBurger() {

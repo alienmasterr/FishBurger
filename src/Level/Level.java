@@ -3,15 +3,32 @@ package Level;
 public class Level {
     public static int levelState = 1;
 
+
     public static void nextLevel() {
         if (levelState != 3)
             levelState++;
     }
 
+    public static int getMeatSidesAmount(){
+        return switch (levelState) {
+            case 2 -> 10;
+            case 3 -> 5;
+            default -> 15;
+        };
+    }
+
+    public static int getMeatSidesFine(){
+        return switch (levelState) {
+            case 2 -> 10;
+            case 3 -> 15;
+            default -> 5;
+        };
+    }
+
     public static int getZeroFine(){
         return switch (levelState) {
-            case 2 -> 40;
-            case 3 -> 30;
+            case 2 -> 30;
+            case 3 -> 40;
             default -> 25;
         };
     }
@@ -35,7 +52,7 @@ public class Level {
     public static int getTimesBeforeNextLevel(){
         return switch (levelState) {
             case 2 -> 7;
-            case 3 -> 15;
+            case 3 -> 50;
             default -> 3;
         };
     }
@@ -58,16 +75,16 @@ public class Level {
 
     public static int getWrongSizeFine(){
         return switch (levelState) {
-            case 2 -> 50;
-            case 3 -> 30;
+            case 2 -> 30;
+            case 3 -> 40;
             default -> 20;
         };
     }
 
     public static int getTimeFine() {
         return switch (levelState) {
-            case 2 -> 20;
-            case 3 -> 15;
+            case 2 -> 15;
+            case 3 -> 20;
             default -> 10;
         };
     }
