@@ -40,10 +40,10 @@ public class BuildStation {
     private int diffX = -1;
     private int diffY = -1;
     private ArrayList<Product> allMeat = new ArrayList<>();
-    private IconK iconK = new IconK(400, 100, 100, 100);
-    private Painting painting = new Painting(600, 70, 100, 100);
-    private Chair chair = new Chair(100, 100, 100, 100);
-    private Table table = new Table(200, 200, 100, 100);
+//    private IconK iconK = new IconK(400, 100, 100, 100);
+//    private Painting painting = new Painting(600, 70, 100, 100);
+//    private Chair chair = new Chair(100, 100, 100, 100);
+//    private Table table = new Table(200, 200, 100, 100);
 
     public BuildStation(GameMenu.GamePanel parent) {
         this.parent = parent;
@@ -98,18 +98,18 @@ public class BuildStation {
 
     private void drawBase(Graphics2D g2d) {
         background.draw(g2d);
-        if (Store.iconBought) {
-            iconK.draw(g2d);
-        }
-        if (Store.paintingBought) {
-            painting.draw(g2d);
-        }
-        if (Store.tableBought) {
-            table.draw(g2d);
-        }
-        if (Store.chairBought) {
-            chair.draw(g2d);
-        }
+//        if (Store.iconBought) {
+//            iconK.draw(g2d);
+//        }
+//        if (Store.paintingBought) {
+//            painting.draw(g2d);
+//        }
+//        if (Store.tableBought) {
+//            table.draw(g2d);
+//        }
+//        if (Store.chairBought) {
+//            chair.draw(g2d);
+//        }
 
         drawMeat(g2d);
         for (int i = 0; i < 7; i++)
