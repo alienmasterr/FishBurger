@@ -9,6 +9,7 @@ import GrillStation.GrillStation;
 import GrillStation.GrillStationElements.Meat;
 import Level.Level;
 import Menu.*;
+import Menu.MenuElements.SoundPlayer;
 import Menu.MenuElements.Ticket;
 import Products.Product;
 import Store.Store;
@@ -39,11 +40,10 @@ public class BuildStation {
     private int diffX = -1;
     private int diffY = -1;
     private ArrayList<Product> allMeat = new ArrayList<>();
-
     private IconK iconK = new IconK(400, 100, 100, 100);
-    private Painting painting = new Painting(600,70, 100, 100);
+    private Painting painting = new Painting(600, 70, 100, 100);
     private Chair chair = new Chair(100, 100, 100, 100);
-    private Table table = new Table(200,200,100,100);
+    private Table table = new Table(200, 200, 100, 100);
 
     public BuildStation(GameMenu.GamePanel parent) {
         this.parent = parent;
@@ -76,7 +76,7 @@ public class BuildStation {
         for (File file : files) {
             if (file.isDirectory())
                 continue;
-            if(counter > Level.getAmountOfSauces()-1)
+            if (counter > Level.getAmountOfSauces() - 1)
                 return;
             sauceBottles[counter] = new SauceBottle(920 - counter * 60, 460, 80, 180);
             sauceBottles[counter].setInitialX(920 - counter * 60);
@@ -98,16 +98,16 @@ public class BuildStation {
 
     private void drawBase(Graphics2D g2d) {
         background.draw(g2d);
-        if(Store.iconBought){
+        if (Store.iconBought) {
             iconK.draw(g2d);
         }
-        if(Store.paintingBought){
+        if (Store.paintingBought) {
             painting.draw(g2d);
         }
-        if(Store.tableBought){
+        if (Store.tableBought) {
             table.draw(g2d);
         }
-        if(Store.chairBought){
+        if (Store.chairBought) {
             chair.draw(g2d);
         }
 
@@ -122,10 +122,10 @@ public class BuildStation {
         update();
     }
 
-    private void drawBottles(Graphics2D g2d){
+    private void drawBottles(Graphics2D g2d) {
         for (Product product : sauceBottles)
-           if(product != null)
-               product.draw(g2d);
+            if (product != null)
+                product.draw(g2d);
     }
 
     private void drawMeat(Graphics2D g2d) {
@@ -134,19 +134,20 @@ public class BuildStation {
     }
 
     private void drawTicketBase(Graphics2D g2d) {
-        if(parent.pin.getTicket() != null && !parent.isToggled())
+        if (parent.pin.getTicket() != null && !parent.isToggled())
             parent.toggleButtons();
         ticketBackground.draw(g2d);
         ticketHolder.draw(g2d);
-        try{
+        try {
             for (Product product : burgerProducts) {
-                if(product instanceof Meat && !product.isUsed()) {
+                if (product instanceof Meat && !product.isUsed()) {
                     burgerProducts.remove(product);
                     continue;
                 }
                 product.draw(g2d);
             }
-        } catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
         updateTicket();
     }
 
@@ -154,13 +155,16 @@ public class BuildStation {
         Ticket ticket = parent.pin.getTicket();
         if (ticket == null)
             return;
-        if (Game.mouse.pressed && ticket.getX() <= Game.mouse.x && ticket.getX() + ticket.getWidth() >= Game.mouse.x && ticket.getY() <= Game.mouse.y && ticket.getY() + ticket.getHeight() >= Game.mouse.y)
+        if (Game.mouse.pressed && ticket.getX() <= Game.mouse.x && ticket.getX() + ticket.getWidth() >= Game.mouse.x && ticket.getY() <= Game.mouse.y && ticket.getY() + ticket.getHeight() >= Game.mouse.y) {
+            if (activeTicket != ticket)
+                SoundPlayer.playPickSound();
             activeTicket = ticket;
-        else if (!Game.mouse.pressed && activeTicket != null) {
+        } else if (!Game.mouse.pressed && activeTicket != null) {
             if (checkTicketLocation()) {
                 activeTicket.setX(308);
                 activeTicket.setY(517);
                 parent.toggleButtons();
+                SoundPlayer.playPickSound();
                 parent.ratingStation.setReceipt(ticket.getReceipt());
                 transferInfoForRating();
                 return;
@@ -213,6 +217,7 @@ public class BuildStation {
             ticket.setX(740);
             ticket.setWidth(230);
             ticket.setHeight(420);
+            SoundPlayer.playPickSound();
             lastTicket = null;
             return;
         }
@@ -242,13 +247,14 @@ public class BuildStation {
         if (activeBottle != null && !Game.mouse.pressed) {
             lastBottle = activeBottle;
             createSauceDrip();
+            SoundPlayer.playSqueezeBottleSound();
             activeBottle = null;
         } else if (lastBottle != null)
             returnToCup();
     }
 
     private void createSauceDrip() {
-        if (!(activeBottle.getY() >= 360 || activeBottle.getX() < 300 || activeBottle.getX() > 600 || activeBottle.getY()+activeBottle.getHeight() >= burgerProducts.getLast().getY()))
+        if (!(activeBottle.getY() >= 360 || activeBottle.getX() < 300 || activeBottle.getX() > 600 || activeBottle.getY() + activeBottle.getHeight() >= burgerProducts.getLast().getY()))
             burgerProducts.add(lastBottle.createSauce());
     }
 
@@ -283,10 +289,11 @@ public class BuildStation {
         if (activeProduct != null || activeBottle != null)
             return;
         for (SauceBottle bottle : sauceBottles) {
-            if(bottle == null)
+            if (bottle == null)
                 return;
             if (Game.mouse.pressed && Game.mouse.x > bottle.getX() - 10 && Game.mouse.x < bottle.getX() + bottle.getWidth() + 10 && Game.mouse.y > bottle.getY() - 10 && Game.mouse.y < bottle.getY() + bottle.getHeight() + 10) {
                 activeBottle = bottle;
+                SoundPlayer.playPickSound();
                 return;
             }
         }
@@ -297,12 +304,14 @@ public class BuildStation {
             return;
         if (updateLastMeat())
             return;
-        if(activeBottle != null)
+        if (activeBottle != null)
             return;
         Product lastProduct = burgerProducts.getLast();
         if (lastProduct instanceof Sauce)
             return;
         if (Game.mouse.pressed && Game.mouse.x >= lastProduct.getX() && Game.mouse.x <= lastProduct.getX() + 150 && Game.mouse.y >= lastProduct.getY() && Game.mouse.y <= lastProduct.getY() + 100) {
+            if (activeProduct != lastProduct)
+                SoundPlayer.playPickSound();
             activeProduct = lastProduct;
         }
     }
@@ -313,6 +322,7 @@ public class BuildStation {
             return false;
         if (!lastMeat.isUsed() && Game.mouse.pressed && Game.mouse.x >= lastMeat.getX() && Game.mouse.x <= lastMeat.getX() + 150 && Game.mouse.y >= lastMeat.getY() && Game.mouse.y <= lastMeat.getY() + 100) {
             activeProduct = lastMeat;
+            SoundPlayer.playPickSound();
             burgerProducts.remove(lastMeat);
             burgerProducts.add(lastMeat);
             return true;
@@ -355,10 +365,10 @@ public class BuildStation {
     private void startTicketState() {
         buildState = BuildState.PUTTING_TICKET;
         parent.orderStation.stopTicketErasure();
-        if(burgerProducts.getFirst().getX() < 447) {
-            int diff = burgerProducts.getFirst().getX()-447;
-            for(Product product: burgerProducts){
-                product.setX(product.getX()-diff);
+        if (burgerProducts.getFirst().getX() < 447) {
+            int diff = burgerProducts.getFirst().getX() - 447;
+            for (Product product : burgerProducts) {
+                product.setX(product.getX() - diff);
             }
         }
     }
@@ -512,6 +522,7 @@ public class BuildStation {
                 if (activeProduct != null || activeBottle != null)
                     return;
                 activeProduct = createProduct(product);
+                SoundPlayer.playPickSound();
                 burgerProducts.add(activeProduct);
             }
         }

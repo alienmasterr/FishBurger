@@ -60,6 +60,12 @@ public class Game extends JFrame {
     private void setBox(JPanel panel) {
         if(frameState == FrameState.GAME)
             gameMenu.restart();
+        if(panel instanceof MainMenu)
+            ((MainMenu) panel).startMusic();
+        else if(panel instanceof GameMenu)
+            ((GameMenu) panel).startMusic();
+        else if(panel instanceof LevelMenu)
+            ((LevelMenu) panel).startMusic();
         box = new Box(BoxLayout.Y_AXIS);
         box.add(Box.createVerticalGlue());
         box.add(panel);

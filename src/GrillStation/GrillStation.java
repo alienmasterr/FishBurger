@@ -5,6 +5,7 @@ import Enums.CookingState;
 import GrillStation.GrillStationElements.*;
 import Menu.*;
 import Menu.Game;
+import Menu.MenuElements.SoundPlayer;
 import Store.Store;
 
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class GrillStation {
     private void moveSpatula() {
         if (!spatulaTaken && Game.mouse.pressed && Game.mouse.x >= spatula.getX() && Game.mouse.x <= spatula.getX() + 100 && Game.mouse.y >= spatula.getY() && Game.mouse.y <= spatula.getY() + 200) {
             spatulaTaken = true;
+            SoundPlayer.playPickSound();
             Game.mouse.dragging = true;
         }
         if (spatulaTaken) {
@@ -75,6 +77,7 @@ public class GrillStation {
             selectedMeat.getFlipped();
             spatulaTaken = false;
             spatulaReturning = true;
+            SoundPlayer.playPickSound();
 //            spatula.setPosition(Game.WIDTH / 2-35, Game.HEIGHT / 12);
         }
     }
@@ -162,6 +165,7 @@ public class GrillStation {
             return;
         if (selectedMeat.getX() > plate.getX() - 20 && selectedMeat.getX() < plate.getX() + plate.getWidth() + 20 && selectedMeat.getY() > plate.getY() - 20 && selectedMeat.getY() < plate.getY() + plate.getHeight() + 20) {
             sendMeat(selectedMeat);
+            SoundPlayer.playPickSound();
             meatArrayList.remove(selectedMeat);
             parent.cookingState = CookingState.MEAT_SENT_TO_BD;
             meatSent = true;
@@ -185,6 +189,7 @@ public class GrillStation {
             return;
         if (selectedMeat.getX() >= trash.getX() && selectedMeat.getX() - 25 <= trash.getX() + trash.getWidth() && selectedMeat.getY() >= trash.getY() && selectedMeat.getY() <= trash.getY() + trash.getHeight() - 50) {
             meatArrayList.remove(selectedMeat);
+            SoundPlayer.playPickSound();
             parent.cookingState = CookingState.MEAT_SHROWN_AWAY;
             selectedMeat = null;
         }
@@ -211,6 +216,8 @@ public class GrillStation {
 
     private void findEl(Meat meat) {
         if (Game.mouse.pressed && Game.mouse.x >= meat.getX() && Game.mouse.x <= meat.getX() + 100 && Game.mouse.y >= meat.getY() && Game.mouse.y <= meat.getY() + 200) {
+            if(selectedMeat != meat)
+                SoundPlayer.playPickSound();
             selectedMeat = meat;
         }
     }

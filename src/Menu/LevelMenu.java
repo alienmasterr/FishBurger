@@ -2,13 +2,19 @@ package Menu;
 
 import Elements.Node;
 import Enums.LevelState;
+import Menu.MenuElements.SoundPlayer;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class LevelMenu extends JPanel {
+    private Clip clip;
     private Game parent;
     public LevelMenu(Game parent){
         super();
@@ -16,6 +22,24 @@ public class LevelMenu extends JPanel {
         setStaticSize();
         setLayout(null);
         setButtons();
+    }
+
+    public void turnOffTheMusic(){
+        clip.stop();
+    }
+
+    public void startMusic(){
+        if(clip != null){
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            return;
+        }
+        File file = new File("res/Music/mainmenu.wav");
+        try {
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+            clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (Exception ignored) {}
     }
 
     @Override
@@ -64,6 +88,8 @@ public class LevelMenu extends JPanel {
             addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    turnOffTheMusic();
+                    SoundPlayer.playButtonSound();
                     parent.startGame(state);
                 }
             });

@@ -3,6 +3,7 @@ package OrderStation;
 import Enums.OrderState;
 import Level.Level;
 import Menu.*;
+import Menu.MenuElements.SoundPlayer;
 import Menu.MenuElements.Ticket;
 import OrderStation.OrderElements.*;
 
@@ -135,6 +136,7 @@ public class OrderStation {
     private void checkOrderBubble(Graphics2D g2d) {
         if (Game.mouse.pressed && Game.mouse.x >= customer.getOrderBubble().getX() && Game.mouse.x <= customer.getOrderBubble().getX() + 200 && Game.mouse.y <= customer.getOrderBubble().getY() + 200 && Game.mouse.y >= customer.getOrderBubble().getY()) {
             parent.toggleButtons();
+            SoundPlayer.playButtonSound();
             parent.orderState = OrderState.CUSTOMER_ORDERING;
             timer = new Timer(1000, null);
             timer.addActionListener(new ActionListener() {

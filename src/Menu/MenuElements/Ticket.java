@@ -36,6 +36,7 @@ public class Ticket extends Node {
             receipt.add(new UpperBun());
         else
             receipt.add(getRandomProduct());
+        SoundPlayer.playBubbleSound();
         setReceiptPositions();
     }
 

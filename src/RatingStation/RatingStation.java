@@ -5,6 +5,7 @@ import Enums.RatingState;
 import Level.Level;
 import Menu.*;
 import Menu.MenuElements.Anything;
+import Menu.MenuElements.SoundPlayer;
 import Menu.MenuElements.Unknown;
 import OrderStation.OrderElements.*;
 import Products.Meat;
@@ -38,6 +39,7 @@ public class RatingStation {
     private Coin coin = new Coin(790, -100, 50, 50);
     private double newMoney;
     private int velocityY = 1;
+    private int counter = 0;
     private Timer timer;
 
     public RatingStation(GameMenu.GamePanel parent) {
@@ -65,6 +67,7 @@ public class RatingStation {
             @Override
             public void actionPerformed(ActionEvent e) {
                 customer.setMessage(customer.getMessage() + ".");
+                SoundPlayer.playBubbleSound();
                 if (customer.getMessage().length() == 4) {
                     state = RatingState.SHOWING_RESULT;
                     timer.stop();
@@ -102,6 +105,8 @@ public class RatingStation {
     }
 
     private void drawLoadingScreen(Graphics2D g2d) {
+        if(counter == 1)
+            counter = 0;
         g2d.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
         g2d.setPaint(Color.WHITE);
         g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 40));
@@ -135,6 +140,7 @@ public class RatingStation {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     customer.setMessage(customer.getMessage() + ".");
+                    SoundPlayer.playPickSound();
                     if (customer.getMessage().length() == 34) {
                         parent.pin.setDrawTicket(true);
                         timer.stop();
@@ -159,9 +165,11 @@ public class RatingStation {
         update();
     }
 
-    private void checkGameOver(){
-        if (getAverageRating() <= Level.getZeroFine() && Objects.equals(customer.getSrc(), "/customers/customer10.png"))
+    private void checkGameOver() {
+        if (getAverageRating() <= Level.getZeroFine() && Objects.equals(customer.getSrc(), "/customers/customer10.png")) {
             parent.gameOver();
+            SoundPlayer.playGameOverSound();
+        }
     }
 
     private void withdrawRatingBalloons() {
@@ -172,6 +180,7 @@ public class RatingStation {
     private void moveCoin() {
         if (coin.getY() + 50 >= 390 + 200) {
             getMoney();
+            SoundPlayer.playCoinSound();
             state = RatingState.WALKING_AWAY;
         }
         coin.setY(coin.getY() + 8);
@@ -181,8 +190,8 @@ public class RatingStation {
         if (getAverageRating() <= Level.getZeroFine()) {
             parent.money += 0;
             newMoney = 0;
-            if(Objects.equals(customer.getSrc(), "/customers/customer8.png")){
-                newMoney = parent.money*-1;
+            if (Objects.equals(customer.getSrc(), "/customers/customer8.png")) {
+                newMoney = parent.money * -1;
                 parent.money = 0;
             }
         } else {
@@ -228,9 +237,17 @@ public class RatingStation {
         if (getAverageRating() < 50) {
             NegativeReaction negativeReaction = new NegativeReaction(297, 135, 100, 100);
             negativeReaction.draw(g2d);
+            if(counter == 0) {
+                SoundPlayer.playAngrySound();
+                counter++;
+            }
         } else {
             PositiveReaction positiveReaction = new PositiveReaction(297, 135, 100, 100);
             positiveReaction.draw(g2d);
+            if(counter == 0) {
+                SoundPlayer.playHappySound();
+                counter++;
+            }
         }
     }
 

@@ -2,11 +2,20 @@ package Menu;
 
 import Elements.Node;
 import Enums.FrameState;
+import Menu.MenuElements.SoundPlayer;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.util.Scanner;
+import javax.sound.sampled.*;
+
 
 public class MainMenu extends JPanel {
+    private Clip clip;
     private Game parent;
     public MainMenu(Game parent){
         super();
@@ -14,6 +23,25 @@ public class MainMenu extends JPanel {
         setStaticSize();
         setLayout(null);
         setButtons();
+        startMusic();
+    }
+
+    public void turnOffTheMusic(){
+        clip.stop();
+    }
+
+    public void startMusic(){
+        if(clip != null){
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            return;
+        }
+        File file = new File("res/Music/mainmenu.wav");
+        try {
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+            clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (Exception ignored) {}
     }
 
     @Override
@@ -70,7 +98,9 @@ public class MainMenu extends JPanel {
                 public void actionPerformed(ActionEvent e) {
                     if(!active)
                         return;
+                    SoundPlayer.playButtonSound();
                     parent.setVisiblePanel(state);
+                    turnOffTheMusic();
                 }
             });
         }

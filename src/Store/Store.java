@@ -130,7 +130,7 @@ public class Store {
                     tableBought = true;
                 }
             }
-            accessory.startFalling();
+//            accessory.startFalling();
             boughtAccessoriesArrayList.add(accessory);
             parent.money -= accessory.getPrice();
             moneyDisplay.setCurrentMoney(parent.money);

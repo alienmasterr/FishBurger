@@ -7,15 +7,21 @@ import GrillStation.GrillStationElements.Meat;
 import Level.Level;
 import Menu.MenuElements.LevelBar;
 import Menu.MenuElements.MoneyDisplay;
+import Menu.MenuElements.SoundPlayer;
 import Menu.MenuElements.TicketPin;
 import OrderStation.OrderStation;
 import RatingStation.RatingStation;
 import Store.Store;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.Objects;
 
 import static Enums.PanelState.*;
 import static Menu.Game.mouse;
@@ -24,6 +30,7 @@ public class GameMenu extends JPanel {
     private GamePanel gamePanel;
     private MenuPanel menuPanel = new MenuPanel();
     private Game parent;
+    private Clip clip;
     public Thread gameThread;
 
     public GameMenu(Game parent) {
@@ -35,6 +42,24 @@ public class GameMenu extends JPanel {
         setBackground(Color.black);
         add(gamePanel);
         add(menuPanel);
+    }
+
+    public void turnOffTheMusic(){
+        clip.stop();
+    }
+
+    public void startMusic(){
+        if(clip != null){
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            return;
+        }
+        File file = new File("res/Music/gamemenu.wav");
+        try {
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+            clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (Exception ignored) {}
     }
 
     public void restart() {
@@ -239,6 +264,9 @@ public class GameMenu extends JPanel {
                     public void actionPerformed(ActionEvent e) {
                         if (!active)
                             return;
+                        SoundPlayer.playButtonSound();
+                        if(Objects.equals(text, "Exit"))
+                            turnOffTheMusic();
                         gamePanel.panelState = panelState;
                     }
                 });
