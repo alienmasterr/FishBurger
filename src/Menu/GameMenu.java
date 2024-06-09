@@ -123,6 +123,7 @@ public class GameMenu extends JPanel {
 
         public void updateMoneyDisplay() {
             moneyDisplay.setCurrentMoney(money);
+            store.moneyDisplay.setCurrentMoney(money);
         }
 
         public void toggleButtons() {
@@ -145,6 +146,7 @@ public class GameMenu extends JPanel {
             levelBar.setLevel(Level.getTimesBeforeNextLevel(), 0);
             levelBar.setLevelNum(Level.levelState);
             moneyDisplay.setCurrentMoney(money);
+            store.moneyDisplay.setCurrentMoney(money);
             setMaximumSize(new Dimension(Game.WIDTH, (int) (Game.HEIGHT * 0.9)));
             setBackground(Color.darkGray);
             addMouseMotionListener(mouse);

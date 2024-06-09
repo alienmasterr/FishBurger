@@ -22,7 +22,7 @@ public class Store {
     private final StoreButton storeButton = new StoreButton(Game.WIDTH / 2 - 50, Game.HEIGHT - 130, 100, 50);
 
     private final StoreBackground storeBackground = new StoreBackground(0, 0, Game.WIDTH, Game.HEIGHT);
-    private MoneyDisplay moneyDisplay = new MoneyDisplay(5, 20, 50, 50);
+    public MoneyDisplay moneyDisplay = new MoneyDisplay(5, 20, 50, 50);
     public Chair chair = new Chair(100, 120, 200, 200, 500);
     public Table table = new Table(400, 120, 200, 200, 1000);
     public GoldenSpatula goldenSpatula = new GoldenSpatula(750, 120, 90, 200, 1500);
@@ -47,11 +47,11 @@ public class Store {
 
     public void draw(Graphics2D g2d) {
         storeBackground.draw(g2d);
-        moneyDisplay.draw(g2d);
         switch (storeState) {
             case BUSKET -> drawBusket(g2d);
             case CHOOSING -> drawStore(g2d);
         }
+        moneyDisplay.draw(g2d);
     }
 
     public ArrayList<Accessories> getBoughtAccessories() {
@@ -133,7 +133,6 @@ public class Store {
 //            accessory.startFalling();
             boughtAccessoriesArrayList.add(accessory);
             parent.money -= accessory.getPrice();
-            moneyDisplay.setCurrentMoney(parent.money);
         }
         paid = true;
     }
