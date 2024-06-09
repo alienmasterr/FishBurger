@@ -18,7 +18,7 @@ public class Meat extends Product {
     public static boolean isGrilling = true;
     private boolean grilling = false;
     private int sideOne=0;
-    private int sideTwo=100;
+    private int sideTwo=0;
     private boolean canFlip = false;
 
     public Meat(int x, int y, int width, int height) {
@@ -89,7 +89,7 @@ public class Meat extends Product {
                        counter++;
                        sideOne++;
                        if(canFlip) {
-                           sideTwo--;
+                           sideTwo++;
                        }
                    }
                     if(GrillStation.meatSent){
@@ -113,7 +113,7 @@ public class Meat extends Product {
 
 
     public void getFlipped() {
-       System.out.println("Flipped Meat");
+       //System.out.println("Flipped Meat");
        canFlip = true;
     }
 

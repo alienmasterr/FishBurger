@@ -25,7 +25,6 @@ public class GrillStation {
     private final GrillBoard grillBoard = new GrillBoard(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 6, Game.WIDTH / 2, Game.HEIGHT / 3);
     private final GrillBackground grillBackground = new GrillBackground(0, 0, Game.WIDTH, Game.HEIGHT);
 
-    //todo мда що за мода робити його публічним та статичним
     public static Meat selectedMeat = null;
     public static boolean meatSent = false;
     public static boolean spatulaTaken = false;
@@ -81,6 +80,17 @@ public class GrillStation {
 //            spatula.setPosition(Game.WIDTH / 2-35, Game.HEIGHT / 12);
         }
     }
+
+    private void notFlippedSpatulaBack() {
+        if (spatulaTaken && Game.mouse.pressed && Game.mouse.x >= plate.getX() && Game.mouse.x <= plate.getX() + 100 && Game.mouse.y >= plate.getY() && Game.mouse.y <= plate.getY() + 200) {
+            //selectedMeat.getFlipped();
+            spatulaTaken = false;
+            spatulaReturning = true;
+           // SoundPlayer.playPickSound();
+//            spatula.setPosition(Game.WIDTH / 2-35, Game.HEIGHT / 12);
+        }
+    }
+
 
     private void updateSpatulaReturn(){
         if(!spatulaReturning)
@@ -231,6 +241,7 @@ public class GrillStation {
         spatula.draw(g2d);
         activateMinceButton();
         moveSpatula();
+        notFlippedSpatulaBack();
         getLevelOfGrill(g2d);
     }
 
