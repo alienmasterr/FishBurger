@@ -17,6 +17,7 @@ public class Meat extends Product {
     private Timer timer;
 
     public static boolean isGrilling = true;
+    private boolean isGrillingRightSide = true;
     private boolean grilling = false;
     private int sideOne=0;
     private int sideTwo=0;
@@ -83,21 +84,46 @@ public class Meat extends Product {
     int counter = 0;
 
     public void setupTimer() {
-            this.timer = new Timer(1000, new ActionListener() {
+            this.timer = new Timer(850, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                   if(grilling) {
-                       grilling();
-                       counter++;
-                       sideOne++;
-                       if(canFlip) {
-                           sideTwo++;
-                       }
-                   }
+//                   if(grilling) {
+//                       grilling();
+//                       counter++;
+//                       sideOne++;
+//                       if(canFlip) {
+//                           sideTwo++;
+//                       }
+//                   }
+//                    if(GrillStation.meatSent){
+//                        timer.stop();
+//                    }
+//                   if (counter == 20) {
+//                        image = getImage("/meat/rawmeat1.png");
+//                    } else if(counter == 50){
+//                       image = getImage("/meat/meat.png");
+//                    }else if (counter == 70) {
+//                        image = getImage("/meat/overcookedmeat.png");
+//                    } else if (counter == 90) {
+//                        image = getImage("/meat/burntmeat.png");
+//                    }else if (counter==100){
+//                       timer.stop();
+//                   }
                     if(GrillStation.meatSent){
                         timer.stop();
+                        return;
                     }
-                   if (counter == 20) {
+                    if(!grilling)
+                        return;
+                    grilling();
+                    if(isGrillingRightSide) {
+                        sideOne = sideOne < 100 ? sideOne+1 : 100;
+                        sideTwo = sideTwo > 0 ? sideTwo-1 : 0;
+                    } else {
+                        sideOne = sideOne > 0 ? sideOne-1 : 0;
+                        sideTwo = sideTwo < 100 ? sideTwo+1 : 100;
+                    }
+                    if (counter == 20) {
                         image = getImage("/meat/rawmeat1.png");
                     } else if(counter == 50){
                        image = getImage("/meat/meat.png");
@@ -117,6 +143,7 @@ public class Meat extends Product {
     public void getFlipped() {
        //System.out.println("Flipped Meat");
        canFlip = true;
+       isGrillingRightSide = !isGrillingRightSide;
     }
 
 }

@@ -225,8 +225,9 @@ public class GrillStation {
     }
 
     private void activateMinceButton() {
-        if (Game.mouse.pressed && Game.mouse.x >= mince.getX() && Game.mouse.x <= mince.getX() + 200 && Game.mouse.y <= mince.getY() + 200 && Game.mouse.y >= mince.getY()) {
-            meatArrayList.add(new Meat(0, 350, 150, 100));
+        if (selectedMeat == null && Game.mouse.pressed && Game.mouse.x >= mince.getX() && Game.mouse.x <= mince.getX() + 200 && Game.mouse.y <= mince.getY() + 200 && Game.mouse.y >= mince.getY()) {
+            selectedMeat = new Meat(Game.mouse.x, Game.mouse.y, 150, 100);
+            meatArrayList.add(selectedMeat);
             parent.cookingState = CookingState.MEAT_NOT_READY;
         }
     }
