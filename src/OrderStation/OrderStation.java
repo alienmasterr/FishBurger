@@ -28,8 +28,8 @@ public class OrderStation {
 
     private IconK iconK = new IconK(400, 100, 100, 100);
     private Painting painting = new Painting(600, 70, 100, 100);
-    private Chair chair = new Chair(100, 100, 100, 100);
-    private Table table = new Table(200, 200, 100, 100);
+    private Chair chair = new Chair(100, 100, 400, 400);
+    private Table table = new Table(200, 200, 400, 400);
 
     public Customer customer = new Customer(Game.WIDTH, 180, 260, 420);
     private Timer timer;

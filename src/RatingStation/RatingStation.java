@@ -12,6 +12,12 @@ import Products.Product;
 import RatingStation.RatingElements.*;
 import Elements.Node;
 import GrillStation.GrillStationElements.Meat;
+import Store.StoreElements.Chair;
+import Store.StoreElements.IconK;
+import Store.StoreElements.Painting;
+import Store.StoreElements.Table;
+
+import Store.Store;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -38,6 +44,11 @@ public class RatingStation {
     private int velocityY = 1;
     private int counter = 0;
     private Timer timer;
+
+        private IconK iconK = new IconK(400, 100, 100, 100);
+    private Painting painting = new Painting(600, 70, 100, 100);
+    private Chair chair = new Chair(100, 100, 400, 400);
+    private Table table = new Table(200, 200, 400, 400);
 
     public RatingStation(GameMenu.GamePanel parent) {
         this.parent = parent;
@@ -77,6 +88,18 @@ public class RatingStation {
 
     public void draw(Graphics2D g2d) {
         drawBase(g2d);
+        if (Store.iconBought) {
+            iconK.draw(g2d);
+        }
+        if (Store.paintingBought) {
+            painting.draw(g2d);
+        }
+        if (Store.tableBought) {
+            table.draw(g2d);
+        }
+        if (Store.chairBought) {
+            chair.draw(g2d);
+        }
         switch (state) {
             case RATING -> drawRating(g2d);
             case SHOWING_RESULT -> drawResults(g2d);
