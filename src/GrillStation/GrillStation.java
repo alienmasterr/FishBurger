@@ -24,11 +24,15 @@ public class GrillStation {
     private final GrillBoard grillBoard = new GrillBoard(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 6, Game.WIDTH / 2, Game.HEIGHT / 3);
     private final GrillBackground grillBackground = new GrillBackground(0, 0, Game.WIDTH, Game.HEIGHT);
 
-    //todo може приватним?
+    //todo мда що за мода робити його публічним та статичним
     public static Meat selectedMeat = null;
     public static boolean meatSent = false;
     public static boolean spatulaTaken = false;
 
+    //для повернення сплатули
+    private boolean spatulaReturning = false;
+    private int diffX = -1;
+    private int diffY = -1;
 
     public GrillStation(GameMenu.GamePanel parent) {
         this.parent = parent;
@@ -52,12 +56,57 @@ public class GrillStation {
 //        }
     }
 
+    public void draw(Graphics2D g2d) {
+        parent.pin.setDrawTicket(true);
+        drawBase(g2d);
+        switch (parent.cookingState) {
+            case NO_MEAT -> createMeat(g2d);
+            case MEAT_NOT_READY -> drawNewMeat(g2d);
+            case MEAT_GRILLING -> grillingMeat(g2d);
+            case MEAT_READY, MEAT_SENT_TO_BD, MEAT_SHROWN_AWAY -> readyMeat(g2d);
+            case MEAT_BURNING -> drawNewMeat(g2d);//burntMeat
+        }
+        update();
+        updateSpatulaReturn();
+    }
+
     private void flip() {
         if (spatulaTaken && selectedMeat != null && Game.mouse.pressed && Game.mouse.x >= selectedMeat.getX() && Game.mouse.x <= selectedMeat.getX() + 100 && Game.mouse.y >= selectedMeat.getY() && Game.mouse.y <= selectedMeat.getY() + 200 && selectedMeat.getGrilling()) {
             selectedMeat.getFlipped();
             spatulaTaken = false;
-            spatula.setPosition(Game.WIDTH / 2-35, Game.HEIGHT / 12);
+            spatulaReturning = true;
+//            spatula.setPosition(Game.WIDTH / 2-35, Game.HEIGHT / 12);
         }
+    }
+
+    private void updateSpatulaReturn(){
+        if(!spatulaReturning)
+            return;
+        if(diffX == -1 && diffY == -1)
+            calculateDiffs(Game.WIDTH / 2-35, Game.HEIGHT / 12, spatula.getX(), spatula.getY());
+        moveToInitial(Game.WIDTH / 2-35, Game.HEIGHT / 12, spatula.getX(), spatula.getY());
+    }
+
+    private void calculateDiffs(int x1, int y1, int x, int y) {
+        int distX = x1 - x;
+        int distY = y1 - y;
+        double gDist = Math.sqrt(distX * distX + distY * distY);
+        int steps = (int) ((gDist - 1) / 30);
+        if (steps == 0)
+            steps = 1;
+        diffY = distY / steps;
+        diffX = distX / steps;
+    }
+
+    private void moveToInitial(int x1, int y1, int x, int y) {
+        if (x1 - 30 <= x && x1 + 30 >= x && y1 - 30 < y && y1 + 30 > y) {
+            diffX = -1;
+            diffY = -1;
+            spatulaReturning = false;
+            return;
+        }
+        spatula.setX(spatula.getX() + diffX);
+        spatula.setY(spatula.getY() + diffY);
     }
 
     private void getLevelOfGrill(Graphics2D g2d) {
@@ -98,20 +147,6 @@ public class GrillStation {
 //    public boolean areaOccupied(int x, int y, Meat meat) {
 //        return meat.getX() == x && meat.getY() == y;
 //    }
-
-    //метод що відмальовує панель
-    public void draw(Graphics2D g2d) {
-        parent.pin.setDrawTicket(true);
-        drawBase(g2d);
-        switch (parent.cookingState) {
-            case NO_MEAT -> createMeat(g2d);
-            case MEAT_NOT_READY -> drawNewMeat(g2d);
-            case MEAT_GRILLING -> grillingMeat(g2d);
-            case MEAT_READY, MEAT_SENT_TO_BD, MEAT_SHROWN_AWAY -> readyMeat(g2d);
-            case MEAT_BURNING -> drawNewMeat(g2d);//burntMeat
-        }
-        update();
-    }
 
     private void update() {
         updateActiveElement();

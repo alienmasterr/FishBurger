@@ -22,8 +22,7 @@ public class Store {
     private final StoreButton storeButton = new StoreButton(Game.WIDTH / 2 - 50, Game.HEIGHT - 130, 100, 50);
 
     private final StoreBackground storeBackground = new StoreBackground(0, 0, Game.WIDTH, Game.HEIGHT);
-    private MoneyDisplay moneyDisplay = new MoneyDisplay(5,20, 70, 70);
-
+    private MoneyDisplay moneyDisplay = new MoneyDisplay(5, 20, 50, 50);
     public Chair chair = new Chair(100, 120, 200, 200, 500);
     public Table table = new Table(400, 120, 200, 200, 1000);
     public GoldenSpatula goldenSpatula = new GoldenSpatula(750, 120, 90, 200, 1500);
@@ -42,16 +41,13 @@ public class Store {
     public static boolean iconBought = false;
 
 
-
     public Store(GameMenu.GamePanel parent) {
         this.parent = parent;
     }
 
     public void draw(Graphics2D g2d) {
-        parent.pin.setDrawTicket(false);
-        drawBase(g2d);
+        storeBackground.draw(g2d);
         moneyDisplay.draw(g2d);
-        moneyDisplay.setCurrentMoney(parent.money);
         switch (storeState) {
             case BUSKET -> drawBusket(g2d);
             case CHOOSING -> drawStore(g2d);
@@ -65,82 +61,90 @@ public class Store {
     public void drawStore(Graphics2D g2d) {
         busketButton.draw(g2d);
         openBusket();
-
         drawAllAccessories(g2d);
         buyAccessories();
     }
 
+    //цю какаху треба переробити
     private void drawAllAccessories(Graphics2D g2d) {
         int startX = 100;
         int startY = 120;
         int xOffset = 300;
         int yOffset = 280;
+        int col = 0; //3 стовпці
+        //що це??? навіщо це??? з якою метою??? воно вбиває гру??? навіщо???
+        //якщо це кнопки для покупки то зроби це якось інакше бо в мене пк не витримує таких приколів
         for (int row = 0; row < 2; row++) { // 2 рядки
-            for (int col = 0; col < 3; col++) { // 3 стовпці
-                int x = startX + col * xOffset;
-                int y = startY + row * yOffset;
-                ProductBack productBack = new ProductBack(x, y, 200, 260);
-                productBack.draw(g2d);
-            }
-            chair.draw(g2d);
-            table.draw(g2d);
-            goldenSpatula.draw(g2d);
-            music.draw(g2d);
-            painting.draw(g2d);
-            iconK.draw(g2d);
+//            ProductBack productBack = new ProductBack(startX + col * xOffset, startY + row * yOffset, 200, 260);
+//            productBack.draw(g2d);
+//            col++;
+//            if (col == 2)
+//                col = 0;
         }
+        drawAccessory(g2d);
     }
+
+    private void drawAccessory(Graphics2D g2d){
+        chair.draw(g2d);
+        table.draw(g2d);
+        goldenSpatula.draw(g2d);
+        music.draw(g2d);
+        painting.draw(g2d);
+        iconK.draw(g2d);
+    }
+
     private boolean paid = false;
 
+    //я трохи почистила цей метод
     private void buyAccessories() {
-        if (Game.mouse.pressed && !paid) {
-            for (Accessories accessory : accessories) {
-                if (!accessory.getFileName().equals("/store/lockedproduct.png") && Game.mouse.pressed && Game.mouse.x >= accessory.getX() && Game.mouse.x <= accessory.getX() + 200 && Game.mouse.y <= accessory.getY() + 200 && Game.mouse.y >= accessory.getY() && parent.money >= accessory.getPrice()) {
-                    if(accessory.getFileName().equals("/store/goldenspatula.png")) {
-                        System.out.println(accessory.getFileName() + " " + accessory.getPrice());
-                        goldenSpatulaBought = true;
-                    }else if(accessory.getFileName().equals("/store/music.png")) {
-                        System.out.println(accessory.getFileName() + " " + accessory.getPrice());
-                        musicBought = true;
-                    }else if(accessory.getFileName().equals("/store/picture.png")) {
-                        System.out.println(accessory.getFileName() + " " + accessory.getPrice());
-                        paintingBought = true;
-                    }else if(accessory.getFileName().equals("/store/icon.png")) {
-                        System.out.println(accessory.getFileName() + " " + accessory.getPrice());
-                        iconBought = true;
-                    }else if(accessory.getFileName().equals("/store/chair.png")) {
-                        System.out.println(accessory.getFileName() + " " + accessory.getPrice());
-                        chairBought = true;
-                    }else if(accessory.getFileName().equals("/store/table.png")) {
-                        System.out.println(accessory.getFileName() + " " + accessory.getPrice());
-                        tableBought = true;
-                    }
-                    accessory.startFalling();
-                    boughtAccessoriesArrayList.add(accessory);
-                    parent.money -= accessory.getPrice();
-                    moneyDisplay.setCurrentMoney(parent.money);
-                    break;
+        if (!Game.mouse.pressed && paid) {
+            paid = false;
+            return;
+        }
+        for (Accessories accessory : accessories) {
+            if (!(!accessory.getFileName().equals("/store/lockedproduct.png") && Game.mouse.pressed && Game.mouse.x >= accessory.getX() && Game.mouse.x <= accessory.getX() + 200 && Game.mouse.y <= accessory.getY() + 200 && Game.mouse.y >= accessory.getY() && parent.money >= accessory.getPrice()))
+                continue;
+            switch (accessory.getFileName()) {
+                case "/store/goldenspatula.png" -> {
+                    System.out.println(accessory.getFileName() + " " + accessory.getPrice());
+                    goldenSpatulaBought = true;
+                }
+                case "/store/music.png" -> {
+                    System.out.println(accessory.getFileName() + " " + accessory.getPrice());
+                    musicBought = true;
+                }
+                case "/store/picture.png" -> {
+                    System.out.println(accessory.getFileName() + " " + accessory.getPrice());
+                    paintingBought = true;
+                }
+                case "/store/icon.png" -> {
+                    System.out.println(accessory.getFileName() + " " + accessory.getPrice());
+                    iconBought = true;
+                }
+                case "/store/chair.png" -> {
+                    System.out.println(accessory.getFileName() + " " + accessory.getPrice());
+                    chairBought = true;
+                }
+                case "/store/table.png" -> {
+                    System.out.println(accessory.getFileName() + " " + accessory.getPrice());
+                    tableBought = true;
                 }
             }
-            paid = true;
+            accessory.startFalling();
+            boughtAccessoriesArrayList.add(accessory);
+            parent.money -= accessory.getPrice();
+            moneyDisplay.setCurrentMoney(parent.money);
         }
-
-        if (!Game.mouse.pressed) {
-            paid = false;
-        }
-    }
-
-    private void drawBase(Graphics2D g2d) {
-        storeBackground.draw(g2d);
+        paid = true;
     }
 
     public void openBusket() {
         if (Game.mouse.pressed && Game.mouse.x >= busketButton.getX() && Game.mouse.x <= busketButton.getX() + 200 && Game.mouse.y <= busketButton.getY() + 200 && Game.mouse.y >= busketButton.getY()) {
-                storeState = StoreState.BUSKET;
+            storeState = StoreState.BUSKET;
         }
     }
 
-    public void backToStore(){
+    public void backToStore() {
         if (Game.mouse.pressed && Game.mouse.x >= storeButton.getX() && Game.mouse.x <= storeButton.getX() + 200 && Game.mouse.y <= storeButton.getY() + 200 && Game.mouse.y >= storeButton.getY()) {
             storeState = StoreState.CHOOSING;
         }
@@ -149,7 +153,7 @@ public class Store {
     public void drawBusket(Graphics2D g2d) {
         storeButton.draw(g2d);
         backToStore();
-        for(Accessories boughtA : boughtAccessoriesArrayList){
+        for (Accessories boughtA : boughtAccessoriesArrayList) {
             boughtA.draw(g2d);
         }
     }
