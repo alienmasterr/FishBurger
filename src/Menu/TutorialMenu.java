@@ -1,6 +1,6 @@
 package Menu;
 
-import Elements.Node;
+import Menu.TutorialElements.FirstPage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,7 @@ public class TutorialMenu extends JPanel {
         super();
         this.parent = parent;
         setStaticSize();
-        setLayout(null); //якщо юзатимеш якийсь лейтаут а не абсолютне позиціювання, то прибери це
+        setLayout(null);
     }
 
     private void setStaticSize(){
@@ -20,15 +20,21 @@ public class TutorialMenu extends JPanel {
         setMinimumSize(new Dimension(Game.WIDTH, Game.HEIGHT));
     }
 
-    //в панелях немає методу драв який я нам зробила
-    //тут все відмальовується в пейнткомпонент
-    //робити анімації через посекундну зміну (як в грі) тут не вийде
-    //оскільки тут немає потоку, бо він знаходиться в грі. (лоігічно :0)
-    //ти можеш перемальовувати елементи в яких оновилася позиція через repaint
-    //але хз навіщо
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D)g;
 
+        drawFirstPage(g2d);
+
     }
+
+    private void drawFirstPage(Graphics2D g2d){
+        FirstPage firstPage = new FirstPage(100,100,Game.WIDTH-200,Game.HEIGHT-200);
+        firstPage.draw(g2d);
+
+    }
+
+
 }
+
+
