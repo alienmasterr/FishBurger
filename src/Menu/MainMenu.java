@@ -63,11 +63,6 @@ public class MainMenu extends JPanel {
         setTutorialButton();
         setExitButton();
     }
-    //тестові фрейм тести
-    //потім треба змінити фрейм стейти на -
-    //вибір рівня
-    //туторіал
-    //вийти
     private void setPlayButton(){
         EmptyButton playButton = new EmptyButton(FrameState.CHOOSE_LEVEL);
         playButton.setBounds(377, 471, 235, 75);
@@ -75,7 +70,7 @@ public class MainMenu extends JPanel {
     }
 
     private void setTutorialButton(){
-        EmptyButton tutorialButton = new EmptyButton(FrameState.CHOOSE_LEVEL);
+        EmptyButton tutorialButton = new EmptyButton(FrameState.TUTORIAL);
         tutorialButton.setBounds(377, 471+92, 235, 75);
         add(tutorialButton);
     }
