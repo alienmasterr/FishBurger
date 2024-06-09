@@ -4,6 +4,7 @@ import Elements.Node;
 import Enums.CookingState;
 import GrillStation.GrillStation;
 import Menu.GameMenu;
+import Menu.MenuElements.SoundPlayer;
 import Products.Product;
 
 import javax.swing.*;
@@ -65,6 +66,7 @@ public class Meat extends Product {
     }
 
     public void grilling() {
+
         if (isGrilling) {
             y += yVelocity;
             yVelocity *= -1;

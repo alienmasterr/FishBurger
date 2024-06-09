@@ -125,33 +125,12 @@ public class GrillStation {
     private void getLevelOfGrill(Graphics2D g2d) {
         if (selectedMeat!=null && Game.mouse.x >= selectedMeat.getX() && Game.mouse.x <= selectedMeat.getX() + selectedMeat.getWidth() &&
                 Game.mouse.y >= selectedMeat.getY() && Game.mouse.y <= selectedMeat.getY() + selectedMeat.getHeight() && selectedMeat.getGrilling()) {
-           // if(selectedMeat.getFileName().equals("/meat/rawmeat.png")){
+
                 LevelOfGrill levelOfGrill = new LevelOfGrill(selectedMeat.getX()-50, selectedMeat.getY()-50, 90, 60, selectedMeat.getSideOne(), selectedMeat.getSideTwo());
                 levelOfGrill.draw(g2d);
-//            }else if(selectedMeat.getFileName().equals("/meat/meat.png") || selectedMeat.getFileName().equals("/meat/rawmeat1.png")){
-//                MediumLevelOfGrill mediumLevelOfGrill = new MediumLevelOfGrill(selectedMeat.getX(), selectedMeat.getY(), 50, 50);
-//                mediumLevelOfGrill.draw(g2d);
-//            }else if(selectedMeat.getFileName().equals("/meat/overcookedmeat.png")){
-//                WellDoneLevelOfGrill wellDoneLevelOfGrill = new WellDoneLevelOfGrill(selectedMeat.getX(), selectedMeat.getY(), 50, 50);
-//                wellDoneLevelOfGrill.draw(g2d);
-//            }else if(selectedMeat.getFileName().equals("/meat/meat.png")){
-//                BurnedLevelOfGrill burnedLevelOfGrill = new BurnedLevelOfGrill(selectedMeat.getX(), selectedMeat.getY(), 50, 50);
-//                burnedLevelOfGrill.draw(g2d);
-//            }
         }
     }
 
-//    private Rectangle showLevelOfGrill(Graphics2D g2d, int x, int y, int grillLevel){
-//        Rectangle rect = new Rectangle(x, y, grillLevel, grillLevel);
-//        g2d.setColor(Color.WHITE);
-//        g2d.fillRect(x, y, 40, 20);
-//        g2d.setColor(Color.BLACK);
-//        g2d.drawRect(x, y, 40, 20);
-//        g2d.setFont(new Font("Arial", Font.BOLD, 15));
-//        g2d.setColor(Color.BLACK);
-//        g2d.drawString(String.valueOf(grillLevel), x + 10, y + 5);
-//        return rect;
-//    }
 
     private void sendMeat(Meat meat) {
         parent.transferMeatToBuild(meat);
@@ -259,6 +238,7 @@ public class GrillStation {
 
     public void grillingMeat(Graphics2D g2d) {
         drawNewMeat(g2d);
+
         for (Meat m : meatArrayList) {
             if (m.getX() >= grillBoard.getX() && m.getX() <= grillBoard.getX() + grillBoard.getWidth() && m.getY() >= grillBoard.getY() && m.getY() <= grillBoard.getY() + grillBoard.getHeight()) {
                 m.startGrilling();

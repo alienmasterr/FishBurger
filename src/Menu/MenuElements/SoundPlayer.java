@@ -35,6 +35,8 @@ public class SoundPlayer {
         playMusic("res/Music/bubble.wav");
     }
 
+    public static void playMeatGrillingSound(){playMusic("res/Music/grilling-meat.wav");}
+
     private static void playMusic(String music) {
         File file = new File(music);
         try {
