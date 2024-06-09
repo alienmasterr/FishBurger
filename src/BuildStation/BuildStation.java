@@ -98,7 +98,6 @@ public class BuildStation {
 
     private void drawBase(Graphics2D g2d) {
         background.draw(g2d);
-
         if(Store.iconBought){
             iconK.draw(g2d);
         }
@@ -135,6 +134,8 @@ public class BuildStation {
     }
 
     private void drawTicketBase(Graphics2D g2d) {
+        if(parent.pin.getTicket() != null && !parent.isToggled())
+            parent.toggleButtons();
         ticketBackground.draw(g2d);
         ticketHolder.draw(g2d);
         try{
@@ -159,6 +160,7 @@ public class BuildStation {
             if (checkTicketLocation()) {
                 activeTicket.setX(308);
                 activeTicket.setY(517);
+                parent.toggleButtons();
                 parent.ratingStation.setReceipt(ticket.getReceipt());
                 transferInfoForRating();
                 return;
@@ -246,7 +248,7 @@ public class BuildStation {
     }
 
     private void createSauceDrip() {
-        if (!(activeBottle.getY() >= 560 || activeBottle.getX() < 300 || activeBottle.getX() > 600))
+        if (!(activeBottle.getY() >= 360 || activeBottle.getX() < 300 || activeBottle.getX() > 600 || activeBottle.getY()+activeBottle.getHeight() >= burgerProducts.getLast().getY()))
             burgerProducts.add(lastBottle.createSauce());
     }
 
@@ -281,6 +283,8 @@ public class BuildStation {
         if (activeProduct != null || activeBottle != null)
             return;
         for (SauceBottle bottle : sauceBottles) {
+            if(bottle == null)
+                return;
             if (Game.mouse.pressed && Game.mouse.x > bottle.getX() - 10 && Game.mouse.x < bottle.getX() + bottle.getWidth() + 10 && Game.mouse.y > bottle.getY() - 10 && Game.mouse.y < bottle.getY() + bottle.getHeight() + 10) {
                 activeBottle = bottle;
                 return;

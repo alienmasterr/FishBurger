@@ -48,7 +48,7 @@ public class GameMenu extends JPanel {
     }
 
     public class GamePanel extends JPanel implements Runnable {
-         /**
+        /**
          * осьо гроші!!!!!!!!!!!!!!!!!!!!!
          **/
 
@@ -62,7 +62,7 @@ public class GameMenu extends JPanel {
         public RatingStation ratingStation = new RatingStation(this);
         private Store store = new Store(this);
         private LevelBar levelBar = new LevelBar(5, 5, 300, 60);
-        private MoneyDisplay moneyDisplay = new MoneyDisplay(5,65, 50, 50);
+        private MoneyDisplay moneyDisplay = new MoneyDisplay(5, 65, 50, 50);
         public boolean isRunning = true;
         public PanelState panelState;
 
@@ -74,7 +74,7 @@ public class GameMenu extends JPanel {
             gameThread.start();
         }
 
-        public void gameOver(){
+        public void gameOver() {
             parent.setVisiblePanel(FrameState.GAME_OVER);
         }
 
@@ -92,11 +92,11 @@ public class GameMenu extends JPanel {
             panelState = ORDER_STATION;
         }
 
-        public void increaseExp(){
+        public void increaseExp() {
             levelBar.increaseLevel();
         }
 
-        public void updateMoneyDisplay(){
+        public void updateMoneyDisplay() {
             moneyDisplay.setCurrentMoney(money);
         }
 
@@ -105,6 +105,10 @@ public class GameMenu extends JPanel {
             menuPanel.grillStation.toggle();
             menuPanel.orderStation.toggle();
             menuPanel.storeButton.toggle();
+        }
+
+        public boolean isToggled() {
+            return menuPanel.buildStation.active;
         }
 
         public void transferMeatToBuild(Meat meat) {
@@ -171,7 +175,7 @@ public class GameMenu extends JPanel {
                 case GAME_MENU:
                     parent.setVisiblePanel(FrameState.MAIN_MENU);
             }
-            if(panelState == STORE || ratingStation.state == RatingState.RESTARTING)
+            if (panelState == STORE || ratingStation.state == RatingState.RESTARTING)
                 return;
             if (pin.isDrawTicket())
                 pin.draw(g2d);

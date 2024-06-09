@@ -5,11 +5,13 @@ import Level.Level;
 import Menu.*;
 import Menu.MenuElements.Ticket;
 import OrderStation.OrderElements.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+
 import Store.Store;
 
 import Store.StoreElements.Chair;
@@ -24,14 +26,15 @@ public class OrderStation {
     private OrderBackground background = new OrderBackground(0, 0, Game.WIDTH, 500);
 
     private IconK iconK = new IconK(400, 100, 100, 100);
-    private Painting painting = new Painting(600,70, 100, 100);
+    private Painting painting = new Painting(600, 70, 100, 100);
     private Chair chair = new Chair(100, 100, 100, 100);
-    private Table table = new Table(200,200,100,100);
+    private Table table = new Table(200, 200, 100, 100);
 
     public Customer customer = new Customer(Game.WIDTH, 180, 260, 420);
     private Timer timer;
     private int seconds = 0;
     private int miliSec = 0;
+
     public OrderStation(GameMenu.GamePanel parent) {
         this.parent = parent;
     }
@@ -56,17 +59,19 @@ public class OrderStation {
                 break;
         }
     }
-    public void updateTime(){
+
+    public void updateTime() {
         miliSec++;
-        if(miliSec==60) {
+        if (miliSec == 60) {
             seconds++;
-            miliSec=0;
+            miliSec = 0;
         }
     }
 
-    public void stopTicketErasure(){
-        if(timer.isRunning())
-            timer.stop();
+    public void stopTicketErasure() {
+        if (timer == null || !timer.isRunning())
+            return;
+        timer.stop();
         parent.pin.getTicket().showAllProducts();
     }
 
@@ -74,9 +79,9 @@ public class OrderStation {
         return seconds;
     }
 
-    private void showBubble(){
+    private void showBubble() {
         int size = parent.pin.getTicket().getReceipt().size();
-        if(size < Level.getBurgerSize()){
+        if (size < Level.getBurgerSize()) {
             parent.pin.getTicket().fillTicket(Level.getBurgerSize());
             BufferedImage image = parent.pin.getTicket().getReceipt().get(size).getSprite();
             customer.getEmptyBubble().getShownProduct().setSprite(image);
@@ -88,8 +93,8 @@ public class OrderStation {
         }
     }
 
-    private void startTicketErasure(){
-        if(Level.levelState != 3)
+    private void startTicketErasure() {
+        if (Level.levelState != 3)
             return;
         timer = new Timer(12000, new ActionListener() {
             @Override
@@ -102,16 +107,16 @@ public class OrderStation {
 
     private void drawBase(Graphics2D g2d) {
         background.draw(g2d);
-        if(Store.iconBought){
+        if (Store.iconBought) {
             iconK.draw(g2d);
         }
-        if(Store.paintingBought){
+        if (Store.paintingBought) {
             painting.draw(g2d);
         }
-        if(Store.tableBought){
+        if (Store.tableBought) {
             table.draw(g2d);
         }
-        if(Store.chairBought){
+        if (Store.chairBought) {
             chair.draw(g2d);
         }
         customer.draw(g2d);
@@ -128,7 +133,7 @@ public class OrderStation {
     }
 
     private void checkOrderBubble(Graphics2D g2d) {
-        if (Game.mouse.pressed && Game.mouse.x >= customer.getOrderBubble().getX() && Game.mouse.x <= customer.getOrderBubble().getX() + 200 && Game.mouse.y <= customer.getOrderBubble().getY() + 200  && Game.mouse.y >= customer.getOrderBubble().getY()) {
+        if (Game.mouse.pressed && Game.mouse.x >= customer.getOrderBubble().getX() && Game.mouse.x <= customer.getOrderBubble().getX() + 200 && Game.mouse.y <= customer.getOrderBubble().getY() + 200 && Game.mouse.y >= customer.getOrderBubble().getY()) {
             parent.toggleButtons();
             parent.orderState = OrderState.CUSTOMER_ORDERING;
             timer = new Timer(1000, null);
@@ -146,7 +151,7 @@ public class OrderStation {
         orderFish.waitForCustomer();
     }
 
-    private void moveCustomer(){
+    private void moveCustomer() {
         customer.waitForOrder();
     }
 

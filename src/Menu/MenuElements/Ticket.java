@@ -47,9 +47,9 @@ public class Ticket extends Node {
             case 2 -> new Onion();
             case 3 -> new Spinach();
             case 4 -> new Tomato();
-            case 5 -> new Sauce();
-            case 6, 7 -> new Anything();
-            case 8, 9 -> new Unknown();
+            case 5 -> Level.levelState != 1 ? new Sauce(): getRandomProduct();
+            case 6, 7 -> Level.levelState != 1 ? new Anything() : getRandomProduct();
+            case 8, 9 -> Level.levelState != 1 ? new Unknown() : getRandomProduct();
             default -> new Meat();
         };
     }

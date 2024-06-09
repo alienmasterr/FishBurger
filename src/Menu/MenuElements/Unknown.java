@@ -14,12 +14,8 @@ public class Unknown extends Product {
     }
 
     public Unknown(){
-        if(Level.levelState > 1) {
             setImage("/higherlevels/something.png");
             fillSecretProduct();
-        }
-        else
-            setImage("/products/meat.png");
     }
 
     public Product getSecretProduct() {

@@ -11,9 +11,6 @@ public class Anything extends Product {
     }
 
     public Anything(){
-        if(Level.levelState > 1)
             setImage("/higherlevels/anything.png");
-        else
-            setImage("/products/cucumber.png");
     }
 }

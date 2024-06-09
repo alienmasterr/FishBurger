@@ -11,9 +11,6 @@ public class Sauce extends Product {
     }
 
     public Sauce(){
-        if(Level.levelState == 1)
-            setImage("/products/tomato.png");
-        else
             setImage("/sauses/splashes/" + getRandomImage());
     }
 

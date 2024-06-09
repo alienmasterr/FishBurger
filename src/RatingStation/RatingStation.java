@@ -61,7 +61,6 @@ public class RatingStation {
     public void startRating() {
         fillBalloons();
         fillRatingValues();
-        parent.toggleButtons();
         timer = new Timer(1200, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
