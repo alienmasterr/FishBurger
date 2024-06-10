@@ -2,6 +2,8 @@ package Menu;
 
 import Elements.Node;
 import Enums.FrameState;
+import Menu.MenuElements.SoundPlayer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -46,6 +48,7 @@ public class GameOverMenu extends JPanel {
             addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    SoundPlayer.playButtonSound();
                     parent.setVisiblePanel(state);
                 }
             });
