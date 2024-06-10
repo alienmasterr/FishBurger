@@ -26,12 +26,12 @@ public class Store {
     public Chair chair = new Chair(100, 120, 200, 200, 500);
     public Table table = new Table(400, 120, 200, 200, 1000);
     public GoldenSpatula goldenSpatula = new GoldenSpatula(700, 120, 200, 200, 1500);
-    public Music music = new Music(100, 400, 200, 200, 2000);
+    public GoldenSink goldenSink = new GoldenSink(100, 400, 200, 200, 2000);
     public Painting painting = new Painting(400, 400, 200, 200, 2500);
     public IconK iconK = new IconK(700, 400, 200, 200, 3000);
 
     public ArrayList<Accessories> boughtAccessoriesArrayList = new ArrayList<>();
-    private Accessories[] accessories = {chair, table, goldenSpatula, music, painting, iconK};
+    private Accessories[] accessories = {chair, table, goldenSpatula, goldenSink, painting, iconK};
 
     public static boolean chairBought = false;
     public static boolean tableBought = false;
@@ -86,7 +86,7 @@ public class Store {
         chair.draw(g2d);
         table.draw(g2d);
         goldenSpatula.draw(g2d);
-        music.draw(g2d);
+        goldenSink.draw(g2d);
         painting.draw(g2d);
         iconK.draw(g2d);
     }
