@@ -24,13 +24,13 @@ public class TutorialMenu extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D)g;
-        buttonExit.draw(g2d);
+        //buttonExit.draw(g2d);
         drawFirstPage(g2d);
 
     }
 
     private void drawFirstPage(Graphics2D g2d){
-        FirstPage firstPage = new FirstPage(100,100,Game.WIDTH-200,Game.HEIGHT-200);
+        FirstPage firstPage = new FirstPage(60,10,Game.WIDTH-120,Game.HEIGHT-20);
         firstPage.draw(g2d);
 
     }

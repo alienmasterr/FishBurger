@@ -116,6 +116,7 @@ public class Meat extends Product {
                     if(!grilling)
                         return;
                     grilling();
+                    //counter++;
                     if(isGrillingRightSide) {
                         sideOne = sideOne < 100 ? sideOne+1 : 100;
                         sideTwo = sideTwo > 0 ? sideTwo-1 : 0;
