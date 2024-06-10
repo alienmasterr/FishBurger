@@ -1,6 +1,7 @@
 package GrillStation;
 
 import java.awt.*;
+
 import Enums.CookingState;
 import GrillStation.GrillStationElements.*;
 import Menu.*;
@@ -18,8 +19,8 @@ public class GrillStation {
     private final Mince mince = new Mince(Game.WIDTH / 15, Game.HEIGHT - Game.HEIGHT / 3 + Game.HEIGHT / 10, 150, 100);
     private final Trash trash = new Trash(Game.WIDTH / 12, Game.HEIGHT / 2 - Game.HEIGHT / 4, 160, 110);
     private final Plate plate = new Plate(Game.WIDTH / 2 + Game.WIDTH / 3, Game.HEIGHT / 2 + Game.HEIGHT / 6, 160, 110);
-    private final Sink sink = new Sink(Game.WIDTH/2-125, Game.HEIGHT-300, 240, 230);
-    private static Spatula spatula = new Spatula(Game.WIDTH / 2-35, Game.HEIGHT / 12, 70, 200);
+    private final Sink sink = new Sink(Game.WIDTH / 2 - 125, Game.HEIGHT - 300, 240, 230);
+    private static Spatula spatula = new Spatula(Game.WIDTH / 2 - 35, Game.HEIGHT / 12, 70, 200);
 
     private final GrillBoard grillBoard = new GrillBoard(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 6, Game.WIDTH / 2, Game.HEIGHT / 3);
     private final GrillBackground grillBackground = new GrillBackground(0, 0, Game.WIDTH, Game.HEIGHT);
@@ -82,12 +83,12 @@ public class GrillStation {
     }
 
 
-    private void updateSpatulaReturn(){
-        if(!spatulaReturning)
+    private void updateSpatulaReturn() {
+        if (!spatulaReturning)
             return;
-        if(diffX == -1 && diffY == -1)
-            calculateDiffs(Game.WIDTH / 2-35, Game.HEIGHT / 12, spatula.getX(), spatula.getY());
-        moveToInitial(Game.WIDTH / 2-35, Game.HEIGHT / 12, spatula.getX(), spatula.getY());
+        if (diffX == -1 && diffY == -1)
+            calculateDiffs(Game.WIDTH / 2 - 35, Game.HEIGHT / 12, spatula.getX(), spatula.getY());
+        moveToInitial(Game.WIDTH / 2 - 35, Game.HEIGHT / 12, spatula.getX(), spatula.getY());
     }
 
     private void calculateDiffs(int x1, int y1, int x, int y) {
@@ -113,11 +114,11 @@ public class GrillStation {
     }
 
     private void getLevelOfGrill(Graphics2D g2d) {
-        if (selectedMeat!=null && Game.mouse.x >= selectedMeat.getX() && Game.mouse.x <= selectedMeat.getX() + selectedMeat.getWidth() &&
+        if (selectedMeat != null && Game.mouse.x >= selectedMeat.getX() && Game.mouse.x <= selectedMeat.getX() + selectedMeat.getWidth() &&
                 Game.mouse.y >= selectedMeat.getY() && Game.mouse.y <= selectedMeat.getY() + selectedMeat.getHeight() && selectedMeat.getGrilling()) {
 
-                LevelOfGrill levelOfGrill = new LevelOfGrill(selectedMeat.getX()-50, selectedMeat.getY()-50, 90, 80, selectedMeat.getSideOne(), selectedMeat.getSideTwo());
-                levelOfGrill.draw(g2d);
+            LevelOfGrill levelOfGrill = new LevelOfGrill(selectedMeat.getX() - 50, selectedMeat.getY() - 50, 90, 80, selectedMeat.getSideOne(), selectedMeat.getSideTwo());
+            levelOfGrill.draw(g2d);
         }
     }
 
@@ -125,10 +126,6 @@ public class GrillStation {
     private void sendMeat(Meat meat) {
         parent.transferMeatToBuild(meat);
     }
-
-//    public boolean areaOccupied(int x, int y, Meat meat) {
-//        return meat.getX() == x && meat.getY() == y;
-//    }
 
     private void update() {
         updateActiveElement();
@@ -195,7 +192,7 @@ public class GrillStation {
 
     private void findEl(Meat meat) {
         if (Game.mouse.pressed && Game.mouse.x >= meat.getX() && Game.mouse.x <= meat.getX() + 100 && Game.mouse.y >= meat.getY() && Game.mouse.y <= meat.getY() + 200) {
-            if(selectedMeat != meat)
+            if (selectedMeat != meat)
                 SoundPlayer.playPickSound();
             selectedMeat = meat;
         }

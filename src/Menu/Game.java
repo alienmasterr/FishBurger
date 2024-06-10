@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 
-public class Game extends JFrame {
+public class  Game extends JFrame {
     public static final int HEIGHT = 800;
     public static final int WIDTH = 1000;
     public static Mouse mouse = new Mouse();

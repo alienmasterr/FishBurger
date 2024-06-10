@@ -28,10 +28,6 @@ public class Meat extends Product {
         image = getImage("/meat/rawmeat.png");
     }
 
-//    public BufferedImage getTheImage() {
-//        return image;
-//    }
-
     public int getSideOne() {
         return sideOne;
     }
@@ -140,7 +136,6 @@ public class Meat extends Product {
 
 
     public void getFlipped() {
-       //System.out.println("Flipped Meat");
        canFlip = true;
        isGrillingRightSide = !isGrillingRightSide;
     }
