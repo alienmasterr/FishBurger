@@ -73,10 +73,6 @@ public class GameMenu extends JPanel {
     }
 
     public class GamePanel extends JPanel implements Runnable {
-        /**
-         * осьо гроші!!!!!!!!!!!!!!!!!!!!!
-         **/
-
         public double money = 0;
         public OrderState orderState = OrderState.WAITING_CUSTOMER;
         public CookingState cookingState = CookingState.NO_MEAT;
