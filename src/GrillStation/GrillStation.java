@@ -116,7 +116,7 @@ public class GrillStation {
         if (selectedMeat!=null && Game.mouse.x >= selectedMeat.getX() && Game.mouse.x <= selectedMeat.getX() + selectedMeat.getWidth() &&
                 Game.mouse.y >= selectedMeat.getY() && Game.mouse.y <= selectedMeat.getY() + selectedMeat.getHeight() && selectedMeat.getGrilling()) {
 
-                LevelOfGrill levelOfGrill = new LevelOfGrill(selectedMeat.getX()-50, selectedMeat.getY()-50, 90, 60, selectedMeat.getSideOne(), selectedMeat.getSideTwo());
+                LevelOfGrill levelOfGrill = new LevelOfGrill(selectedMeat.getX()-50, selectedMeat.getY()-50, 90, 80, selectedMeat.getSideOne(), selectedMeat.getSideTwo());
                 levelOfGrill.draw(g2d);
         }
     }
