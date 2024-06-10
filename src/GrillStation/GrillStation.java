@@ -6,7 +6,6 @@ import GrillStation.GrillStationElements.*;
 import Menu.*;
 import Menu.Game;
 import Menu.MenuElements.SoundPlayer;
-import Store.Store;
 
 import java.util.ArrayList;
 
@@ -19,6 +18,7 @@ public class GrillStation {
     private final Mince mince = new Mince(Game.WIDTH / 15, Game.HEIGHT - Game.HEIGHT / 3 + Game.HEIGHT / 10, 150, 100);
     private final Trash trash = new Trash(Game.WIDTH / 12, Game.HEIGHT / 2 - Game.HEIGHT / 4, 160, 110);
     private final Plate plate = new Plate(Game.WIDTH / 2 + Game.WIDTH / 3, Game.HEIGHT / 2 + Game.HEIGHT / 6, 160, 110);
+    private final Sink sink = new Sink(Game.WIDTH/2-125, Game.HEIGHT-300, 250, 250);
 
     private static Spatula spatula = new Spatula(Game.WIDTH / 2-35, Game.HEIGHT / 12, 70, 200);
 
@@ -50,11 +50,6 @@ public class GrillStation {
         if (!Game.mouse.pressed && spatulaTaken) {
             Game.mouse.dragging = false;
         }
-//        if(spatulaTaken && Game.mouse.pressed && Game.mouse.x < grillBoard.getX() || Game.mouse.x > grillBoard.getX() + grillBoard.getWidth() || Game.mouse.y < grillBoard.getY() || Game.mouse.y > grillBoard.getY() + grillBoard.getHeight() && Game.mouse.y >= 500){
-//            spatulaTaken = false;
-//            spatula.setPosition(Game.WIDTH / 2-35, Game.HEIGHT / 12);
-//            System.out.println("є взагалі");
-//        }
     }
 
     public void draw(Graphics2D g2d) {
@@ -77,17 +72,13 @@ public class GrillStation {
             spatulaTaken = false;
             spatulaReturning = true;
             SoundPlayer.playPickSound();
-//            spatula.setPosition(Game.WIDTH / 2-35, Game.HEIGHT / 12);
         }
     }
 
     private void notFlippedSpatulaBack() {
-        if (spatulaTaken && Game.mouse.pressed && Game.mouse.x >= plate.getX() && Game.mouse.x <= plate.getX() + 100 && Game.mouse.y >= plate.getY() && Game.mouse.y <= plate.getY() + 200) {
-            //selectedMeat.getFlipped();
+        if (spatulaTaken && Game.mouse.pressed && Game.mouse.x >= sink.getX() && Game.mouse.x <= sink.getX() + 100 && Game.mouse.y >= sink.getY() && Game.mouse.y <= sink.getY() + 200) {
             spatulaTaken = false;
             spatulaReturning = true;
-           // SoundPlayer.playPickSound();
-//            spatula.setPosition(Game.WIDTH / 2-35, Game.HEIGHT / 12);
         }
     }
 
@@ -216,6 +207,7 @@ public class GrillStation {
         plate.draw(g2d);
         trash.draw(g2d);
         mince.draw(g2d);
+        sink.draw(g2d);
         spatula.chooseImage();
         spatula.draw(g2d);
         activateMinceButton();

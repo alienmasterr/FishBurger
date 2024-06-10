@@ -1,4 +1,4 @@
-package GrillStation;
+package GrillStation.GrillStationElements;
 
 import Elements.Node;
 
