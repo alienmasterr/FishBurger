@@ -84,7 +84,7 @@ public class Meat extends Product {
     int counter = 0;
 
     public void setupTimer() {
-            this.timer = new Timer(850, new ActionListener() {
+            this.timer = new Timer(600, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 //                   if(grilling) {
@@ -113,28 +113,26 @@ public class Meat extends Product {
                         timer.stop();
                         return;
                     }
-                    if(!grilling)
-                        return;
-                    grilling();
-                    //counter++;
-                    if(isGrillingRightSide) {
-                        sideOne = sideOne < 100 ? sideOne+1 : 100;
-                        sideTwo = sideTwo > 0 ? sideTwo-1 : 0;
-                    } else {
-                        sideOne = sideOne > 0 ? sideOne-1 : 0;
-                        sideTwo = sideTwo < 100 ? sideTwo+1 : 100;
+                    if(grilling) {
+                        grilling();
+                        if (isGrillingRightSide) {
+                            sideOne = sideOne < 100 ? sideOne + 1 : 100;
+                            sideTwo = sideTwo > 0 ? sideTwo - 1 : 0;
+                        } else {
+                            sideOne = sideOne > 0 ? sideOne - 1 : 0;
+                            sideTwo = sideTwo < 100 ? sideTwo + 1 : 100;
+                        }
+                        counter++;
                     }
-                    if (counter == 20) {
+                    if (counter == 50) {
                         image = getImage("/meat/rawmeat1.png");
-                    } else if(counter == 50){
+                    } else if(counter == 160){
                        image = getImage("/meat/meat.png");
-                    }else if (counter == 70) {
+                    }else if (counter == 180) {
                         image = getImage("/meat/overcookedmeat.png");
-                    } else if (counter == 90) {
+                    } else if (counter == 200) {
                         image = getImage("/meat/burntmeat.png");
-                    }else if (counter==100){
-                       timer.stop();
-                   }
+                    }
                 }
             });
     }
