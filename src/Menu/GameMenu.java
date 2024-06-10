@@ -104,17 +104,19 @@ public class GameMenu extends JPanel {
         }
 
         public void restartGame() {
+            if(!isToggled())
+                toggleButtons();
             levelBar.setLevel(Level.getTimesBeforeNextLevel(), levelBar.getCurrentNumber());
             levelBar.setLevelNum(Level.levelState);
             orderState = OrderState.WAITING_CUSTOMER;
             cookingState = CookingState.NO_MEAT;
+            panelState = ORDER_STATION;
             pin = new TicketPin(680, 0, 340, 140);
             orderStation = new OrderStation(this);
             buildStation = new BuildStation(this);
             grillStation = new GrillStation(this);
             ratingStation = new RatingStation(this);
             store = new Store(this);
-            panelState = ORDER_STATION;
         }
 
         public void increaseExp() {
