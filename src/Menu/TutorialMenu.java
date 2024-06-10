@@ -30,7 +30,7 @@ public class TutorialMenu extends JPanel {
     }
 
     private void drawFirstPage(Graphics2D g2d){
-        FirstPage firstPage = new FirstPage(60,10,Game.WIDTH-120,Game.HEIGHT-20);
+        FirstPage firstPage = new FirstPage(70,10,Game.WIDTH-140,Game.HEIGHT-20);
         firstPage.draw(g2d);
 
     }
