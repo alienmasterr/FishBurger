@@ -36,7 +36,7 @@ public class Store {
     public static boolean chairBought = false;
     public static boolean tableBought = false;
     public static boolean goldenSpatulaBought = false;
-    public boolean musicBought = false;
+    public static boolean goldenSinkBought = false;
     public static boolean paintingBought = false;
     public static boolean iconBought = false;
 
@@ -60,7 +60,7 @@ public class Store {
 
     public void drawStore(Graphics2D g2d) {
         //busketButton.draw(g2d);
-       // openBusket();
+        // openBusket();
         drawAllAccessories(g2d);
         buyAccessories();
     }
@@ -82,7 +82,7 @@ public class Store {
 
     }
 
-    private void drawAccessory(Graphics2D g2d){
+    private void drawAccessory(Graphics2D g2d) {
         chair.draw(g2d);
         table.draw(g2d);
         goldenSpatula.draw(g2d);
@@ -93,7 +93,6 @@ public class Store {
 
     private boolean paid = false;
 
-    //я трохи почистила цей метод
     private void buyAccessories() {
         if (Game.mouse.pressed && !paid) {
             for (Accessories accessory : accessories) {
@@ -101,9 +100,9 @@ public class Store {
                     if (accessory.getFileName().equals("/store/goldenspatula.png")) {
                         System.out.println(accessory.getFileName() + " " + accessory.getPrice());
                         goldenSpatulaBought = true;
-                    } else if (accessory.getFileName().equals("/store/music.png")) {
+                    } else if (accessory.getFileName().equals("/store/goldensink.png")) {
                         System.out.println(accessory.getFileName() + " " + accessory.getPrice());
-                        musicBought = true;
+                        goldenSinkBought = true;
                     } else if (accessory.getFileName().equals("/store/picture.png")) {
                         System.out.println(accessory.getFileName() + " " + accessory.getPrice());
                         paintingBought = true;

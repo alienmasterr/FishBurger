@@ -18,8 +18,7 @@ public class GrillStation {
     private final Mince mince = new Mince(Game.WIDTH / 15, Game.HEIGHT - Game.HEIGHT / 3 + Game.HEIGHT / 10, 150, 100);
     private final Trash trash = new Trash(Game.WIDTH / 12, Game.HEIGHT / 2 - Game.HEIGHT / 4, 160, 110);
     private final Plate plate = new Plate(Game.WIDTH / 2 + Game.WIDTH / 3, Game.HEIGHT / 2 + Game.HEIGHT / 6, 160, 110);
-    private final Sink sink = new Sink(Game.WIDTH/2-125, Game.HEIGHT-300, 250, 250);
-
+    private final Sink sink = new Sink(Game.WIDTH/2-125, Game.HEIGHT-300, 240, 230);
     private static Spatula spatula = new Spatula(Game.WIDTH / 2-35, Game.HEIGHT / 12, 70, 200);
 
     private final GrillBoard grillBoard = new GrillBoard(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 6, Game.WIDTH / 2, Game.HEIGHT / 3);
@@ -207,6 +206,7 @@ public class GrillStation {
         plate.draw(g2d);
         trash.draw(g2d);
         mince.draw(g2d);
+        sink.chooseImage();
         sink.draw(g2d);
         spatula.chooseImage();
         spatula.draw(g2d);

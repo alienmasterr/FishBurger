@@ -10,7 +10,7 @@ public class Sink extends Node {
     }
 
     public void chooseImage(){
-        if(Store.goldenSpatulaBought){
+        if(Store.goldenSinkBought){
             image = getImage("/store/goldensink.png");
         }
     }
