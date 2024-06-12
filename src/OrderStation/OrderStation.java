@@ -164,6 +164,8 @@ public class OrderStation {
             parent.pin.getTicket().setAllSecret(false);
             if(Objects.equals(customer.getSrc(), "/customers/customer11.png"))
                 parent.pin.getTicket().setAllSecret(true);
+            else if(Objects.equals(customer.getSrc(), "/customers/customer13.png"))
+                parent.pin.getTicket().hideAllProducts();
         }
     }
 }

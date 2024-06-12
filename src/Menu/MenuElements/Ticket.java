@@ -5,16 +5,32 @@ import Elements.Node;
 import Level.Level;
 import Products.*;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class Ticket extends Node {
     private boolean allSecret = false;
     private ArrayList<Product> receipt = new ArrayList<>();
+    private Timer timer;
 
     public Ticket(int x, int y, int width, int height) {
         super(x, y, width, height);
         image = getImage("/orderstation/ticket.png");
+    }
+
+    public void hideAllProducts(){
+        timer = new Timer(17000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(Product pr: receipt)
+                    pr.setVisible(false);
+                timer.stop();
+            }
+        });
+        timer.start();
     }
 
     public void hideRandomProduct(){

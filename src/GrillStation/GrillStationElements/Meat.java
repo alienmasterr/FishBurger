@@ -79,7 +79,7 @@ public class Meat extends Product {
     int counter = 0;
 
     public void setupTimer() {
-            this.timer = new Timer(600, new ActionListener() {
+            this.timer = new Timer(500, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 //                   if(grilling) {
