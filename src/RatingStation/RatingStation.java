@@ -45,7 +45,7 @@ public class RatingStation {
     private int counter = 0;
     private Timer timer;
 
-        private IconK iconK = new IconK(400, 100, 100, 100);
+    private IconK iconK = new IconK(400, 100, 100, 100);
     private Painting painting = new Painting(600, 70, 100, 100);
     private Chair chair = new Chair(100, 100, 400, 400);
     private Table table = new Table(200, 200, 400, 400);
@@ -186,7 +186,7 @@ public class RatingStation {
     }
 
     private void checkGameOver() {
-        if (getAverageRating() <= Level.getZeroFine() && Objects.equals(customer.getSrc(), "/customers/customer10.png")) {
+        if (getAverageRating() <= Level.getZeroFine() && (Objects.equals(customer.getSrc(), "/customers/customer10.png") ||Objects.equals(customer.getSrc(), "/customers/customer11.png"))) {
             parent.gameOver();
             SoundPlayer.playGameOverSound();
         }
@@ -387,7 +387,7 @@ public class RatingStation {
     private int getAmountOfMeat() {
         int amount = 0;
         for (Product pr : receipt)
-            if (pr instanceof Meat)
+            if (pr instanceof Products.Meat)
                 amount++;
         return amount;
     }

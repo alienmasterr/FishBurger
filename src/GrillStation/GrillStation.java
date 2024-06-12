@@ -27,7 +27,7 @@ public class GrillStation {
 
     public static Meat selectedMeat = null;
     public static boolean meatSent = false;
-    public static boolean spatulaTaken = false;
+    public boolean spatulaTaken = false;
 
     //для повернення сплатули
     private boolean spatulaReturning = false;

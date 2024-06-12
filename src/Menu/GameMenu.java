@@ -96,6 +96,8 @@ public class GameMenu extends JPanel {
         }
 
         public void gameOver() {
+            turnOffTheMusic();
+            SoundPlayer.playDeathScream();
             parent.setVisiblePanel(FrameState.GAME_OVER);
         }
 

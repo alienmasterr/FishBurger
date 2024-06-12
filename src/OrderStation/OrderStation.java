@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.Objects;
 
 import Store.Store;
 
@@ -158,7 +159,11 @@ public class OrderStation {
     }
 
     private void addEmptyTicket() {
-        if (!parent.pin.hasTicket())
+        if (!parent.pin.hasTicket()) {
             parent.pin.setTicket(new Ticket(740, 20, 230, 420));
+            parent.pin.getTicket().setAllSecret(false);
+            if(Objects.equals(customer.getSrc(), "/customers/customer11.png"))
+                parent.pin.getTicket().setAllSecret(true);
+        }
     }
 }

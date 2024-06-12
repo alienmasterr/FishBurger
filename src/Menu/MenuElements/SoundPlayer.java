@@ -6,6 +6,10 @@ import javax.sound.sampled.Clip;
 import java.io.File;
 
 public class SoundPlayer {
+
+    public static void playDeathScream() {
+        playMusic("res/Music/deathscream.wav");
+    }
     public static void playHappySound() {
         playMusic("res/Music/happy.wav");
     }

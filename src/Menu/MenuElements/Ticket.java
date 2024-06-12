@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Ticket extends Node {
+    private boolean allSecret = false;
     private ArrayList<Product> receipt = new ArrayList<>();
 
     public Ticket(int x, int y, int width, int height) {
@@ -41,6 +42,8 @@ public class Ticket extends Node {
     }
 
     private Product getRandomProduct() {
+        if(allSecret)
+            return new Unknown();
         int generatedNum = getRandomNumber(0, 11);
         return switch (generatedNum) {
             case 0 -> new Cheese();
@@ -53,6 +56,10 @@ public class Ticket extends Node {
             case 8, 9 -> Level.levelState != 1 ? new Unknown() : getRandomProduct();
             default -> new Meat();
         };
+    }
+
+    public void setAllSecret(boolean allSecret) {
+        this.allSecret = allSecret;
     }
 
     private void setReceiptPositions() {

@@ -15,8 +15,7 @@ import java.awt.image.BufferedImage;
 public class Meat extends Product {
 
     private Timer timer;
-
-    public static boolean isGrilling = true;
+    public boolean isGrilling = true;
     private boolean isGrillingRightSide = true;
     private boolean grilling = false;
     private int sideOne=0;
@@ -107,7 +106,6 @@ public class Meat extends Product {
 //                   }
                     if(GrillStation.meatSent){
                         timer.stop();
-                        return;
                     }
                     if(grilling) {
                         grilling();
