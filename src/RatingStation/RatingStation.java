@@ -352,7 +352,7 @@ public class RatingStation {
         int res = 100;
         if (getAmountOfMeat() == 0 && getAmountOfMeatInBurger() == 0)
             return 100;
-        if (getAmountOfMeat() == 0)
+        if (getAmountOfMeatInBurger() == 0)
             return 0;
         for(int i = 0; i < getAmountOfMeatInBurger(); i++){
             Meat meat = (Meat)burgerResult.get(getFirstMeatIndexFrom(i));
@@ -387,7 +387,7 @@ public class RatingStation {
     private int getAmountOfMeat() {
         int amount = 0;
         for (Product pr : receipt)
-            if (pr instanceof Products.Meat)
+            if (Objects.equals(pr.getSrc(), "/meat/meat.png"))
                 amount++;
         return amount;
     }

@@ -60,7 +60,7 @@ public class Level {
     public static int getTypesOfCustomers(){
         return switch (levelState) {
             case 2 -> 6;
-            case 3 -> 13;
+            case 3 -> 14;
             default -> 3;
         };
     }
@@ -75,9 +75,9 @@ public class Level {
 
     public static int getWrongSizeFine(){
         return switch (levelState) {
-            case 2 -> 30;
-            case 3 -> 40;
-            default -> 20;
+            case 2 -> 50;
+            case 3 -> 75;
+            default -> 35;
         };
     }
 

@@ -81,6 +81,10 @@ public class OrderStation {
         return seconds;
     }
 
+    public void setSeconds(int seconds) {
+        this.seconds = seconds;
+    }
+
     private void showBubble() {
         int size = parent.pin.getTicket().getReceipt().size();
         if (size < Level.getBurgerSize()) {

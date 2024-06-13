@@ -174,8 +174,15 @@ public class GameMenu extends JPanel {
 
         //тут оновлюються дані панелей
         private void update() {
-            if (orderState == OrderState.MAKING_ORDER)
+            if (orderState == OrderState.MAKING_ORDER) {
                 orderStation.updateTime();
+                if(Objects.equals(orderStation.customer.getSrc(), "/customers/customer12.png") && orderStation.getSeconds() >= 40) {
+                    gameOver();
+                    SoundPlayer.playGameOverSound();
+                    orderStation.setSeconds(0);
+                }
+            }
+
         }
 
         //відмальовування предметів за зміненими даними

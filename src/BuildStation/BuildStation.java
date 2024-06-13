@@ -254,6 +254,8 @@ public class BuildStation {
     }
 
     private void createSauceDrip() {
+        if(burgerProducts.isEmpty())
+            return;
         if (!(activeBottle.getY() >= 360 || activeBottle.getX() < 300 || activeBottle.getX() > 600 || activeBottle.getY() + activeBottle.getHeight() >= burgerProducts.getLast().getY()))
             burgerProducts.add(lastBottle.createSauce());
     }
