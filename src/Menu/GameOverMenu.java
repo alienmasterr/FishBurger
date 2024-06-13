@@ -8,22 +8,38 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class GameOverMenu extends JPanel {
     private Game parent;
+    private Node mainMenu = new Node(0, 0, Game.WIDTH, Game.HEIGHT);
+    private boolean isSwapped = false;
     public GameOverMenu(Game parent){
         super();
         this.parent = parent;
         setStaticSize();
         setExitButton();
         setLayout(null);
+        mainMenu.getImage("/mainmenu/gameover.png");
+    }
+
+    public void swapImage(){
+        if(!isSwapped) {
+            mainMenu.getImage("/mainmenu/gameover2.png");
+            isSwapped = true;
+        } else {
+            mainMenu.getImage("/mainmenu/gameover.png");
+            isSwapped = false;
+        }
+    }
+
+    public boolean isSwapped() {
+        return isSwapped;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D)g;
-        Node mainMenu = new Node(0, 0, Game.WIDTH, Game.HEIGHT);
-        mainMenu.getImage("/mainmenu/gameover.png");
         mainMenu.draw(g2d);
     }
 

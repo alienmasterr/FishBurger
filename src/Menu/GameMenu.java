@@ -177,9 +177,12 @@ public class GameMenu extends JPanel {
             if (orderState == OrderState.MAKING_ORDER) {
                 orderStation.updateTime();
                 if(Objects.equals(orderStation.customer.getSrc(), "/customers/customer12.png") && orderStation.getSeconds() >= 40) {
-                    gameOver();
-                    SoundPlayer.playGameOverSound();
                     orderStation.setSeconds(0);
+                    parent.swapGameOver();
+                    turnOffTheMusic();
+                    SoundPlayer.playDeathScream();
+                    parent.setVisiblePanel(FrameState.GAME_OVER);
+                    SoundPlayer.playGameOverSound();
                 }
             }
 

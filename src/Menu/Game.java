@@ -39,7 +39,6 @@ public class  Game extends JFrame {
     public void startGame(LevelState level){
         levelState = level;
         Level.levelState = level.getState();
-        System.out.println(Level.levelState);
         setVisiblePanel(FrameState.GAME);
     }
 
@@ -57,6 +56,8 @@ public class  Game extends JFrame {
         }
         pack();
         setVisible(true);
+        if(gameOverMenu.isSwapped())
+            gameOverMenu.swapImage();
     }
 
     private void setBox(JPanel panel) {
@@ -74,4 +75,9 @@ public class  Game extends JFrame {
         box.add(Box.createVerticalGlue());
         add(box);
     }
+
+    public void swapGameOver(){
+        gameOverMenu.swapImage();
+    }
+
 }
