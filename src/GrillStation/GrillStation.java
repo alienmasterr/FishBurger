@@ -172,7 +172,7 @@ public class GrillStation {
             meatArrayList.remove(selectedMeat);
             SoundPlayer.playPickSound();
             //parent.cookingState = CookingState.MEAT_SHROWN_AWAY;
-            selectedMeat = null;
+            //selectedMeat = null;
         }
     }
 
@@ -240,7 +240,7 @@ public class GrillStation {
         boolean ate=false;
         ArrayList<Meat> meatToRemove = new ArrayList<>();
         for (Meat m : meatArrayList) {
-            if (!Game.mouse.pressed && Level.levelState ==3 && m.getX() >= grillBoard.getX() + 50 && m.getX() <= grillBoard.getX() - 50 + grillBoard.getWidth() && m.getY() >= grillBoard.getY() && m.getY() <= grillBoard.getY() + grillBoard.getHeight() - 200) {
+            if (!Game.mouse.pressed && Level.levelState ==3 /*&& m.getX() >= grillBoard.getX() + 50 && m.getX() <= grillBoard.getX() - 50 + grillBoard.getWidth() */&& m.getY() <= grillBoard.getY()+50 /*&& m.getY() <= grillBoard.getY() + grillBoard.getHeight() - 200*/) {
                 m.isGrilling=false;
                 mouth.goDown();
                 //meatStolen = true;
