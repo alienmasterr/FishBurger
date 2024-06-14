@@ -19,11 +19,10 @@ public class Table extends Accessories {
 
     public Table(int x, int y, int width, int height) {
         super(x, y, width, height, 100);
-        if(Level.levelState < 2 && !tableBought){
-            image = getImage("/store/lockedproduct.png");
-
-        }else {
+//        if(Level.levelState < 2 && !tableBought){
+//            image = getImage("/store/lockedproduct.png");
+//        }else {
             image = getImage("/store/table.png");
-        }
+        //}
     }
 }
