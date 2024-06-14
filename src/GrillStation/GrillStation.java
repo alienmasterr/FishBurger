@@ -20,11 +20,14 @@ public class GrillStation {
     private final Mince mince = new Mince(Game.WIDTH / 15, Game.HEIGHT - Game.HEIGHT / 3 + Game.HEIGHT / 10, 150, 100);
     private final Trash trash = new Trash(Game.WIDTH / 12, Game.HEIGHT / 2 - Game.HEIGHT / 4, 160, 110);
     private final Plate plate = new Plate(Game.WIDTH / 2 + Game.WIDTH / 3, Game.HEIGHT / 2 + Game.HEIGHT / 6, 160, 110);
-    private final Sink sink = new Sink(Game.WIDTH / 2 - 125, Game.HEIGHT - 300, 240, 230);
+    private static Spatula spatula = new Spatula(Game.WIDTH / 2 - 180, Game.HEIGHT - 245, 65, 170);
+    private final Sink sink = new Sink (Game.WIDTH / 2 - 120, Game.HEIGHT / 12+20, 240, 230);
+
     private final Mouth mouth = new Mouth(Game.WIDTH / 2-150, -110, 300, 100);
-    private static Spatula spatula = new Spatula(Game.WIDTH / 2 - 35, Game.HEIGHT / 12, 70, 200);
-    private final GrillBoard grillBoard = new GrillBoard(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 6, Game.WIDTH / 2, Game.HEIGHT / 3);
+
+    private final GrillBoard grillBoard = new GrillBoard(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 6+25, Game.WIDTH / 2, Game.HEIGHT / 3);
     private final GrillBackground grillBackground = new GrillBackground(0, 0, Game.WIDTH, Game.HEIGHT);
+    private final CookFish cookFish = new CookFish(Game.WIDTH / 2 + Game.WIDTH / 3-150, Game.HEIGHT-320, 200, 350);
 
     public static Meat selectedMeat = null;
 
@@ -207,6 +210,8 @@ public class GrillStation {
         mince.draw(g2d);
         sink.chooseImage();
         sink.draw(g2d);
+        cookFish.draw(g2d);
+        cookFish.cookMeat();
         spatula.chooseImage();
         spatula.draw(g2d);
         mouth.draw(g2d);
