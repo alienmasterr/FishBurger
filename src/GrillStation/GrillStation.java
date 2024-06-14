@@ -168,7 +168,7 @@ public class GrillStation {
     private void updateShrowAway() {
         if (selectedMeat == null)
             return;
-        if (selectedMeat.getX() >= trash.getX() && selectedMeat.getX() - 25 <= trash.getX() + trash.getWidth() && selectedMeat.getY() >= trash.getY() && selectedMeat.getY() <= trash.getY() + trash.getHeight() - 50) {
+        if (selectedMeat.getX()+selectedMeat.getWidth() >= trash.getX() && selectedMeat.getX() <= trash.getX() + trash.getWidth() && selectedMeat.getY() >= trash.getY() && selectedMeat.getY()+ selectedMeat.getHeight() <= trash.getY() + trash.getHeight()) {
             meatArrayList.remove(selectedMeat);
             SoundPlayer.playPickSound();
             //parent.cookingState = CookingState.MEAT_SHROWN_AWAY;
