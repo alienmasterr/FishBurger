@@ -20,12 +20,12 @@ public class GrillStation {
     private final Mince mince = new Mince(Game.WIDTH / 15, Game.HEIGHT - Game.HEIGHT / 3 + Game.HEIGHT / 10, 150, 100);
     private final Trash trash = new Trash(Game.WIDTH / 12, Game.HEIGHT / 2 - Game.HEIGHT / 4, 160, 110);
     private final Plate plate = new Plate(Game.WIDTH / 2 + Game.WIDTH / 3, Game.HEIGHT / 2 + Game.HEIGHT / 6, 160, 110);
-    private static Spatula spatula = new Spatula(Game.WIDTH / 2 - 180, Game.HEIGHT - 245, 65, 170);
-    private final Sink sink = new Sink (Game.WIDTH / 2 - 120, Game.HEIGHT / 12+20, 240, 230);
+    private static Spatula spatula = new Spatula(Game.WIDTH / 2 - 35, Game.HEIGHT / 12, 70, 200);
+    private final Sink sink = new Sink(Game.WIDTH / 2 - 125, Game.HEIGHT - 300, 240, 230);
 
     private final Mouth mouth = new Mouth(Game.WIDTH / 2-150, -110, 300, 100);
 
-    private final GrillBoard grillBoard = new GrillBoard(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 6+25, Game.WIDTH / 2, Game.HEIGHT / 3);
+    private final GrillBoard grillBoard = new GrillBoard(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 6, Game.WIDTH / 2, Game.HEIGHT / 3);
     private final GrillBackground grillBackground = new GrillBackground(0, 0, Game.WIDTH, Game.HEIGHT);
     private final CookFish cookFish = new CookFish(Game.WIDTH / 2 + Game.WIDTH / 3-150, Game.HEIGHT-320, 200, 350);
 
@@ -171,7 +171,7 @@ public class GrillStation {
         if (selectedMeat.getX() >= trash.getX() && selectedMeat.getX() - 25 <= trash.getX() + trash.getWidth() && selectedMeat.getY() >= trash.getY() && selectedMeat.getY() <= trash.getY() + trash.getHeight() - 50) {
             meatArrayList.remove(selectedMeat);
             SoundPlayer.playPickSound();
-            parent.cookingState = CookingState.MEAT_SHROWN_AWAY;
+            //parent.cookingState = CookingState.MEAT_SHROWN_AWAY;
             selectedMeat = null;
         }
     }
@@ -237,13 +237,20 @@ public class GrillStation {
 
     public void grillingMeat(Graphics2D g2d) {
         drawNewMeat(g2d);
+        boolean ate=false;
+        ArrayList<Meat> meatToRemove = new ArrayList<>();
         for (Meat m : meatArrayList) {
-            if (Level.levelState ==3 && m.getX() >= grillBoard.getX() + 50 && m.getX() <= grillBoard.getX() - 50 + grillBoard.getWidth() && m.getY() >= grillBoard.getY() && m.getY() <= grillBoard.getY() + grillBoard.getHeight() - 200) {
+            if (!Game.mouse.pressed && Level.levelState ==3 && m.getX() >= grillBoard.getX() + 50 && m.getX() <= grillBoard.getX() - 50 + grillBoard.getWidth() && m.getY() >= grillBoard.getY() && m.getY() <= grillBoard.getY() + grillBoard.getHeight() - 200) {
                 m.isGrilling=false;
                 mouth.goDown();
                 //meatStolen = true;
                 m.beStolen();
+                ate=true;
 
+            }
+            if(ate){
+              meatToRemove.add(m);
+              ate=false;
             }
             if (m.getX() >= grillBoard.getX() && m.getX() <= grillBoard.getX() + grillBoard.getWidth() && m.getY() >= grillBoard.getY() && m.getY() <= grillBoard.getY() + grillBoard.getHeight()) {
                 m.startGrilling();
@@ -251,6 +258,9 @@ public class GrillStation {
                 getLevelOfGrill(g2d);
             }
 
+        }
+        if(meatToRemove.size()>0){
+            meatArrayList.removeAll(meatToRemove);
         }
     }
 

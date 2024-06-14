@@ -96,7 +96,7 @@ public class Store {
     private void buyAccessories() {
         if (Game.mouse.pressed && !paid) {
             for (Accessories accessory : accessories) {
-                if (!accessory.getFileName().equals("/store/lockedproduct.png") && Game.mouse.pressed && Game.mouse.x >= accessory.getX() && Game.mouse.x <= accessory.getX() + 200 && Game.mouse.y <= accessory.getY() + 200 && Game.mouse.y >= accessory.getY() /*&& parent.money >= accessory.getPrice()*/) {
+                if (!accessory.getFileName().equals("/store/lockedproduct.png") && Game.mouse.pressed && Game.mouse.x >= accessory.getX() && Game.mouse.x <= accessory.getX() + 200 && Game.mouse.y <= accessory.getY() + 200 && Game.mouse.y >= accessory.getY() && parent.money >= accessory.getPrice()) {
                     if (accessory.getFileName().equals("/store/goldenspatula.png")) {
                         System.out.println(accessory.getFileName() + " " + accessory.getPrice());
                         goldenSpatulaBought = true;
