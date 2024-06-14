@@ -143,7 +143,7 @@ public class GrillStation {
             sendMeat(selectedMeat);
             SoundPlayer.playPickSound();
             meatArrayList.remove(selectedMeat);
-            parent.cookingState = CookingState.MEAT_SENT_TO_BD;
+            //parent.cookingState = CookingState.MEAT_SENT_TO_BD;
             meatSent = true;
             selectedMeat = null;
         }
