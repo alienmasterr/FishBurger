@@ -24,8 +24,8 @@ public class Store {
     private final StoreBackground storeBackground = new StoreBackground(0, 0, Game.WIDTH, Game.HEIGHT);
     public MoneyDisplay moneyDisplay = new MoneyDisplay(5, 20, 50, 50);
     public Chair chair = new Chair(100, 120, 200, 200, 500);
-    public Table table = new Table(400, 120, 200, 200, 1000);
-    public GoldenSpatula goldenSpatula = new GoldenSpatula(700, 120, 200, 200, 1500);
+    public GoldenSpatula goldenSpatula = new GoldenSpatula(450, 120, 100, 200, 1000);
+    public Table table = new Table(700, 120, 200, 200, 1500);
     public GoldenSink goldenSink = new GoldenSink(100, 400, 200, 200, 2000);
     public Painting painting = new Painting(400, 400, 200, 200, 2500);
     public IconK iconK = new IconK(700, 400, 200, 200, 3000);

@@ -55,12 +55,12 @@ public class GrillStation {
     public void draw(Graphics2D g2d) {
         parent.pin.setDrawTicket(true);
         drawBase(g2d);
+        grillStationAndMeatSetUp(g2d);
         switch (parent.cookingState) {
-            case NO_MEAT -> createMeat(g2d);
-            case MEAT_NOT_READY -> drawNewMeat(g2d);
+            //case NO_MEAT -> createMeat(g2d);
+            case MEAT_NOT_READY, MEAT_BURNING -> drawNewMeat(g2d);
             case MEAT_GRILLING -> grillingMeat(g2d);
             case MEAT_READY, MEAT_SENT_TO_BD, MEAT_SHROWN_AWAY -> readyMeat(g2d);
-            case MEAT_BURNING -> drawNewMeat(g2d);//burntMeat
         }
         update();
         updateSpatulaReturn();
@@ -143,7 +143,7 @@ public class GrillStation {
             sendMeat(selectedMeat);
             SoundPlayer.playPickSound();
             meatArrayList.remove(selectedMeat);
-            parent.cookingState = CookingState.MEAT_SENT_TO_BD;
+            //parent.cookingState = CookingState.MEAT_SENT_TO_BD;
             meatSent = true;
             selectedMeat = null;
         }
@@ -198,7 +198,7 @@ public class GrillStation {
         }
     }
 
-    private void createMeat(Graphics2D g2d) {
+    private void grillStationAndMeatSetUp(Graphics2D g2d) {
         grillBoard.draw(g2d);
         plate.draw(g2d);
         trash.draw(g2d);
@@ -210,7 +210,7 @@ public class GrillStation {
         activateMinceButton();
         moveSpatula();
         notFlippedSpatulaBack();
-        getLevelOfGrill(g2d);
+        //getLevelOfGrill(g2d);
     }
 
     private void activateMinceButton() {
@@ -228,18 +228,17 @@ public class GrillStation {
 
     public void grillingMeat(Graphics2D g2d) {
         drawNewMeat(g2d);
-
         for (Meat m : meatArrayList) {
             if (m.getX() >= grillBoard.getX() && m.getX() <= grillBoard.getX() + grillBoard.getWidth() && m.getY() >= grillBoard.getY() && m.getY() <= grillBoard.getY() + grillBoard.getHeight()) {
                 m.startGrilling();
                 flip();
+                getLevelOfGrill(g2d);
             }
         }
     }
 
     private void drawNewMeat(Graphics2D g2d) {
-        createMeat(g2d);
-
+       // createMeat(g2d);
         for (Meat meat : meatArrayList) {
             meat.draw(g2d);
         }
