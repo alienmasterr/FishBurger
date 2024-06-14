@@ -4,6 +4,7 @@ import java.awt.*;
 
 import Enums.CookingState;
 import GrillStation.GrillStationElements.*;
+import Level.Level;
 import Menu.*;
 import Menu.Game;
 import Menu.MenuElements.SoundPlayer;
@@ -20,7 +21,7 @@ public class GrillStation {
     private final Trash trash = new Trash(Game.WIDTH / 12, Game.HEIGHT / 2 - Game.HEIGHT / 4, 160, 110);
     private final Plate plate = new Plate(Game.WIDTH / 2 + Game.WIDTH / 3, Game.HEIGHT / 2 + Game.HEIGHT / 6, 160, 110);
     private final Sink sink = new Sink(Game.WIDTH / 2 - 125, Game.HEIGHT - 300, 240, 230);
-    private final Mouth mouth = new Mouth(Game.WIDTH / 2-200, -110, 400, 100);
+    private final Mouth mouth = new Mouth(Game.WIDTH / 2-150, -110, 300, 100);
     private static Spatula spatula = new Spatula(Game.WIDTH / 2 - 35, Game.HEIGHT / 12, 70, 200);
     private final GrillBoard grillBoard = new GrillBoard(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 6, Game.WIDTH / 2, Game.HEIGHT / 3);
     private final GrillBackground grillBackground = new GrillBackground(0, 0, Game.WIDTH, Game.HEIGHT);
@@ -232,7 +233,7 @@ public class GrillStation {
     public void grillingMeat(Graphics2D g2d) {
         drawNewMeat(g2d);
         for (Meat m : meatArrayList) {
-            if (m.getX() >= grillBoard.getX() + 50 && m.getX() <= grillBoard.getX() - 50 + grillBoard.getWidth() && m.getY() >= grillBoard.getY() && m.getY() <= grillBoard.getY() + grillBoard.getHeight() - 200) {
+            if (Level.levelState ==3 && m.getX() >= grillBoard.getX() + 50 && m.getX() <= grillBoard.getX() - 50 + grillBoard.getWidth() && m.getY() >= grillBoard.getY() && m.getY() <= grillBoard.getY() + grillBoard.getHeight() - 200) {
                 m.isGrilling=false;
                 mouth.goDown();
                 //meatStolen = true;

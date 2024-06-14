@@ -8,14 +8,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Mouth extends Node {
-    public int speed = 25;
+    public int speed = 20;
     public Timer timer;
     public boolean falling = false;
     public boolean goingUpHook = false;
 
     public Mouth(int x, int y, int width, int height) {
         super(x, y, width, height);
-        image = getImage("/temp.png");
+        image = getImage("/grillstation/som.png");
 
         timer = new Timer(30, new ActionListener() {
             @Override
@@ -37,7 +37,7 @@ public class Mouth extends Node {
 
     public void updateDown() {
         y += speed;
-        if(y>= 0){
+        if(y>= 10){
             falling = false;
             //System.out.println("астанавісь");
             GrillStation.meatStolen = true;
