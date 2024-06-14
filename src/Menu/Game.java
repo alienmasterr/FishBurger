@@ -81,6 +81,8 @@ public class  Game extends JFrame {
     }
 
     public void removeMoney(){
+        if (gameMenu == null)
+            return;
         gameMenu.removeMoney();
     }
 
