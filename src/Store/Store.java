@@ -154,40 +154,6 @@ public class Store {
             paid = false;
         }
     }
-
-//    public void openBusket() {
-//        if (Game.mouse.pressed && Game.mouse.x >= busketButton.getX() && Game.mouse.x <= busketButton.getX() + 200 && Game.mouse.y <= busketButton.getY() + 200 && Game.mouse.y >= busketButton.getY()) {
-//            storeState = StoreState.BUSKET;
-//        }
-//    }
-
-//    public void backToStore() {
-//        if (Game.mouse.pressed && Game.mouse.x >= storeButton.getX() && Game.mouse.x <= storeButton.getX() + 200 && Game.mouse.y <= storeButton.getY() + 200 && Game.mouse.y >= storeButton.getY()) {
-//            storeState = StoreState.CHOOSING;
-//        }
-//    }
-
-//    public void drawBusket(Graphics2D g2d) {
-//        storeButton.draw(g2d);
-//        backToStore();
-//        for (Accessories boughtA : boughtAccessoriesArrayList) {
-//            boughtA.draw(g2d);
-//        }
-//    }
 }
-
-//class BusketButton extends Node {
-//    public BusketButton(int x, int y, int width, int height) {
-//        super(x, y, width, height);
-//        image = getImage("/temp.png");
-//    }
-//}
-//
-//class StoreButton extends Node {
-//    public StoreButton(int x, int y, int width, int height) {
-//        super(x, y, width, height);
-//        image = getImage("/temp.png");
-//    }
-//}
 
 

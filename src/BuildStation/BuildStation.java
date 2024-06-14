@@ -51,6 +51,11 @@ public class BuildStation {
         fillBottles();
     }
 
+    /**
+     * Retrieves a piece of meat from the grill and adds it to the burger products list.
+     *
+     * @param meat The meat to be retrieved from the grill.
+     */
     public void getMeatFromGrill(Meat meat) {
         meat.setPosition(250, 580);
         meat.setInitialX(250);
@@ -58,6 +63,10 @@ public class BuildStation {
         burgerProducts.add(meat);
     }
 
+    /**
+     * Fills the product trays with available products from the resources folder.
+     * The products are displayed in the trays at specified positions.
+     */
     private void fillTrays() {
         File[] files = (new File("res/products")).listFiles();
         if (files == null)
@@ -68,6 +77,10 @@ public class BuildStation {
         }
     }
 
+    /**
+     * Fills the sauce bottles with available sauces from the resources folder.
+     * The sauces are displayed in bottles at specified positions.
+     */
     private void fillBottles() {
         int counter = 0;
         File[] files = (new File("res/sauses")).listFiles();
@@ -88,6 +101,11 @@ public class BuildStation {
         }
     }
 
+    /**
+     * Draws the current state of the game based on the build state.
+     *
+     * @param g2d The graphics context used for drawing.
+     */
     public void draw(Graphics2D g2d) {
         parent.pin.setDrawTicket(true);
         switch (buildState) {
@@ -96,20 +114,13 @@ public class BuildStation {
         }
     }
 
+    /**
+     * Draws the base components of the game screen, including background, products, and bottles.
+     *
+     * @param g2d The graphics context used for drawing.
+     */
     private void drawBase(Graphics2D g2d) {
         background.draw(g2d);
-//        if (Store.iconBought) {
-//            iconK.draw(g2d);
-//        }
-//        if (Store.paintingBought) {
-//            painting.draw(g2d);
-//        }
-//        if (Store.tableBought) {
-//            table.draw(g2d);
-//        }
-//        if (Store.chairBought) {
-//            chair.draw(g2d);
-//        }
 
         drawMeat(g2d);
         for (int i = 0; i < 7; i++)
@@ -122,17 +133,32 @@ public class BuildStation {
         update();
     }
 
+    /**
+     * Draws the sauce bottles on the game screen.
+     *
+     * @param g2d The graphics context used for drawing.
+     */
     private void drawBottles(Graphics2D g2d) {
         for (Product product : sauceBottles)
             if (product != null)
                 product.draw(g2d);
     }
 
+    /**
+     * Draws the meat products on the game screen.
+     *
+     * @param g2d The graphics context used for drawing.
+     */
     private void drawMeat(Graphics2D g2d) {
         for (Product meat : allMeat)
             meat.draw(g2d);
     }
 
+    /**
+     * Draws the ticket base screen when the player is putting a ticket.
+     *
+     * @param g2d The graphics context used for drawing.
+     */
     private void drawTicketBase(Graphics2D g2d) {
         if (parent.pin.getTicket() != null && !parent.isToggled())
             parent.toggleButtons();
@@ -151,6 +177,10 @@ public class BuildStation {
         updateTicket();
     }
 
+
+    /**
+     * Updates the ticket based on the player's interactions and position.
+     */
     private void updateTicket() {
         Ticket ticket = parent.pin.getTicket();
         if (ticket == null)
@@ -181,6 +211,9 @@ public class BuildStation {
         ticket.updateReceiptPosition();
     }
 
+    /**
+     * Transfers the information for rating the order to the rating station.
+     */
     private void transferInfoForRating() {
         parent.orderState = OrderState.RATING_ORDER;
         parent.panelState = PanelState.RATING_STATION;
@@ -190,12 +223,22 @@ public class BuildStation {
         parent.ratingStation.startRating();
     }
 
+
+    /**
+     * Checks if the ticket is in the correct location for submission.
+     *
+     * @return true if the ticket is in the correct location, false otherwise.
+     */
     private boolean checkTicketLocation() {
         if (activeTicket == null)
             return false;
         return activeTicket.getX() > 260 && activeTicket.getX() < 260 + 170 && activeTicket.getY() >= 470 && activeTicket.getX() <= 470 + 230;
     }
 
+
+    /**
+     * Returns the ticket to its holder position.
+     */
     private void returnToHolder() {
         Ticket ticket = parent.pin.getTicket();
         if (ticket == null)
@@ -206,6 +249,9 @@ public class BuildStation {
         ticket.updateReceiptPosition();
     }
 
+    /**
+     * Moves the ticket to its holder position.
+     */
     private void moveToHolder() {
         Ticket ticket = parent.pin.getTicket();
         if (ticket == null)
@@ -225,6 +271,10 @@ public class BuildStation {
         ticket.setY(ticket.getY() + diffY);
     }
 
+
+    /**
+     * Updates the movement of the ticket based on mouse position.
+     */
     private void updateTicketMovement() {
         if (activeTicket == null)
             return;
@@ -233,6 +283,10 @@ public class BuildStation {
         activeTicket.decreaseSize();
     }
 
+
+    /**
+     * Updates the game state based on the player's interactions and game logic.
+     */
     private void update() {
         updateLastActiveProduct();
         updateLastProduct();
@@ -243,6 +297,9 @@ public class BuildStation {
         updateStateActiveBottle();
     }
 
+    /**
+     * Updates the state of the active sauce bottle.
+     */
     private void updateStateActiveBottle() {
         if (activeBottle != null && !Game.mouse.pressed) {
             lastBottle = activeBottle;
@@ -253,6 +310,9 @@ public class BuildStation {
             returnToCup();
     }
 
+    /**
+     * Creates a sauce drip if a bottle is squeezed over a burger.
+     */
     private void createSauceDrip() {
         if(burgerProducts.isEmpty())
             return;
@@ -260,12 +320,22 @@ public class BuildStation {
             burgerProducts.add(lastBottle.createSauce());
     }
 
+    /**
+     * Returns the sauce bottle to its cup position.
+     */
     private void returnToCup() {
         if (diffX == -1 && diffY == -1)
             calculateDiffs(lastBottle.getInitialX(), lastBottle.getInitialY(), lastBottle.getX(), lastBottle.getY());
         moveToCup(lastBottle.getInitialX(), lastBottle.getInitialY(), lastBottle.getX(), lastBottle.getY());
     }
 
+
+    /**
+     * Moves the sauce bottle to its cup position.
+     *
+     * @param x The current X position of the bottle.
+     * @param y The current Y position of the bottle.
+     */
     private void moveToCup(int x1, int y1, int x, int y) {
         if (x1 - 30 <= x && x1 + 30 >= x && y1 - 30 < y && y1 + 30 > y) {
             diffX = -1;
@@ -280,6 +350,9 @@ public class BuildStation {
         lastBottle.setY(lastBottle.getY() + diffY);
     }
 
+    /**
+     * Updates the state of the active sauce bottle.
+     */
     private void updateActiveBottle() {
         if (activeBottle == null)
             return;
@@ -287,6 +360,11 @@ public class BuildStation {
         activeBottle.setY(Game.mouse.y - activeBottle.getHeight() / 2);
     }
 
+    /**
+     * Checks if a sauce bottle is active based on mouse position.
+     *
+     * @return true if the bottle is active, false otherwise.
+     */
     private void updateBottle() {
         if (activeProduct != null || activeBottle != null)
             return;
@@ -301,6 +379,9 @@ public class BuildStation {
         }
     }
 
+    /**
+     * Updates the state of non-active sauce bottles.
+     */
     private void updateLastProduct() {
         if (burgerProducts.isEmpty())
             return;
@@ -318,6 +399,9 @@ public class BuildStation {
         }
     }
 
+    /**
+     * Updates the state of non-active products.
+     */
     private boolean updateLastMeat() {
         Product lastMeat = getLastMeat();
         if (lastMeat == null)
@@ -332,6 +416,9 @@ public class BuildStation {
         return false;
     }
 
+    /**
+     * Updates the state of the active product based on mouse position.
+     */
     private Product getLastMeat() {
         Product lastMeat = null;
         for (Product pr : burgerProducts) {
@@ -341,6 +428,9 @@ public class BuildStation {
         return lastMeat;
     }
 
+    /**
+     * Updates the state of non-active products.
+     */
     private void updateNonactiveProducts() {
         for (Product product : burgerProducts)
             if (isFalling(product) && !isColliding(product)) {
@@ -358,11 +448,13 @@ public class BuildStation {
             startTicketState();
     }
 
+
     private boolean isUpperBun(Product product) {
         if (product.getSrc() == null)
             return false;
         return product.getSrc().equals("/products/upperbun.png");
     }
+
 
     private void startTicketState() {
         buildState = BuildState.PUTTING_TICKET;
