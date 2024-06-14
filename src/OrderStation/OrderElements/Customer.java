@@ -34,7 +34,6 @@ public class Customer extends Node {
             yVelocity*=-1;
         x-=3;
     }
-
     public OrderBubble getOrderBubble(){
         return bubble;
     }
