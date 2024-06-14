@@ -1,16 +1,11 @@
 package GrillStation.GrillStationElements;
 
-import Elements.Node;
-import Enums.CookingState;
 import GrillStation.GrillStation;
-import Menu.GameMenu;
-import Menu.MenuElements.SoundPlayer;
 import Products.Product;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 
 public class Meat extends Product {
 
@@ -21,6 +16,9 @@ public class Meat extends Product {
     private int sideOne=0;
     private int sideTwo=0;
     private boolean canFlip = false;
+
+    public boolean goingUp = false;
+
 
     public Meat(int x, int y, int width, int height) {
         super(x, y, width, height);
@@ -107,6 +105,11 @@ public class Meat extends Product {
                     if(GrillStation.meatSent){
                         timer.stop();
                     }
+                    if(GrillStation.meatStolen){
+                        timer.stop();
+
+                    }
+
                     if(grilling) {
                         grilling();
                         if (isGrillingRightSide) {
@@ -131,7 +134,35 @@ public class Meat extends Product {
             });
     }
 
+private void getStolen(){
+    this.timer = new Timer(30, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (goingUp) {
+                update();
+            }
+        }
+    });
+}
 
+
+    public void beStolen() {
+       // if (timer == null) {
+            getStolen();
+            goingUp = true;
+      //  }
+        timer.start();
+
+    }
+
+    public void update() {
+        int speed=10;
+        y -= speed;
+        if(y<= -100){
+            //speed=0;
+            goingUp = false;
+        }
+    }
 
     public void getFlipped() {
        canFlip = true;

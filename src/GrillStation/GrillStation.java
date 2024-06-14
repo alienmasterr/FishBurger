@@ -20,14 +20,16 @@ public class GrillStation {
     private final Trash trash = new Trash(Game.WIDTH / 12, Game.HEIGHT / 2 - Game.HEIGHT / 4, 160, 110);
     private final Plate plate = new Plate(Game.WIDTH / 2 + Game.WIDTH / 3, Game.HEIGHT / 2 + Game.HEIGHT / 6, 160, 110);
     private final Sink sink = new Sink(Game.WIDTH / 2 - 125, Game.HEIGHT - 300, 240, 230);
+    private final Mouth mouth = new Mouth(Game.WIDTH / 2-200, -110, 400, 100);
     private static Spatula spatula = new Spatula(Game.WIDTH / 2 - 35, Game.HEIGHT / 12, 70, 200);
-
     private final GrillBoard grillBoard = new GrillBoard(Game.WIDTH / 2 - Game.WIDTH / 4, Game.HEIGHT / 2 - Game.HEIGHT / 6, Game.WIDTH / 2, Game.HEIGHT / 3);
     private final GrillBackground grillBackground = new GrillBackground(0, 0, Game.WIDTH, Game.HEIGHT);
 
     public static Meat selectedMeat = null;
+
     public static boolean meatSent = false;
     public boolean spatulaTaken = false;
+    public static boolean meatStolen = false;
 
     //для повернення сплатули
     private boolean spatulaReturning = false;
@@ -55,9 +57,10 @@ public class GrillStation {
     public void draw(Graphics2D g2d) {
         parent.pin.setDrawTicket(true);
         drawBase(g2d);
+
         grillStationAndMeatSetUp(g2d);
         switch (parent.cookingState) {
-            //case NO_MEAT -> createMeat(g2d);
+            //case NO_MEAT -> grillStationAndMeatSetUp(g2d);
             case MEAT_NOT_READY, MEAT_BURNING -> drawNewMeat(g2d);
             case MEAT_GRILLING -> grillingMeat(g2d);
             case MEAT_READY, MEAT_SENT_TO_BD, MEAT_SHROWN_AWAY -> readyMeat(g2d);
@@ -122,7 +125,6 @@ public class GrillStation {
         }
     }
 
-
     private void sendMeat(Meat meat) {
         parent.transferMeatToBuild(meat);
     }
@@ -134,7 +136,6 @@ public class GrillStation {
         updateTransferToBuildStation();
         updateShrowAway();
     }
-
 
     private void updateTransferToBuildStation() {
         if (selectedMeat == null)
@@ -207,6 +208,7 @@ public class GrillStation {
         sink.draw(g2d);
         spatula.chooseImage();
         spatula.draw(g2d);
+        mouth.draw(g2d);
         activateMinceButton();
         moveSpatula();
         notFlippedSpatulaBack();
@@ -218,6 +220,7 @@ public class GrillStation {
             selectedMeat = new Meat(Game.mouse.x, Game.mouse.y, 150, 100);
             meatArrayList.add(selectedMeat);
             parent.cookingState = CookingState.MEAT_NOT_READY;
+
         }
     }
 
@@ -229,16 +232,24 @@ public class GrillStation {
     public void grillingMeat(Graphics2D g2d) {
         drawNewMeat(g2d);
         for (Meat m : meatArrayList) {
+            if (m.getX() >= grillBoard.getX() + 50 && m.getX() <= grillBoard.getX() - 50 + grillBoard.getWidth() && m.getY() >= grillBoard.getY() && m.getY() <= grillBoard.getY() + grillBoard.getHeight() - 200) {
+                m.isGrilling=false;
+                mouth.goDown();
+                //meatStolen = true;
+                m.beStolen();
+
+            }
             if (m.getX() >= grillBoard.getX() && m.getX() <= grillBoard.getX() + grillBoard.getWidth() && m.getY() >= grillBoard.getY() && m.getY() <= grillBoard.getY() + grillBoard.getHeight()) {
                 m.startGrilling();
                 flip();
                 getLevelOfGrill(g2d);
             }
+
         }
     }
 
     private void drawNewMeat(Graphics2D g2d) {
-       // createMeat(g2d);
+        // createMeat(g2d);
         for (Meat meat : meatArrayList) {
             meat.draw(g2d);
         }
