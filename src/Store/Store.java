@@ -18,8 +18,8 @@ public class Store {
 
     public StoreState storeState = StoreState.CHOOSING;
 
-    private final BusketButton busketButton = new BusketButton(Game.WIDTH / 2 - 50, Game.HEIGHT - 130, 100, 50);
-    private final StoreButton storeButton = new StoreButton(Game.WIDTH / 2 - 50, Game.HEIGHT - 130, 100, 50);
+   // private final BusketButton busketButton = new BusketButton(Game.WIDTH / 2 - 50, Game.HEIGHT - 130, 100, 50);
+   // private final StoreButton storeButton = new StoreButton(Game.WIDTH / 2 - 50, Game.HEIGHT - 130, 100, 50);
 
     private final StoreBackground storeBackground = new StoreBackground(0, 0, Game.WIDTH, Game.HEIGHT);
     public MoneyDisplay moneyDisplay = new MoneyDisplay(5, 20, 50, 50);
@@ -30,8 +30,10 @@ public class Store {
     public Painting painting = new Painting(400, 400, 200, 200, 2500);
     public IconK iconK = new IconK(700, 400, 200, 200, 3000);
 
-    public ArrayList<Accessories> boughtAccessoriesArrayList = new ArrayList<>();
+   // public ArrayList<Accessories> boughtAccessoriesArrayList = new ArrayList<>();
     private Accessories[] accessories = {chair, table, goldenSpatula, goldenSink, painting, iconK};
+    private ArrayList<Accessories> accessoriesArrayList = new ArrayList<>();
+
 
     public static boolean chairBought = false;
     public static boolean tableBought = false;
@@ -48,15 +50,15 @@ public class Store {
     public void draw(Graphics2D g2d) {
         storeBackground.draw(g2d);
         switch (storeState) {
-            case BUSKET -> drawBusket(g2d);
+           // case BUSKET -> drawBusket(g2d);
             case CHOOSING -> drawStore(g2d);
         }
         moneyDisplay.draw(g2d);
     }
 
-    public ArrayList<Accessories> getBoughtAccessories() {
-        return boughtAccessoriesArrayList;
-    }
+//    public ArrayList<Accessories> getBoughtAccessories() {
+//        return boughtAccessoriesArrayList;
+//    }
 
     public void drawStore(Graphics2D g2d) {
         //busketButton.draw(g2d);
@@ -67,7 +69,7 @@ public class Store {
 
 
     private void drawAllAccessories(Graphics2D g2d) {
-
+        fillArrayList();
         drawAccessory(g2d);
         drawPrices(g2d);
     }
@@ -82,13 +84,34 @@ public class Store {
 
     }
 
+    public void fillArrayList() {
+        for (Accessories a : accessories) {
+            accessoriesArrayList.add(a);
+        }
+    }
+
     private void drawAccessory(Graphics2D g2d) {
-        chair.draw(g2d);
-        table.draw(g2d);
-        goldenSpatula.draw(g2d);
-        goldenSink.draw(g2d);
-        painting.draw(g2d);
-        iconK.draw(g2d);
+        for (Accessories a : accessoriesArrayList) {
+            a.draw(g2d);
+        }
+//            chair.draw(g2d);
+//
+//
+//            table.draw(g2d);
+//
+//
+//            goldenSpatula.draw(g2d);
+//
+//
+//            goldenSink.draw(g2d);
+//
+//
+//            painting.draw(g2d);
+//
+//
+//            iconK.draw(g2d);
+
+
     }
 
     private boolean paid = false;
@@ -117,7 +140,8 @@ public class Store {
                         tableBought = true;
                     }
                     accessory.startFalling();
-                    boughtAccessoriesArrayList.add(accessory);
+                    //boughtAccessoriesArrayList.add(accessory);
+                    accessoriesArrayList.remove(accessory);
                     parent.money -= accessory.getPrice();
                     moneyDisplay.setCurrentMoney(parent.money);
                     break;
@@ -131,39 +155,39 @@ public class Store {
         }
     }
 
-    public void openBusket() {
-        if (Game.mouse.pressed && Game.mouse.x >= busketButton.getX() && Game.mouse.x <= busketButton.getX() + 200 && Game.mouse.y <= busketButton.getY() + 200 && Game.mouse.y >= busketButton.getY()) {
-            storeState = StoreState.BUSKET;
-        }
-    }
+//    public void openBusket() {
+//        if (Game.mouse.pressed && Game.mouse.x >= busketButton.getX() && Game.mouse.x <= busketButton.getX() + 200 && Game.mouse.y <= busketButton.getY() + 200 && Game.mouse.y >= busketButton.getY()) {
+//            storeState = StoreState.BUSKET;
+//        }
+//    }
 
-    public void backToStore() {
-        if (Game.mouse.pressed && Game.mouse.x >= storeButton.getX() && Game.mouse.x <= storeButton.getX() + 200 && Game.mouse.y <= storeButton.getY() + 200 && Game.mouse.y >= storeButton.getY()) {
-            storeState = StoreState.CHOOSING;
-        }
-    }
+//    public void backToStore() {
+//        if (Game.mouse.pressed && Game.mouse.x >= storeButton.getX() && Game.mouse.x <= storeButton.getX() + 200 && Game.mouse.y <= storeButton.getY() + 200 && Game.mouse.y >= storeButton.getY()) {
+//            storeState = StoreState.CHOOSING;
+//        }
+//    }
 
-    public void drawBusket(Graphics2D g2d) {
-        storeButton.draw(g2d);
-        backToStore();
-        for (Accessories boughtA : boughtAccessoriesArrayList) {
-            boughtA.draw(g2d);
-        }
-    }
+//    public void drawBusket(Graphics2D g2d) {
+//        storeButton.draw(g2d);
+//        backToStore();
+//        for (Accessories boughtA : boughtAccessoriesArrayList) {
+//            boughtA.draw(g2d);
+//        }
+//    }
 }
 
-class BusketButton extends Node {
-    public BusketButton(int x, int y, int width, int height) {
-        super(x, y, width, height);
-        image = getImage("/temp.png");
-    }
-}
-
-class StoreButton extends Node {
-    public StoreButton(int x, int y, int width, int height) {
-        super(x, y, width, height);
-        image = getImage("/temp.png");
-    }
-}
+//class BusketButton extends Node {
+//    public BusketButton(int x, int y, int width, int height) {
+//        super(x, y, width, height);
+//        image = getImage("/temp.png");
+//    }
+//}
+//
+//class StoreButton extends Node {
+//    public StoreButton(int x, int y, int width, int height) {
+//        super(x, y, width, height);
+//        image = getImage("/temp.png");
+//    }
+//}
 
 
