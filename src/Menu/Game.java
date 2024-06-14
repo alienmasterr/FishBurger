@@ -80,4 +80,8 @@ public class  Game extends JFrame {
         gameOverMenu.swapImage();
     }
 
+    public void removeMoney(){
+        gameMenu.removeMoney();
+    }
+
 }

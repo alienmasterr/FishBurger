@@ -48,6 +48,10 @@ public class GameMenu extends JPanel {
         clip.stop();
     }
 
+    public void removeMoney(){
+        gamePanel.removeMoney();
+    }
+
     public void startMusic(){
         if(clip != null){
             clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -73,7 +77,7 @@ public class GameMenu extends JPanel {
     }
 
     public class GamePanel extends JPanel implements Runnable {
-        public double money = 0;
+        public double money = 5000;
         public OrderState orderState = OrderState.WAITING_CUSTOMER;
         public CookingState cookingState = CookingState.NO_MEAT;
         public TicketPin pin = new TicketPin(680, 0, 340, 140);
@@ -109,6 +113,7 @@ public class GameMenu extends JPanel {
             orderState = OrderState.WAITING_CUSTOMER;
             cookingState = CookingState.NO_MEAT;
             panelState = ORDER_STATION;
+            money = 0;
             pin = new TicketPin(680, 0, 340, 140);
             orderStation = new OrderStation(this);
             buildStation = new BuildStation(this);
@@ -119,6 +124,10 @@ public class GameMenu extends JPanel {
 
         public void increaseExp() {
             levelBar.increaseLevel();
+        }
+
+        public void removeMoney(){
+            money = 0;
         }
 
         public void updateMoneyDisplay() {

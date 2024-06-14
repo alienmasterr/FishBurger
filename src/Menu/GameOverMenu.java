@@ -20,6 +20,7 @@ public class GameOverMenu extends JPanel {
         setStaticSize();
         setExitButton();
         setLayout(null);
+        parent.removeMoney();
         mainMenu.getImage("/mainmenu/gameover.png");
     }
 

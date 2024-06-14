@@ -47,7 +47,7 @@ public class Customer extends Node {
 
     public void waitForOrder(){
         yVelocity/=2;
-        if(y < 140 || y > 160)
+        if(y <= 120 || y >= 180)
             yVelocity*=-1;
         y+=yVelocity;
         yVelocity*=2;

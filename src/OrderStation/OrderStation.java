@@ -109,6 +109,8 @@ public class OrderStation {
                     System.out.println("i work");
                     parent.pin.getTicket().changeRandomProduct();
                 } else {
+                    if (parent.pin.getTicket() == null)
+                        return;
                     parent.pin.getTicket().hideRandomProduct();
                 }
             }
