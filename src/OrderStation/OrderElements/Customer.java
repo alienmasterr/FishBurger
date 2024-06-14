@@ -30,7 +30,7 @@ public class Customer extends Node {
 
     public void goToTable(){
         y+=yVelocity;
-        if(y <= 140 || y >= 180)
+        if(y <= 120 || y >= 180)
             yVelocity*=-1;
         x-=3;
     }

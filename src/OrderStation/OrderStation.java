@@ -105,7 +105,12 @@ public class OrderStation {
         timer = new Timer(12000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                parent.pin.getTicket().hideRandomProduct();
+                if(customer.getSrc().equals("/customers/customer15.png")) {
+                    System.out.println("i work");
+                    parent.pin.getTicket().changeRandomProduct();
+                } else {
+                    parent.pin.getTicket().hideRandomProduct();
+                }
             }
         });
         timer.start();

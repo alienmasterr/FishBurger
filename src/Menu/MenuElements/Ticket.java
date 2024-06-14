@@ -38,6 +38,19 @@ public class Ticket extends Node {
         receipt.get(index).setVisible(false);
     }
 
+    public void changeRandomProduct(){
+        for(int i = 0; i < 3; i++){
+            int index = getRandomNumber(1, Level.getBurgerSize()-2);
+            Product temp = receipt.get(index);
+            temp.getImage(getRandomSrc());
+            receipt.set(index, temp);
+        }
+       }
+
+       private String getRandomSrc(){
+        return getRandomProduct().getSrc();
+       }
+
     public void showAllProducts(){
         for(Product pr: receipt) {
             pr.setVisible(true);
