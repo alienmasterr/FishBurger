@@ -105,6 +105,8 @@ public class OrderStation {
         timer = new Timer(12000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(parent.pin.getTicket() == null)
+                    return;
                 parent.pin.getTicket().hideRandomProduct();
             }
         });
