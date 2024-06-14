@@ -1,10 +1,17 @@
 package Store.StoreElements;
 
+import static Store.Store.chairBought;
+
 public class Chair extends Accessories {
 
     public Chair(int x, int y, int width, int height, int price) {
         super(x, y, width, height, price);
-        image = getImage("/store/chair.png");
+        if(chairBought){
+            image = getImage("");
+        }else{
+            image = getImage("/store/chair.png");
+
+        }
     }
 
     public Chair(int x, int y, int width, int height) {
