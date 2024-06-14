@@ -55,7 +55,7 @@ public class GrillStation {
     public void draw(Graphics2D g2d) {
         parent.pin.setDrawTicket(true);
         drawBase(g2d);
-        createMeat(g2d);
+        grillStationAndMeatSetUp(g2d);
         switch (parent.cookingState) {
             //case NO_MEAT -> createMeat(g2d);
             case MEAT_NOT_READY, MEAT_BURNING -> drawNewMeat(g2d);
@@ -198,7 +198,7 @@ public class GrillStation {
         }
     }
 
-    private void createMeat(Graphics2D g2d) {
+    private void grillStationAndMeatSetUp(Graphics2D g2d) {
         grillBoard.draw(g2d);
         plate.draw(g2d);
         trash.draw(g2d);
@@ -228,20 +228,17 @@ public class GrillStation {
 
     public void grillingMeat(Graphics2D g2d) {
         drawNewMeat(g2d);
-
         for (Meat m : meatArrayList) {
             if (m.getX() >= grillBoard.getX() && m.getX() <= grillBoard.getX() + grillBoard.getWidth() && m.getY() >= grillBoard.getY() && m.getY() <= grillBoard.getY() + grillBoard.getHeight()) {
                 m.startGrilling();
                 flip();
                 getLevelOfGrill(g2d);
-
             }
         }
     }
 
     private void drawNewMeat(Graphics2D g2d) {
        // createMeat(g2d);
-
         for (Meat meat : meatArrayList) {
             meat.draw(g2d);
         }
