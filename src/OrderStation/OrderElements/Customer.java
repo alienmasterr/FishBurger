@@ -27,7 +27,6 @@ public class Customer extends Node {
         int num = 1 + (int)(Math.random() * (Level.getTypesOfCustomers()));
         image = getImage("/customers/customer" + num +".png");
     }
-
     public void goToTable(){
         y+=yVelocity;
         if(y <= 120 || y >= 180)
