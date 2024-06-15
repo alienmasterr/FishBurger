@@ -41,6 +41,8 @@ public class SoundPlayer {
 
     public static void playMeatGrillingSound(){playMusic("res/Music/grilling-meat.wav");}
 
+    public static void playSomEatsMeatSound(){playMusic("res/Music/someats.wav");}
+
     private static void playMusic(String music) {
         File file = new File(music);
         try {

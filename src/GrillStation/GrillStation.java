@@ -11,6 +11,8 @@ import Menu.MenuElements.SoundPlayer;
 
 import java.util.ArrayList;
 
+import static Menu.MenuElements.SoundPlayer.playSomEatsMeatSound;
+
 public class GrillStation {
 
     private final GameMenu.GamePanel parent;
@@ -243,6 +245,7 @@ public class GrillStation {
             if (!Game.mouse.pressed && Level.levelState ==3 /*&& m.getX() >= grillBoard.getX() + 50 && m.getX() <= grillBoard.getX() - 50 + grillBoard.getWidth() */&& m.getY() <= grillBoard.getY()+50 /*&& m.getY() <= grillBoard.getY() + grillBoard.getHeight() - 200*/) {
                 m.isGrilling=false;
                 mouth.goDown();
+                playSomEatsMeatSound();
                 //meatStolen = true;
                 m.beStolen();
                 ate=true;
